@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Green Harvest - Weather Updates</title>
+<link rel="icon" type="image" href="logo1.png" />
+<style>
+  body {
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+    transition: background 0.5s ease-in-out;
+    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470');
+  }
+  header {
+    background-color: rgba(0, 100, 0, 0.8);
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  nav {
+    background: rgba(34, 139, 34, 0.9);
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+  nav a:hover { background: #2ecc71; }
+  #google_translate_element { display: block; }
+
+  .search-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px;
+  }
+  .search-box input {
+    flex: 1 1 200px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+  .search-box button {
+    padding: 10px 14px;
+    background: #228b22;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .search-box button:hover { background: #2ecc71; }
+
+  .container {
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.45);
+    color: #fff;
+    box-sizing: border-box;
+  }
+
+  .weather-card {
+    padding: 20px;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }
+
+  .weather-card h2 {
+    margin: 0;
+    font-size: 28px;
+  }
+
+  .location-condition {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffeb3b;
+    margin: 8px 0 15px 0;
+  }
+
+  .temp-value {
+    font-size: 48px;
+    font-weight: bold;
+    color: #00ffcc;
+    margin: 10px 0;
+  }
+
+  .weather-details p {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+
+  .forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .forecast-day {
+    background: rgba(255,255,255,0.15);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .forecast-day img { width: 40px; height: 40px; }
+
+  footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+
+  #backToTop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    background-color: #228b22;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 9999;
+  }
+
+  #loadingOverlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 99999;
+    display: none;
+  }
+  .spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #2ecc71;
+    border-radius: 50%;
+    width: 50px; height: 50px;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  @media (max-width: 600px) {
+    header { font-size: 16px; }
+    nav a { font-size: 14px; padding: 6px 8px; }
+    #google_translate_element { margin-top: 8px; }
+    .forecast-day img { width: 35px; height: 35px; }
+    .weather-card h2 { font-size: 24px; }
+    .location-condition { font-size: 20px; }
+    .temp-value { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+<header>🌦 Weather Updates - Green Harvest</header>
+<nav>
+  <div id="google_translate_element"></div>
+</nav>
+
+<div class="search-box">
+  <input type="text" id="cityInput" placeholder="🏙 Enter city or village name...">
+  <button onclick="getWeatherData()">Search</button>
+</div>
+
+<div class="container">
+  <div id="weatherResult"></div>
+</div>
+
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Back</button>
+<div id="loadingOverlay"><div class="spinner"></div></div>
+
+<footer>© 2025 Green Harvest. All rights reserved.</footer>
+
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement(
+    { pageLanguage: "en", includedLanguages: "hi,bn,ta,te,ml,kn,mr,gu,pa,ur,or,as,sa,sd,ks,ne,si,bo,doi" },
+    "google_translate_element"
+  );
+}
+
+const API_KEY = "b22ad39231fc3dca5e87cd2652cdb6ec"; 
+const weatherBackgrounds = {
+  Clear: "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb')",
+  Clouds: "url('https://images.unsplash.com/photo-1503264116251-35a269479413')",
+  Rain: "url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29')",
+  Drizzle: "url('https://images.unsplash.com/photo-1503437313881-503a91226419')",
+  Thunderstorm: "url('https://images.unsplash.com/photo-1500835556837-99ac94a94552')",
+  Snow: "url('https://images.unsplash.com/photo-1608889178532-d0e7a39b9c54')",
+  Mist: "url('https://images.unsplash.com/photo-1499346030926-9a72daac6c63')"
+};
+
+async function getCoordinates(place) {
+  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(place)}&limit=5&appid=${API_KEY}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  if (!data.length) throw new Error("Place not found");
+  return data[0];
+}
+
+async function getWeatherData(locationName) {
+  if (!locationName) locationName = document.getElementById("cityInput").value.trim();
+  if (!locationName) return alert("Please enter a place name");
+  showLoading(true);
+  try {
+    const { lat, lon, name, state, country } = await getCoordinates(locationName);
+    const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+    const weatherData = await weatherRes.json();
+    const { main, wind, weather } = weatherData;
+    document.body.style.backgroundImage = weatherBackgrounds[weather[0].main] || weatherBackgrounds["Clear"];
+
+    const aqiRes = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+    const aqiData = await aqiRes.json();
+    const aqi = aqiData.list[0].main.aqi;
+
+    const forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+    const forecastData = await forecastRes.json();
+    let forecastHTML = "";
+    const daysShown = new Set();
+    forecastData.list.forEach(item => {
+      const date = new Date(item.dt_txt);
+      const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+      if (!daysShown.has(dayName) && daysShown.size < 5) {
+        daysShown.add(dayName);
+        forecastHTML += `
+          <div class="forecast-day">
+            <strong>${dayName}</strong><br>
+            <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png"><br>
+            ${item.main.temp.toFixed(1)}°C<br>
+            ${item.weather[0].description}
+          </div>`;
+      }
+    });
+
+    document.getElementById("weatherResult").innerHTML = `
+      <div class="weather-card">
+        <h2>${name}${state ? ", " + state : ""}, ${country || ""}</h2>
+        <div class="location-condition">Condition: ${weather[0].description}</div>
+        <div class="temp-value">🌡 ${main.temp.toFixed(1)}°C</div>
+        <div class="weather-details">
+          <p>💧 Humidity: ${main.humidity}%</p>
+          <p>⚡ Pressure: ${main.pressure} hPa</p>
+          <p>💨 Wind Speed: ${wind.speed} m/s</p>
+          <p>🌍 AQI: ${aqi} (1=Good, 5=Very Poor)</p>
+        </div>
+        <h3>📅 Next Days Forecast</h3>
+        <div class="forecast-grid">${forecastHTML}</div>
+      </div>`;
+  } catch (error) {
+    document.getElementById("weatherResult").innerHTML = `<p style='color:red;'>${error.message}</p>`;
+  }
+  showLoading(false);
+}
+
+function detectLocation() {
+  if (navigator.geolocation) {
+    showLoading(true);
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      const reverseGeoRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+      const reverseGeoData = await reverseGeoRes.json();
+      if (reverseGeoData.name) getWeatherData(reverseGeoData.name);
+      else showLoading(false);
+    }, () => { alert("Location access denied."); showLoading(false); });
+  }
+}
+
+function showLoading(show) { document.getElementById("loadingOverlay").style.display = show ? "flex" : "none"; }
+
+window.onload = detectLocation;
+
+window.addEventListener("scroll", () => {
+  document.getElementById("backToTop").style.display = window.scrollY > 300 ? "block" : "none";
+});
+
+document.getElementById("cityInput").addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    getWeatherData();
+  }
+});
+</script>
+</body>
+</html>
