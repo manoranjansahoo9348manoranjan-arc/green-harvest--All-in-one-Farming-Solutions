@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Green Harvest Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background:url(https://wallpaperbat.com/img/319677-agriculture-desktop-wallpaper.jpg);
+      
+    }
+
+    #google_translate_element {
+      margin-bottom: 10px;
+      align-self: flex-end;
+      margin-right: 20px;
+    }
+
+    .frame {
+      border: 2px solid #cce5cc;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 128, 0, 0.2);
+      overflow: hidden;
+      width: 95%;
+      max-width: 800px;
+      height: 600px;
+      display: flex;
+      background: #ffffff;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .left-panel {
+      flex: 1;
+      background: #f6fff6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .left-panel img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .left-panel h2 {
+      color: #5b7d1f;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .left-panel p {
+      color: #444;
+      max-width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .right-panel {
+      flex: 1;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px;
+      position: relative;
+    }
+
+    .logo-title {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .logo-title h1 {
+      font-size: 20px;
+      color: #2e8b57;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .checkbox input {
+      margin-right: 10px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #28a745;
+      color: white;
+    }
+
+    .login-btn:hover {
+      background-color: #218838;
+    }
+
+    .forgot {
+      text-align: right;
+      font-size: 13px;
+      margin-top: -8px;
+      margin-bottom: 10px;
+    }
+
+    .forgot a {
+      text-decoration: none;
+      color: #555;
+    }
+
+    .social-login {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+
+    .social-login button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      overflow: hidden;
+      width: 40px;
+      height: 40px;
+    }
+
+    .social-login img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .signup {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* Spinner Style */
+    #spinner {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .loader {
+      border: 4px solid #cce5cc;
+      border-top: 4px solid #28a745;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left-panel, .right-panel {
+        flex: none;
+        width: 100%;
+      }
+
+      .left-panel {
+        order: 2;
+      }
+
+      .right-panel {
+        order: 1;
+      }
+
+      .frame {
+        height: auto;
+        border-radius: 10px;
+      }
+    }
+    footer {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  background-color: transparent;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  
+}
+
+  </style>
+
+  <!-- Google Translate -->
+  <script>
+    function googleTranslateInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+
+    window.addEventListener('load', function () {
+      let script = document.createElement('script');
+      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateInit";
+      document.head.appendChild(script);
+    });
+  </script>
+</head>
+
+<body>
+  <div id="google_translate_element"></div>
+
+  <div class="frame">
+    <div class="container">
+      <!-- Left Side -->
+      <div class="left-panel">
+        <img src="https://as2.ftcdn.net/v2/jpg/05/92/09/11/1000_F_592091135_ky1ajF3ad6LvYgy39jwqpz8oXshxuDeq.jpg" alt="Help Farmers">
+        <h2>We are here to help farmers</h2>
+        <p>We stand by the farmer with the billions of liras we spend on agriculture every year.</p>
+      </div>
+
+      <!-- Right Side -->
+      <div class="right-panel"> 
+        <div class="logo-title">
+           
+          <h1>🌾Green Harvest–Farmers Login🌱</h1>
+        </div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required>
+          </div>
+
+          <div class="forgot"><a href="#">Forgot Password?</a></div>
+
+          <div class="checkbox">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">Remember me</label>
+          </div>
+
+          <button type="submit" class="login-btn">SIGN IN</button>
+
+          <div id="spinner">
+            <div class="loader"></div>
+          </div>
+
+          <div class="social-login">
+            <button title="Google">
+              <img src="https://static.vecteezy.com/system/resources/previews/011/598/471/original/google-logo-icon-illustration-free-vector.jpg" alt="Google">
+            </button>
+            <button title="Apple">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
+            </button>
+            <button title="Facebook">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook">
+            </button>
+            <button title="X">
+              <img src="https://static.vecteezy.com/system/resources/previews/027/395/710/original/twitter-brand-new-logo-3-d-with-new-x-shaped-graphic-of-the-world-s-most-popular-social-media-free-png.png" alt="X">
+            </button>
+            <button title="Microsoft">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+            </button>
+          </div>
+
+          <div class="signup">
+            Don't have an account? <a href="signup.html">Sign Up</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Login Validation with Spinner -->
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const inputUser = document.getElementById("username").value.trim();
+      const inputPass = document.getElementById("password").value.trim();
+      const remember = document.getElementById("rememberMe").checked;
+      const storedUser = localStorage.getItem("user_name");
+      const storedPass = localStorage.getItem("user_pass");
+
+      const loginBtn = document.querySelector(".login-btn");
+      const spinner = document.getElementById("spinner");
+
+      loginBtn.disabled = true;
+      spinner.style.display = "block";
+
+      setTimeout(() => {
+        if (inputUser === storedUser && inputPass === storedPass) {
+          if (remember) {
+            localStorage.setItem("remembered_user", inputUser);
+          } else {
+            localStorage.removeItem("remembered_user");
+          }
+
+          alert("Login successful!");
+          window.location.href = "dashboard.html";
+        } else {
+          alert("Invalid login credentials.");
+          spinner.style.display = "none";
+          loginBtn.disabled = false;
+        }
+      }, 1500);
+    });
+
+    window.onload = function () {
+      const rememberedUser = localStorage.getItem("remembered_user");
+      if (rememberedUser) {
+        document.getElementById("username").value = rememberedUser;
+        document.getElementById("rememberMe").checked = true;
+      }
+    };
+  </script>
+  <footer>
+    <p>© 2025 Green Harvest. All rights reserved.</p>
+  </footer>
+  
+</body>
+</html>
