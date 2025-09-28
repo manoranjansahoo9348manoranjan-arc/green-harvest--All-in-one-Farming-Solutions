@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Green Harvest - Agriculture Website</title>
+  <link rel="icon" type="image" href="logo1.png">
+
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background:#f0fff0; color:#333; }
+    header { background: linear-gradient(90deg, #2e7d32, #388e3c); color:white; padding:15px 30px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000; }
+    header img { height:50px; }
+    header h1 { margin-left:15px; flex:1; font-size:1.8rem; }
+    nav ul { list-style:none; display:flex; gap:20px; }
+    nav ul li a { text-decoration:none; color:white; padding:8px 14px; border-radius:5px; transition:0.3s; }
+    nav ul li a:hover { background:#66bb6a; }
+    .menu-toggle { display:none; flex-direction:column; cursor:pointer; }
+    .menu-toggle div { width:25px; height:3px; background:white; margin:4px 0; }
+    @media(max-width:768px){ nav ul { display:none; flex-direction:column; background:#2e7d32; position:absolute; top:70px; right:0; width:200px; padding:15px; border-radius:5px; } nav ul.show { display:flex; } .menu-toggle { display:flex; } }
+    .hero { background:url('https://wallpaperaccess.com/full/137506.jpg') no-repeat center center/cover; height:80vh; display:flex; align-items:center; justify-content:center; text-align:center; color:white; position:relative; }
+    .hero::before { content:""; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.45); }
+    .hero-content { position:relative; z-index:1; }
+    .hero-content h2 { font-size:3rem; margin-bottom:12px; }
+    .hero-content p { font-size:1.2rem; max-width:700px; margin:auto; }
+    .interactive-section { padding:60px 20px; text-align:center; background:#f1fff1; }
+    .interactive-section h2 { font-size:2.5rem; color:#2e7d32; margin-bottom:25px; }
+    .interactive-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:20px; }
+    .interactive-card { background:#e0f2f1; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform 0.3s ease; }
+    .interactive-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.12); }
+    .interactive-card h3 { color:#00796b; margin-bottom:10px; }
+    .interactive-card img { width:100%; border-radius:8px; margin-bottom:10px; }
+    footer { background:#2e7d32; color:white; text-align:center; padding:18px; margin-top:40px; }
+    .multi-images {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.multi-images img {
+  width: 30%;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.multi-images img:hover {
+  transform: scale(1.05);
+}
+
+/* Lightbox styles */
+#lightbox {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+#lightbox img {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+}
+#lightbox span {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.card-link:hover .interactive-card {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+
+  </style>
+
+  <script type="text/javascript">
+    function toggleMenu() { const nav = document.querySelector('nav ul'); nav.classList.toggle('show'); }
+  </script>
+</head>
+<body>
+  <header>
+    <img src="baner.png" alt="Logo">
+    <h1>Green Harvest</h1>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="news.html">Information</a></li>
+        <li><a href="aboutus.html">About</a></li>
+        <li><a href="service.html">Buy🛒</a></li>
+        <li><a href="contactus.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="google_translate_element" style="text-align:center; padding:10px;"></div>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Grow with Nature</h2>
+      <p>Empowering farmers with sustainable solutions for a better tomorrow.</p>
+    </div>
+  </section>
+
+  <!-- Interactive Farmer Tools Section -->
+  <section class="interactive-section">
+    <h2>Farmer Tools & Resources</h2>
+    <div class="interactive-card">
+  <div class="multi-images">
+    <img src="https://tse2.mm.bing.net/th/id/OIP.uJwmMYltMtSGysuCKW0ccAAAAA?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Crop Calendar 1" onclick="openLightbox(this.src)">
+    <img src="https://cambodiaagriculture.com/wp-content/uploads/2022/03/Crop-calendar-M5-8_EN-scaled.jpg" alt="Crop Calendar 2" onclick="openLightbox(this.src)">
+    <img src="https://tse1.mm.bing.net/th/id/OIP.KpgEzjO0P6s01nKq4mdsYgAAAA?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Crop Calendar 3" onclick="openLightbox(this.src)">
+  </div>
+  <h3>Crop Calendar</h3>
+  <p>Check seasonal sowing and harvesting dates for your region.</p>
+</div>
+
+      <a href="Market Prices.html" class="card-link">
+  <div class="interactive-card">
+    <img src="https://tci.cornell.edu/wp-content/uploads/2021/08/Fruit_Mandi_by_PradeepGaurs_Shutterstock.jpg" alt="Market Prices">
+    <h3>Market Prices</h3>
+    <p>Get the latest wholesale and retail prices of crops nearby.</p>
+  </div>
+</a>
+
+<a href="wheather.html" class="card-link">
+  <div class="interactive-card">
+    <img src="https://cdn.vectorstock.com/i/500p/04/95/weather-forecast-app-interface-widget-vector-39490495.jpg" alt="Weather Info">
+    <h3>Weather Info</h3>
+    <p>Access real-time weather updates and alerts to plan your farming activities.</p>
+  </div>
+</a>
+
+<a href="service.html" class="card-link">
+  <div class="interactive-card">
+    <img src="https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg" alt="Fertilizer Recommendations">
+    <h3>Fertilizer Recommendations</h3>
+    <p>Guidelines for optimal fertilizer use based on soil type and crop.</p>
+  </div>
+</a>
+
+<a href="service.html" class="card-link">
+  <div class="interactive-card">
+    <img src="https://img.freepik.com/premium-vector/pest-control-disinfestation-sanitary-service_8071-34129.jpg" alt="Pest & Disease Alerts">
+    <h3>Pest & Disease Alerts</h3>
+    <p>Stay informed about regional pest outbreaks and preventive measures.</p>
+  </div>
+</a>
+
+<a href="youtubepage.html" class="card-link">
+  <div class="interactive-card">
+    <img src="https://media.istockphoto.com/id/1353769234/photo/training-and-skill-development-concept-with-icons-of-online-course-conference-seminar-webinar.jpg?s=612x612&w=0&k=20&c=2YJG1My6Lu1T1FnzIPbimRNORcSbSuz6A8zb7HKNpx4=" alt="Training & Tutorials">
+    <h3>Training & Tutorials</h3>
+    <p>Access video guides and tutorials on modern and organic farming methods.</p>
+  </div>
+</a>
+
+<a href="Success Stories.html" class="card-link">
+  <div class="interactive-card">
+    <img src="https://www.sunrisehelps.com/wp-content/uploads/2019/06/success-stories-graphic.png" alt="Success Stories">
+    <h3>Success Stories</h3>
+    <p>Read stories of farmers improving yield using sustainable practices.</p>
+  </div>
+</a>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Green Harvest. All rights reserved.</p>
+  </footer>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+  <span>&times;</span>
+  <img id="lightbox-img" src="" alt="Expanded Image">
+</div>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById("lightbox").style.display = "flex";
+    document.getElementById("lightbox-img").src = src;
+  }
+  function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+  }
+</script>
+
+</body>
+</html>
