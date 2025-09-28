@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Translate -->
+  <script>
+    function googleTranslateInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+
+    window.addEventListener('load', function () {
+      const script = document.createElement('script');
+      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateInit";
+      document.head.appendChild(script);
+    });
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: url('https://wallpaperbat.com/img/319677-agriculture-desktop-wallpaper.jpg') no-repeat center center;
+      background-size: cover;
+    }
+
+    #google_translate_element {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .frame {
+      display: flex;
+      width: 95%;
+      max-width: 800px;
+      height: 600px;
+      border: 2px solid #cce5cc;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 128, 0, 0.2);
+      background-color: #ffffff;
+    }
+
+    .left-panel {
+      flex: 1;
+      background: #f6fff6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .left-panel img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .left-panel h2 {
+      color: #5b7d1f;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .left-panel p {
+      color: #444;
+      max-width: 300px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .right-panel {
+      flex: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .right-panel h2 {
+      text-align: center;
+      color: #2e8b57;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .signup-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .signup-btn:hover {
+      background-color: #218838;
+    }
+
+    .login-link {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .strength {
+      font-size: 13px;
+      color: green;
+    }
+
+    @media screen and (max-width: 768px) {
+      .frame {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .left-panel, .right-panel {
+        width: 100%;
+      }
+
+      .left-panel {
+        order: 2;
+      }
+
+      .right-panel {
+        order: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="google_translate_element"></div>
+
+  <div class="frame">
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <img src="https://as2.ftcdn.net/v2/jpg/05/92/09/11/1000_F_592091135_ky1ajF3ad6LvYgy39jwqpz8oXshxuDeq.jpg" alt="Help Farmers">
+      <h2>We are here to help farmers</h2>
+      <p>We stand by the farmer with the billions of liras we spend on agriculture every year.</p>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+      <h2>🌾 Create Your Account 🌱</h2>
+      <form id="signupForm">
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" required>
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required>
+          <div class="strength" id="strength-msg"></div>
+        </div>
+        <div class="input-group">
+          <label for="confirm">Confirm Password</label>
+          <input type="password" id="confirm" required>
+        </div>
+        <button type="submit" class="signup-btn">Sign Up</button>
+      </form>
+      <div class="login-link">
+        Already have an account? <a href="index.html">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Password Strength & Signup Logic -->
+  <script>
+    const passwordInput = document.getElementById("password");
+    const strengthMsg = document.getElementById("strength-msg");
+
+    passwordInput.addEventListener("input", () => {
+      const val = passwordInput.value;
+      if (val.length < 6) strengthMsg.textContent = "Weak password";
+      else if (val.match(/[0-9]/) && val.match(/[A-Z]/) && val.match(/[a-z]/)) strengthMsg.textContent = "Strong password";
+      else strengthMsg.textContent = "Medium strength";
+    });
+
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const confirm = document.getElementById("confirm").value.trim();
+
+      if (password !== confirm) return alert("Passwords do not match.");
+
+      localStorage.setItem("user_email", email);
+      localStorage.setItem("user_name", username);
+      localStorage.setItem("user_pass", password);
+
+      alert("Account created successfully!");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
