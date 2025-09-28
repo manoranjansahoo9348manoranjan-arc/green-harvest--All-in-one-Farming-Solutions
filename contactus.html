@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <style>
+    :root{
+      --brand: #003366;
+      --brand-2: #0059b3;
+      --card-bg: rgba(255,255,255,0.96);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: url('https://wallpaperbat.com/img/319677-agriculture-desktop-wallpaper.jpg') no-repeat center center fixed;
+      background-size: cover;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Navbar */
+    .navbar{
+      background: var(--brand);
+      color: #fff;
+      padding: 12px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .navbar a { color:#fff; text-decoration:none; font-weight:600; }
+    #google_translate_element { margin-left:8px; }
+
+    /* Container */
+    .container{
+      max-width:1100px;
+      margin:26px auto;
+      padding:18px;
+      background: var(--card-bg);
+      border-radius:10px;
+      box-shadow: 0 8px 26px rgba(0,0,0,0.18);
+    }
+    h1{ text-align:center; color:var(--brand); margin:8px 0 18px 0; }
+
+    /* Layout */
+    .contact-box{ display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start; }
+    .contact-form, .contact-info { flex:1 1 360px; min-width:260px; }
+
+    @media (max-width:768px){
+      .contact-form{ order:1; }
+      .contact-info{ order:2; margin-top:8px; }
+    }
+
+    /* Form */
+    .contact-form form{
+      background:#fafafa; padding:16px; border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    }
+    .contact-form h2{ margin-top:0; color:var(--brand); }
+    .contact-form input, .contact-form textarea{
+      width:100%; padding:12px; margin:10px 0; border-radius:6px; border:1px solid #ccc; font-size:15px;
+    }
+    .contact-form input[type="submit"]{
+      background:var(--brand); color:#fff; border:0; padding:11px 14px; font-weight:700; border-radius:8px; cursor:pointer;
+    }
+    .contact-form input[type="submit"]:hover{ background:var(--brand-2); }
+
+    /* Info */
+    .contact-info p, .contact-info ul{ margin:8px 0; color:#222; font-size:15px; }
+    .contact-info .small{ color:#555; font-size:13px; }
+
+    .direction-area{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .btn{ display:inline-block; padding:10px 14px; border-radius:8px; text-decoration:none; font-weight:700; background:var(--brand); color:#fff; cursor:pointer; border:0; }
+    .btn.secondary{ background:#fff; color:var(--brand); border:1px solid rgba(0,0,0,0.08); font-weight:600; }
+
+    /* Map Section */
+    .map-section{ margin-top:14px; }
+    .map-tabs{ display:flex; gap:10px; margin-bottom:10px; }
+    .map-tabs button{
+      flex:1; padding:10px; border:none; border-radius:6px;
+      background:#eee; cursor:pointer; font-weight:600;
+    }
+    .map-tabs button.active{ background:var(--brand); color:#fff; }
+    .map-wrap{ border-radius:10px; overflow:hidden; background:#eaeaea; }
+    .map-iframe{ width:100%; height:340px; border:0; display:none; }
+    .map-iframe.active{ display:block; }
+
+    @media (max-width:420px){
+      .container{ margin:14px; padding:12px; }
+      .map-iframe{ height:260px; }
+      .contact-form input, .contact-form textarea { padding:10px; }
+    }
+
+    footer{ color:#fff; text-align:center; padding:18px; margin-top:22px; background: rgba(0,0,0,0.55); border-radius:6px; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="dashboard.html">🏠 Home</a>
+    <div id="google_translate_element"></div>
+  </div>
+
+  <main class="container" role="main">
+    <h1>Contact Us</h1>
+
+    <section class="contact-box">
+      <!-- Form -->
+      <div class="contact-form" aria-labelledby="form-heading">
+        <form action="https://formspree.io/f/mgvyraon" method="POST" novalidate>
+          <h2 id="form-heading">Send Us a Message</h2>
+          <input id="name" name="name" type="text" placeholder="Your Name" required>
+          <input id="email" name="email" type="email" placeholder="Your Email" required>
+          <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+          <input type="submit" value="Send Message">
+        </form>
+      </div>
+
+      <!-- Info + Directions -->
+      <aside class="contact-info">
+        <h2 style="margin-top:0; color:var(--brand)">Contact Information</h2>
+        <p><strong>Email:</strong> <a href="mailto:info@greenharvest.in">info@greenharvest.in</a></p>
+        <p><strong>Phone:</strong> <a href="tel:+919668673210">+91 9668673210</a></p>
+        <ul>
+          <li><strong>Office Hours:</strong> Mon–Sat, 7 AM–7 PM</li>
+        </ul>
+        <p><strong>Address:</strong><br>Bhubaneswar, Odisha 752054, India</p>
+
+        <div class="direction-area">
+          <button class="btn" type="button" onclick="openDirections()">📍 Get Directions</button>
+          <a class="btn secondary" href="https://www.openstreetmap.org/?mlat=20.3008649&mlon=85.7380518#map=14/20.3009/85.7381" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>
+          <a class="btn secondary" href="https://www.waze.com/ul?ll=20.3008649,85.7380518&navigate=yes" target="_blank" rel="noopener noreferrer">Waze</a>
+        </div>
+
+        <!-- Map Section with Tabs -->
+        <div class="map-section">
+          <div class="map-tabs">
+            <button id="osmBtn" class="active" onclick="showMap('osm')">OpenStreetMap</button>
+            <button id="gmapBtn" onclick="showMap('gmap')">Google Map</button>
+          </div>
+          <div class="map-wrap">
+            <!-- OSM -->
+            <iframe class="map-iframe active" id="osmMap"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=85.6880%2C20.2508%2C85.7880%2C20.3508&layer=mapnik&marker=20.3008649%2C85.7380518"
+              loading="lazy"></iframe>
+            <!-- Google Map -->
+            <iframe class="map-iframe" id="gmap"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14656.881233353652!2d85.7300!3d20.3009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a79b1e06d7ef%3A0x1111111111111111!2sBhubaneswar%2C%20Odisha!5e0!3m2!1sen!2sin!4v1695800000000!5m2!1sen!2sin"
+              allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Green Harvest. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const LAT = 20.3008649, LNG = 85.7380518, LABEL = "Green Harvest";
+
+    function openDirections(){
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+        window.location.href = `maps://?daddr=${LAT},${LNG}&q=${encodeURIComponent(LABEL)}`;
+        setTimeout(()=> window.open(`https://www.openstreetmap.org/?mlat=${LAT}&mlon=${LNG}#map=14/${LAT}/${LNG}`, '_blank'), 800);
+        return;
+      }
+      if (/Android/.test(ua)) {
+        window.location.href = `geo:${LAT},${LNG}?q=${LAT},${LNG}(${encodeURIComponent(LABEL)})`;
+        setTimeout(()=> window.open(`https://www.openstreetmap.org/?mlat=${LAT}&mlon=${LNG}#map=14/${LAT}/${LNG}`, '_blank'), 800);
+        return;
+      }
+      window.open(`https://www.openstreetmap.org/?mlat=${LAT}&mlon=${LNG}#map=14/${LAT}/${LNG}`, '_blank');
+    }
+
+    // Map Tab Switcher
+    function showMap(map){
+      document.getElementById("osmMap").classList.remove("active");
+      document.getElementById("gmap").classList.remove("active");
+      document.getElementById("osmBtn").classList.remove("active");
+      document.getElementById("gmapBtn").classList.remove("active");
+
+      if(map === "osm"){
+        document.getElementById("osmMap").classList.add("active");
+        document.getElementById("osmBtn").classList.add("active");
+      } else {
+        document.getElementById("gmap").classList.add("active");
+        document.getElementById("gmapBtn").classList.add("active");
+      }
+    }
+  </script>
+</body>
+</html>
