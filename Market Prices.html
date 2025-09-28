@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green Harvest - Market Prices</title>
+  <style>
+    html, body { height: 100%; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      box-sizing: border-box;
+      transition: background-image 0.5s ease-in-out;
+      background-size: cover;
+      background-position: center;
+    }
+    header {
+      background: #2e7d32;
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .home-btn {
+      background: white;
+      color: #2e7d32;
+      padding: 6px 14px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .home-btn:hover {
+      background: #e8f5e9;
+    }
+    #google_translate_element {
+      margin-top: 10px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      flex: 1 0 auto;
+    }
+    h2 {
+      margin-bottom: 15px;
+      color: #2e7d32;
+      font-size: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    select, button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    button {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #1b5e20;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-left: 6px solid #2e7d32;
+      border-radius: 8px;
+      font-size: 18px;
+    }
+    footer {
+      background: #2e7d32;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      margin-top: auto;
+      width: 100%;
+      flex-shrink: 0;
+    }
+    footer #google_translate_element_footer {
+      margin-bottom: 10px;
+    }
+    footer p { margin: 0; }
+    /* Mobile Responsive */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      header h1 {
+        margin-bottom: 10px;
+      }
+      .container {
+        margin: 15px;
+        padding: 15px;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      button, select {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Market Prices</h1>
+  <div id="google_translate_element"></div>
+</header>
+
+<div class="container">
+  <h2>Check Current Market Price</h2>
+
+  <label for="category">Select Category</label>
+  <select id="category" onchange="loadSubProducts(); changeBackground();">
+    <option value="">-- Choose Category --</option>
+    <option value="milk">Milk</option>
+    <option value="vegetable">Vegetables</option>
+    <option value="fruit">Fruits</option>
+    <option value="grain">Grains</option>
+  </select>
+
+  <label for="product">Select Product</label>
+  <select id="product">
+    <option value="">-- Choose Product --</option>
+  </select>
+
+  <label for="location">Select Location</label>
+  <select id="location">
+    <option value="">-- Choose Location --</option>
+    <option value="Delhi">Delhi</option>
+    <option value="Mumbai">Mumbai</option>
+    <option value="Bhubaneswar">Bhubaneswar</option>
+    <option value="Chennai">Chennai</option>
+    <option value="Kolkata">Kolkata</option>
+    <option value="Bengaluru">Bengaluru</option>
+    <option value="Hyderabad">Hyderabad</option>
+  </select>
+
+  <button onclick="checkPrice()">Get Price</button>
+
+  <div id="output" class="result" style="display:none;"></div>
+</div>
+
+<footer>
+  <div id="google_translate_element_footer"></div>
+  <p>© 2025 Green Harvest. All Rights Reserved.</p>
+</footer>
+
+<!-- Google Translate Script -->
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,ta,te,kn,ml,mr,bn,gu,pa,or,ur,as,sd,ks,mai',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,ta,te,kn,ml,mr,bn,gu,pa,or,ur,as,sd,ks,mai',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element_footer');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  // Sub-products for each category
+  const subProducts = {
+    milk: ["Cow Milk", "Buffalo Milk", "Goat Milk", "Camel Milk"],
+    vegetable: ["Tomato", "Potato", "Spinach", "Carrot", "Onion", "Cabbage", "Brinjal"],
+    fruit: ["Apple", "Banana", "Mango", "Orange", "Grapes", "Papaya", "Pineapple"],
+    grain: ["Rice", "Wheat", "Maize", "Barley", "Millet", "Oats", "Pulses"]
+  };
+
+  // Background images for categories + default
+  const categoryBackgrounds = {
+    default: "https://img.freepik.com/premium-photo/stock-market-forex-trading-graph_536326-4667.jpg", 
+    milk: "https://plus.unsplash.com/premium_photo-1683141128118-fe2d959dbd09?w=600&auto=format&fit=crop&q=60",
+    vegetable: "https://images.unsplash.com/photo-1597362925123-77861d3fbac7?q=80&w=1470&auto=format&fit=crop",
+    fruit: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=1470&auto=format&fit=crop",
+    grain: "https://www.tastingtable.com/img/gallery/17-types-of-popular-grains-and-how-to-use-them/l-intro-1664199087.jpg"
+  };
+
+  // Change background based on category
+  function changeBackground() {
+    const category = document.getElementById("category").value;
+    if (categoryBackgrounds[category]) {
+      document.body.style.backgroundImage = `url('${categoryBackgrounds[category]}')`;
+    } else {
+      document.body.style.backgroundImage = `url('${categoryBackgrounds.default}')`;
+    }
+  }
+
+  // Load sub-products based on category
+  function loadSubProducts() {
+    const category = document.getElementById("category").value;
+    const productSelect = document.getElementById("product");
+    productSelect.innerHTML = '<option value="">-- Choose Product --</option>';
+
+    if (subProducts[category]) {
+      subProducts[category].forEach(item => {
+        let option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        productSelect.appendChild(option);
+      });
+    }
+
+    // re-run Google Translate after new options are added
+    if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+      googleTranslateElementInit();
+    }
+  }
+
+  // Check price
+  function checkPrice() {
+    const product = document.getElementById("product").value;
+    const location = document.getElementById("location").value;
+    const outputDiv = document.getElementById("output");
+
+    if (!product || !location) {
+      outputDiv.style.display = "block";
+      outputDiv.innerHTML = "⚠️ Please select both a product and location.";
+      return;
+    }
+
+    if (prices[location] && prices[location][product]) {
+      outputDiv.style.display = "block";
+      outputDiv.innerHTML = `✅ The price of <b>${product}</b> in <b>${location}</b> is <b>₹${prices[location][product]}/kg or liter</b>.`;
+    } else {
+      outputDiv.style.display = "block";
+      outputDiv.innerHTML = `❌ Sorry, no data available for <b>${product}</b> in <b>${location}</b>.`;
+    }
+  }
+
+  // Mock Market Prices (same as before) ...
+  const prices = {
+    "Delhi": { "Cow Milk": 60, "Buffalo Milk": 65, "Goat Milk": 70, "Camel Milk": 90,
+      "Tomato": 30, "Potato": 25, "Spinach": 20, "Carrot": 40, "Onion": 35, "Cabbage": 28, "Brinjal": 32,
+      "Apple": 150, "Banana": 40, "Mango": 80, "Orange": 70, "Grapes": 100, "Papaya": 45, "Pineapple": 60,
+      "Rice": 45, "Wheat": 40, "Maize": 35, "Barley": 50, "Millet": 38, "Oats": 55, "Pulses": 90 },
+    "Mumbai": { "Cow Milk": 58, "Buffalo Milk": 63, "Goat Milk": 68, "Camel Milk": 88,
+      "Tomato": 35, "Potato": 28, "Spinach": 22, "Carrot": 42, "Onion": 38, "Cabbage": 30, "Brinjal": 34,
+      "Apple": 160, "Banana": 45, "Mango": 85, "Orange": 72, "Grapes": 110, "Papaya": 48, "Pineapple": 65,
+      "Rice": 46, "Wheat": 42, "Maize": 37, "Barley": 52, "Millet": 40, "Oats": 58, "Pulses": 92 },
+    "Bhubaneswar": { "Cow Milk": 55, "Buffalo Milk": 60, "Goat Milk": 65, "Camel Milk": 85,
+      "Tomato": 28, "Potato": 24, "Spinach": 18, "Carrot": 38, "Onion": 32, "Cabbage": 25, "Brinjal": 30,
+      "Apple": 140, "Banana": 38, "Mango": 75, "Orange": 65, "Grapes": 95, "Papaya": 42, "Pineapple": 58,
+      "Rice": 44, "Wheat": 39, "Maize": 34, "Barley": 48, "Millet": 36, "Oats": 53, "Pulses": 88 },
+    "Chennai": { "Cow Milk": 57, "Buffalo Milk": 62, "Goat Milk": 67, "Camel Milk": 87,
+      "Tomato": 32, "Potato": 27, "Spinach": 21, "Carrot": 41, "Onion": 37, "Cabbage": 29, "Brinjal": 33,
+      "Apple": 155, "Banana": 42, "Mango": 82, "Orange": 71, "Grapes": 105, "Papaya": 46, "Pineapple": 62,
+      "Rice": 47, "Wheat": 41, "Maize": 36, "Barley": 51, "Millet": 39, "Oats": 56, "Pulses": 91 },
+    "Kolkata": { "Cow Milk": 56, "Buffalo Milk": 61, "Goat Milk": 66, "Camel Milk": 86,
+      "Tomato": 31, "Potato": 26, "Spinach": 19, "Carrot": 39, "Onion": 36, "Cabbage": 27, "Brinjal": 31,
+      "Apple": 145, "Banana": 39, "Mango": 78, "Orange": 68, "Grapes": 98, "Papaya": 44, "Pineapple": 59,
+      "Rice": 45, "Wheat": 40, "Maize": 35, "Barley": 49, "Millet": 37, "Oats": 54, "Pulses": 89 },
+    "Bengaluru": { "Cow Milk": 59, "Buffalo Milk": 64, "Goat Milk": 69, "Camel Milk": 89,
+      "Tomato": 33, "Potato": 29, "Spinach": 23, "Carrot": 43, "Onion": 39, "Cabbage": 31, "Brinjal": 35,
+      "Apple": 158, "Banana": 44, "Mango": 83, "Orange": 73, "Grapes": 108, "Papaya": 47, "Pineapple": 63,
+      "Rice": 48, "Wheat": 43, "Maize": 38, "Barley": 53, "Millet": 41, "Oats": 59, "Pulses": 93 },
+    "Hyderabad": { "Cow Milk": 57, "Buffalo Milk": 62, "Goat Milk": 67, "Camel Milk": 87,
+      "Tomato": 34, "Potato": 28, "Spinach": 22, "Carrot": 42, "Onion": 38, "Cabbage": 30, "Brinjal": 34,
+      "Apple": 152, "Banana": 41, "Mango": 81, "Orange": 70, "Grapes": 102, "Papaya": 45, "Pineapple": 61,
+      "Rice": 46, "Wheat": 41, "Maize": 36, "Barley": 50, "Millet": 38, "Oats": 55, "Pulses": 90 }
+  };
+
+  // Set default background on load
+  window.onload = function() {
+    document.body.style.backgroundImage = `url('${categoryBackgrounds.default}')`;
+  };
+</script>
+
+</body>
+</html>
