@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Harvest - Success Stories</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; color: #333; }
+    header { text-align: center; padding: 40px 20px; background: #4CAF50; color: white; }
+    header h1 { margin: 0; font-size: 2.5rem; }
+    header p { margin-top: 10px; font-size: 1.2rem; }
+
+    .controls { text-align: center; padding: 20px; }
+    .controls select { padding: 8px; font-size: 1rem; border-radius: 6px; border: 1px solid #ccc; }
+
+    .stories-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
+    .story-card { background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 320px; padding: 20px; text-align: center; transition: transform 0.3s; position: relative; cursor: pointer; }
+    .story-card:hover { transform: translateY(-8px); }
+    .story-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; cursor: pointer; }
+    .story-card h3 { margin: 10px 0; font-size: 1.2rem; }
+    .story-card p { font-size: 1rem; color: #555; }
+    .story-actions { margin-top: 10px; display: flex; justify-content: space-around; align-items: center; }
+    .like-btn, .delete-btn { background: #4CAF50; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background 0.3s; }
+    .delete-btn { background: #f44336; }
+    .like-btn:hover { background: #388E3C; }
+    .delete-btn:hover { background: #d32f2f; }
+    .delete-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .timer { font-size: 0.8rem; color: #888; margin-top: 5px; }
+
+    .form-section { background: #e8f5e9; padding: 40px 20px; text-align: center; }
+    .form-section form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+    .form-section input, .form-section textarea, .form-section select { padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 1rem; width: 100%; box-sizing: border-box; }
+    .form-section button { padding: 12px; border: none; border-radius: 6px; background: #4CAF50; color: white; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
+    .form-section button:hover { background: #388E3C; }
+
+    footer { text-align: center; padding: 20px; background: #4CAF50; color: white; margin-top: 20px; }
+
+    .share-links { margin-top: 10px; font-size: 0.9rem; }
+    .share-links a { margin: 0 5px; text-decoration: none; color: #4CAF50; font-weight: bold; }
+
+    .rating { display: flex; justify-content: center; gap: 5px; margin: 5px 0; }
+    .rating span { font-size: 2rem; cursor: pointer; color: #ccc; }
+    .rating span.active { color: gold; }
+
+    .pending-section { background: #fff3e0; padding: 20px; margin: 20px; border-radius: 10px; }
+    .pending-section h2 { color: #e65100; }
+
+    /* Modal for media */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; max-width: 90%; max-height: 90%; overflow-y: auto; text-align: center; position: relative; }
+    .modal-content img, .modal-content video { max-width: 100%; margin: 10px 0; border-radius: 6px; }
+    .close-modal { position: absolute; top: 10px; right: 10px; background: #f44336; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1.2rem; }
+    #google_translate_element {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Our Success Stories</h1>
+    <p>Real stories from our farmers and customers who thrived with Green Harvest</p>
+    <div id="google_translate_element"></div>
+  </header>
+
+  <!-- Sort Controls -->
+  <div class="controls">
+    <label for="sort">Sort By: </label>
+    <select id="sort">
+      <option value="newest">Newest</option>
+      <option value="likes">Most Liked</option>
+      <option value="rating">Highest Rated</option>
+    </select>
+  </div>
+
+  <!-- Approved Stories -->
+  <section class="stories-container" id="storiesContainer">
+    <div class="story-card" data-likes="5" data-rating="4" data-time="9999999999">
+      <img src="https://via.placeholder.com/150" alt="Farmer Image">
+      <h3>Ramesh Kumar</h3>
+      <p>"Green Harvest helped me increase my crop yield by 30%! Their fertilizer guide and irrigation tips are amazing."</p>
+      <div class="rating">⭐⭐⭐⭐☆</div>
+      <div class="story-actions">
+        <button class="like-btn">👍 <span>5</span></button>
+      </div>
+      <div class="share-links">
+        <a href="#">WhatsApp</a> | <a href="#">Facebook</a> | <a href="#">Twitter</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pending Stories -->
+  <section class="pending-section" id="pendingSection">
+    <h2>Pending Stories (Admin Approval Required)</h2>
+    <div id="pendingContainer"></div>
+  </section>
+
+  <!-- Add Story Form -->
+  <section class="form-section">
+    <h2>Update Your Story</h2>
+    <form id="storyForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <select id="state" required>
+        <option value="">Select Your State</option>
+        <option value="Andhra Pradesh">Andhra Pradesh</option>
+        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+        <option value="Assam">Assam</option>
+        <option value="Bihar">Bihar</option>
+        <option value="Chhattisgarh">Chhattisgarh</option>
+        <option value="Goa">Goa</option>
+        <option value="Gujarat">Gujarat</option>
+        <option value="Haryana">Haryana</option>
+        <option value="Himachal Pradesh">Himachal Pradesh</option>
+        <option value="Jharkhand">Jharkhand</option>
+        <option value="Karnataka">Karnataka</option>
+        <option value="Kerala">Kerala</option>
+        <option value="Madhya Pradesh">Madhya Pradesh</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Manipur">Manipur</option>
+        <option value="Meghalaya">Meghalaya</option>
+        <option value="Mizoram">Mizoram</option>
+        <option value="Nagaland">Nagaland</option>
+        <option value="Odisha">Odisha</option>
+        <option value="Punjab">Punjab</option>
+        <option value="Rajasthan">Rajasthan</option>
+        <option value="Sikkim">Sikkim</option>
+        <option value="Tamil Nadu">Tamil Nadu</option>
+        <option value="Telangana">Telangana</option>
+        <option value="Tripura">Tripura</option>
+        <option value="Uttar Pradesh">Uttar Pradesh</option>
+        <option value="Uttarakhand">Uttarakhand</option>
+        <option value="West Bengal">West Bengal</option>
+        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+        <option value="Chandigarh">Chandigarh</option>
+        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+        <option value="Ladakh">Ladakh</option>
+        <option value="Lakshadweep">Lakshadweep</option>
+        <option value="Puducherry">Puducherry</option>
+      </select>
+      <textarea id="story" rows="4" placeholder="Your Story" required></textarea>
+      
+      <!-- Profile Picture (Camera or File) -->
+      <label for="profileImage">Upload Your Picture (Optional, click to open camera or choose file)</label>
+      <input type="file" id="profileImage" accept="image/*" capture="environment">
+      
+      <!-- Product Images -->
+      <label for="productImages">Upload Product Images (Optional, multiple)</label>
+      <input type="file" id="productImages" accept="image/*" multiple>
+      
+      <!-- Product Videos -->
+      <label for="productVideos">Upload Product Videos (Optional, multiple)</label>
+      <input type="file" id="productVideos" accept="video/*" multiple>
+      
+      <label>Rate Your Success:</label>
+      <div class="rating" id="starInput">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+      <input type="hidden" id="ratingValue" value="0">
+      <button type="submit">Submit Story</button>
+    </form>
+  </section>
+
+  <!-- Media Modal -->
+  <div class="modal" id="mediaModal">
+    <div class="modal-content" id="modalContent">
+      <button class="close-modal" id="closeModal">&times;</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Green Harvest. All rights reserved.</p>
+  </footer>
+  <!-- Google Translate Script -->
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,ta,te,kn,ml,mr,bn,gu,pa,or,ur,as,sd,ks,mai',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,ta,te,kn,ml,mr,bn,gu,pa,or,ur,as,sd,ks,mai',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element_footer');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script>
+    const form = document.getElementById('storyForm');
+    const storiesContainer = document.getElementById('storiesContainer');
+    const pendingContainer = document.getElementById('pendingContainer');
+    const pendingSection = document.getElementById('pendingSection');
+    const sortSelect = document.getElementById('sort');
+    const starInput = document.getElementById('starInput');
+    const ratingValue = document.getElementById('ratingValue');
+    const mediaModal = document.getElementById('mediaModal');
+    const modalContent = document.getElementById('modalContent');
+    const closeModal = document.getElementById('closeModal');
+
+    // Star rating input
+    starInput.querySelectorAll('span').forEach((star, index) => {
+      star.addEventListener('click', () => {
+        ratingValue.value = index + 1;
+        starInput.querySelectorAll('span').forEach((s, i) => {
+          s.classList.toggle('active', i <= index);
+        });
+      });
+    });
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const state = document.getElementById('state').value;
+      const story = document.getElementById('story').value;
+      const rating = ratingValue.value;
+
+      const profileImageInput = document.getElementById('profileImage');
+      const productImagesInput = document.getElementById('productImages');
+      const productVideosInput = document.getElementById('productVideos');
+
+      // Read profile image
+      let profileImageSrc = '';
+      if (profileImageInput.files && profileImageInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          profileImageSrc = e.target.result;
+          createCard();
+        };
+        reader.readAsDataURL(profileImageInput.files[0]);
+      } else {
+        createCard();
+      }
+
+      function createCard() {
+        const card = document.createElement('div');
+        card.className = 'story-card';
+        card.dataset.likes = 0;
+        card.dataset.rating = rating;
+        card.dataset.time = Date.now();
+
+        let shortStory = story.length > 150 ? story.substring(0,150) + "..." : story;
+
+        card.innerHTML = `
+          <img src="${profileImageSrc || 'https://via.placeholder.com/150'}" alt="User Image">
+          <h3>${name} (${state})</h3>
+          <p class="story-text">"${shortStory}"</p>
+          ${story.length > 150 ? '<button class="read-more">Read More</button>' : ""}
+          <div class="rating">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>
+          <div class="story-actions">
+            <button class="like-btn">👍 <span>0</span></button>
+            <button class="delete-btn">Delete My Story</button>
+          </div>
+          <div class="timer">Delete in 120s</div>
+          <div class="share-links">
+            <a href="#">WhatsApp</a> | <a href="#">Facebook</a> | <a href="#">Twitter</a>
+          </div>
+        `;
+
+        // Attach product images and videos to card dataset
+        card.dataset.productImages = JSON.stringify(Array.from(productImagesInput.files).map(f => URL.createObjectURL(f)));
+        card.dataset.productVideos = JSON.stringify(Array.from(productVideosInput.files).map(f => URL.createObjectURL(f)));
+
+        // Read more toggle
+        const readMoreBtn = card.querySelector('.read-more');
+        if (readMoreBtn) {
+          readMoreBtn.addEventListener('click', () => {
+            const text = card.querySelector('.story-text');
+            if (readMoreBtn.textContent === "Read More") {
+              text.textContent = '"' + story + '"';
+              readMoreBtn.textContent = "Show Less";
+            } else {
+              text.textContent = '"' + shortStory + '"';
+              readMoreBtn.textContent = "Read More";
+            }
+          });
+        }
+
+        // Like button
+        const likeBtn = card.querySelector('.like-btn');
+        likeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          let count = parseInt(card.dataset.likes);
+          count++;
+          card.dataset.likes = count;
+          likeBtn.innerHTML = `👍 <span>${count}</span>`;
+        });
+
+        // Delete button with countdown
+        const deleteBtn = card.querySelector('.delete-btn');
+        const timerEl = card.querySelector('.timer');
+        let timeLeft = 120;
+        const interval = setInterval(() => {
+          timeLeft--;
+          if (timeLeft > 0) {
+            timerEl.textContent = `Delete in ${timeLeft}s`;
+          } else {
+            deleteBtn.disabled = true;
+            timerEl.textContent = "Delete Locked";
+            clearInterval(interval);
+          }
+        }, 1000);
+
+        deleteBtn.addEventListener('click', (e) => { 
+          e.stopPropagation();
+          card.remove(); 
+          clearInterval(interval); 
+        });
+
+        // Click card to show media modal
+        card.addEventListener('click', () => {
+          modalContent.innerHTML = `<button class="close-modal" id="closeModal">&times;</button>`;
+          const images = JSON.parse(card.dataset.productImages);
+          const videos = JSON.parse(card.dataset.productVideos);
+
+          images.forEach(src => {
+            const img = document.createElement('img');
+            img.src = src;
+            modalContent.appendChild(img);
+          });
+
+          videos.forEach(src => {
+            const vid = document.createElement('video');
+            vid.src = src;
+            vid.controls = true;
+            modalContent.appendChild(vid);
+          });
+
+          mediaModal.style.display = 'flex';
+
+          document.getElementById('closeModal').addEventListener('click', () => {
+            mediaModal.style.display = 'none';
+          });
+        });
+
+        // Add to pending container (Admin must approve)
+        const wrapper = document.createElement('div');
+        wrapper.appendChild(card);
+        const approveBtn = document.createElement('button');
+        approveBtn.textContent = "Approve Story";
+        approveBtn.style.marginTop = "10px";
+        approveBtn.style.padding = "6px 12px";
+        approveBtn.style.background = "#2e7d32";
+        approveBtn.style.color = "#fff";
+        approveBtn.style.border = "none";
+        approveBtn.style.borderRadius = "6px";
+        approveBtn.style.cursor = "pointer";
+        approveBtn.addEventListener('click', () => {
+          storiesContainer.appendChild(card);
+          wrapper.remove();
+          if (!pendingContainer.hasChildNodes()) {
+            pendingSection.remove();
+          }
+        });
+        wrapper.appendChild(approveBtn);
+        pendingContainer.appendChild(wrapper);
+
+        form.reset();
+        ratingValue.value = 0;
+        starInput.querySelectorAll('span').forEach(s => s.classList.remove('active'));
+      }
+    });
+
+    // Sorting
+    sortSelect.addEventListener('change', () => {
+      let cards = Array.from(storiesContainer.querySelectorAll('.story-card'));
+      if (sortSelect.value === "likes") {
+        cards.sort((a,b) => b.dataset.likes - a.dataset.likes);
+      } else if (sortSelect.value === "rating") {
+        cards.sort((a,b) => b.dataset.rating - a.dataset.rating);
+      } else {
+        cards.sort((a,b) => b.dataset.time - a.dataset.time);
+      }
+      storiesContainer.innerHTML = "";
+      cards.forEach(c => storiesContainer.appendChild(c));
+    });
+  </script>
+</body>
+</html>
