@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Green Harvest-Newspage</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "hi,bn,ta,te,ml,kn,mr,gu,pa,ur,or,as,sa,sd,ks,ne,si,bo,doi",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Roboto", sans-serif;
+      background: url("https://wallpaperbat.com/img/319677-agriculture-desktop-wallpaper.jpg")
+        no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    header {
+      background-color: rgba(0, 100, 0, 0.8);
+      padding: 20px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    nav {
+      background: rgba(34, 139, 34, 0.9);
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .nav-left {
+      margin-left: auto;
+      padding-left: 10px;
+      order: 3;
+    }
+
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    nav a {
+      color: #fff;
+      font-size: 18px;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background: #2ecc71;
+    }
+
+    #google_translate_element {
+      transform: scale(1.1);
+      transform-origin: right center;
+      z-index: 9999;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .nav-center {
+        position: relative;
+        left: 0;
+        transform: none;
+        margin-bottom: 8px;
+      }
+      .nav-left {
+        order: 2;
+        margin-left: 0;
+      }
+      #google_translate_element {
+        transform: scale(0.9);
+        margin-top: 5px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #google_translate_element {
+        transform: scale(0.8);
+      }
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      color: #333;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #006400;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #2f4f4f;
+      font-size: 16px;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Cards Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .info-card {
+      background: #fff;
+      border-radius: 12px;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .info-card img {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 2px;
+    }
+
+    .info-card h3 {
+      color: #006400;
+      margin-bottom: 10px;
+    }
+
+    .info-card p {
+      font-size: 14px;
+      color: #2f4f4f;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+
+    @media (max-width: 480px) {
+      .info-card img {
+        width: 90px;
+        height: 90px;
+      }
+      .info-card p {
+        font-size: 13px;
+      }
+    }
+    @media (max-width: 768px) {
+  .info-card img {
+    width: 100px;   /* medium size for tablets */
+    height: 100px;
+  }
+}
+
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 14px;
+    }
+
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background-color: #228b22;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    #backToTop:hover {
+      background-color: #2ecc71;
+      transform: scale(1.1);
+    }
+
+    #chatButton {
+      position: fixed;
+      bottom: 90px;
+      right: 30px;
+      background: #ff9800;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      text-decoration: none;
+      z-index: 9999;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    #chatButton:hover {
+      transform: scale(1.1);
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Chatbot Iframe Style */
+    #chatIframeContainer {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 370px;
+      height: 450px;
+      display: none;
+      z-index: 99999;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+    #chatIframeContainer iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      flex-grow: 1;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    #chatCloseBtn {
+      background: #2e7d32;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      padding: 5px 12px;
+      font-size: 18px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      text-align: right;
+      user-select: none;
+      line-height: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    #chatCloseBtn:hover {
+      background: #1b4d1b;
+    }
+  </style>
+</head>
+<body>
+  <header>🌾🌱 Welcome to Green Harvest 🌱🌾</header>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-center">
+        <a href="dashboard.html">Home</a>
+      </div>
+      <div class="nav-left" id="google_translate_element"></div>
+    </div>
+  </nav>
+
+  <div style="text-align:center; margin-top:20px;">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="🔍 Search articles..."
+      style="padding: 10px; width: 60%; border-radius: 8px; border: 1px solid #ccc; font-size: 16px"
+    />
+  </div>
+
+  <div class="container">
+    <div
+      id="dailyTip"
+      style="
+        background: #f0fff0;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 16px;
+        border-left: 5px solid green;
+      "
+    ></div>
+
+    <!-- New Square Cards -->
+    <div class="card-grid">
+      <a href="info.html" class="info-card">
+        <img src="https://cdn.pixabay.com/animation/2023/06/13/15/12/15-12-40-321_512.gif" alt="Information" />
+        <h3>Information</h3>
+        <p>Find valuable agricultural news, updates, and market trends.</p>
+      </a>
+
+      <a href="loanpage.html" class="info-card">
+        <img src="https://media.lordicon.com/icons/wired/outline/2367-loan.gif" alt="Loan" />
+        <h3>Farmer Loan Support</h3>
+        <p>Apply for agricultural loans with easy repayment options and quick approval.</p>
+      </a>
+
+
+      <a href="books.html" class="info-card">
+        <img src="https://cdn.dribbble.com/users/527271/screenshots/2470948/loop_2.gif" alt="Books" />
+        <h3>Farmer's Book Collection</h3>
+        <p>Browse our collection of farming books to improve your knowledge.</p>
+      </a>
+
+      <a href="Expert Consultation.html" class="info-card">
+        <img src="https://tarangansolutions.com/images/consultation.gif" alt="Expert Consultation" />
+        <h3>Expert Consultation</h3>
+        <p>Connect with agricultural experts for personalized advice on soil, crops, and farm management.</p>
+      </a>
+
+
+      <a href="Farming Tips.html" class="info-card">
+        <img src="https://blog.educationnest.com/wp-content/uploads/2023/05/giphy-2.gif" alt="Tips" />
+        <h3>Farming Tips</h3>
+        <p>Discover simple and effective tips to boost crop production.</p>
+      </a>
+      <a href="wheather.html" class="info-card">
+        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_632/3f61ec27118125.5636032dd67b0.gif" alt="Weather" />
+        <h3>Weather Updates</h3>
+        <p>Get real-time weather forecasts to plan your farming activities effectively.</p>
+      </a>
+      <a href="mandi.html" class="info-card">
+        <img src="https://media2.giphy.com/media/icDlzBfN72ibglz3H8/giphy.gif" alt="Mandi" />
+        <h3>Mandi</h3>
+        <p>Check daily crop prices at nearby mandis to get the best value for your produce.</p>
+      </a>
+
+      <a href="agrigulture news.html" class="info-card">
+        <img src="https://media.tenor.com/YNp5t_lLA2oAAAAM/breaking-news-news.gif" alt="Agriculture News" />
+        <h3>Agriculture News</h3>
+        <p>Stay updated with the latest farming news, government schemes, and crop advisories.</p>
+      </a>
+
+      <a href="Market Prices.html" class="info-card">
+        <img src="https://d1e4pidl3fu268.cloudfront.net/9d5a034c-1434-4be3-959a-d05cdd77c9c6/price.crop_374x281_27%2C0.preview.png" alt="Market Prices" />
+        <h3>Market Prices</h3>
+        <p>Stay informed about current crop and livestock market prices.</p>
+      </a>
+      <a href="AI Crop Recommender.html" class="info-card">
+        <img src="https://www.sapphireinfocom.com/images/robot1.gif" alt="Market Prices" />
+        <h3>AI Crop Recommender</h3>
+        <p> AI Crop Recommender,that helps to the farmers.</p>
+      </a>
+
+      <a href="Government Schemes for Farmers.html" class="info-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/2904/2904535.png" alt="Government Schemes" />
+      <h3>Government Schemes</h3>
+      <p>Explore subsidies and support for farmers.</p>
+      </a>
+
+      <a href="fertilizerguide.html" class="info-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/4151/4151055.png" alt="Fertilizer Guide" />
+      <h3>Fertilizer Guide</h3>
+      <p>Understand and use fertilizers efficiently.</p>
+      </a>
+      <a href="coldstorage .html" class="info-card">
+        <img src="https://img.freepik.com/premium-vector/vaccine-storage-with-fridge-icon-vector_116137-6232.jpg?w=2000" alt="Cold Storage" />
+        <h3>Cold Storage</h3>
+        <p>Find nearby cold storage facilities to preserve your crops and vegetables.</p>
+      </a>
+
+          
+      <a href="Crop Calendar.html" class="info-card">
+      <img src="https://media0.giphy.com/media/eHEmsqSW9B53K65dnS/giphy.gif" alt="Crop Calendar" />
+      <h3>Crop Calendar</h3>
+      <p>Plan your sowing and harvesting seasons.</p>
+      </a>
+      <a href="Sustainable Farming.html" class="info-card">
+      <img src="https://cdn0.iconfinder.com/data/icons/global-warming-rich-vol-2/256/Sustainable_Agriculture-1024.png" alt="Crop Calendar" />
+      <h3>sustainable farming</h3>
+      <p> Promoting Sustainable Farming through Gamification.</p>
+      </a>
+
+    </div>
+  </div>
+
+  <button id="backToTop" onclick="scrollToTop()">⬆️ Back to Top</button>
+
+  <a href="#" id="chatButton">💬Ai assistant</a>
+
+  <div id="chatIframeContainer">
+    <button id="chatCloseBtn" title="Close Chat">×</button>
+    <iframe src="chatbot.html"></iframe>
+  </div>
+
+  <footer>© 2025 Green Harvest. All rights reserved.</footer>
+
+  <script>
+    const backToTopButton = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      backToTopButton.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    document
+      .getElementById("searchInput")
+      .addEventListener("keyup", function () {
+        let filter = this.value.toLowerCase();
+        document.querySelectorAll(".info-card").forEach((card) => {
+          let text = card.innerText.toLowerCase();
+          card.style.display = text.includes(filter) ? "" : "none";
+        });
+      });
+
+    const tips = [
+      "💡 Rotate crops yearly to improve soil health.",
+      "🌱 Drip irrigation saves up to 70% water.",
+      "🐝 Encourage pollinators for better crop yield.",
+      "🌿 Use compost to enrich soil naturally.",
+    ];
+    document.getElementById("dailyTip").innerText =
+      tips[Math.floor(Math.random() * tips.length)];
+
+    const chatButton = document.getElementById("chatButton");
+    const chatContainer = document.getElementById("chatIframeContainer");
+    const chatCloseBtn = document.getElementById("chatCloseBtn");
+
+    window.addEventListener('DOMContentLoaded', () => {
+      chatContainer.style.display = 'none';
+    });
+
+    chatButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      chatContainer.style.display =
+        chatContainer.style.display === "none" || chatContainer.style.display === ""
+          ? "flex"
+          : "none";
+    });
+
+    chatCloseBtn.addEventListener("click", () => {
+      chatContainer.style.display = "none";
+    });
+  </script>
+</body>
+</html>
+
+
