@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Agricultural Tools - Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search Agricultural Tools..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Agricultural Tools </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
+      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
+      <div id="cartItems" class="space-y-2"></div>
+    </section> -->
+    
+    
+    <script>
+      const growthPromoters = [
+      
+  {
+    name: "Khurpi Set",
+    desc: "Garden Khurpa (3 Pieces Set)",
+    price: 150,
+    brand: "Falcon",
+    type: "Hand Tool",
+    img: "https://m.media-amazon.com/images/I/61Xpdh5mXrL.jpg" 
+  },
+  {
+    name: "Hedge Shear",
+    desc: "Steel Blade Hedge Cutter",
+    price: 550,
+    brand: "Wolf-Garten",
+    type: "Cutting Tool",
+    img: "https://greenish.in/wp-content/uploads/2022/12/hedge-shear-new.jpg" 
+  },
+  {
+    name: "Pruning Secateurs",
+    desc: "Bypass Pruner - 8 inch",
+    price: 320,
+    brand: "Fiskars",
+    type: "Pruner",
+    img: "https://9dbb1f6ce47d4ca3e397-fa5e19980981d5458cd0ea2d7efa41ab.ssl.cf1.rackcdn.com/products/photos/large_b59c7d17-20d6-4b76-86f5-409a873ffc3e.jpg" 
+  },
+  {
+    name: "Hand Cultivator",
+    desc: "3 Prong with Wooden Handle",
+    price: 180,
+    brand: "Green Touch",
+    type: "Cultivator",
+    img: "https://assets.manufactum.de/p/207/207368/207368_02.jpg/hand-cultivator.jpg?profile=pdsmain_1500" 
+  },
+    
+  {
+    name: "Battery Sprayer",
+    desc: "Electric Knapsack Sprayer - 16L",
+    price: 2300,
+    brand: "Neptune",
+    type: "Sprayer",
+    img: "https://aspee.com/attachments/products/aspee-gardenia-battery-sprayer-agr001-8ahbr-agr001-12ahbr--xe.png" 
+  },
+  {
+    name: "Fogging Machine",
+    desc: "Thermal Fogger for Pest Control",
+    price: 7800,
+    brand: "Agrimate",
+    type: "Plant Protection",
+    img: "https://www.raymondthermal.com/wp-content/uploads/2020/08/fogging-machine-6.jpg" 
+  },
+  {
+    name: "Insect Sticky Trap",
+    desc: "Yellow Sticky Trap (Pack of 10)",
+    price: 150,
+    brand: "Generic",
+    type: "Plant Protection",
+    img: "https://i5.walmartimages.com/asr/90022b00-fae9-49c0-81dc-70dc3ec8d540.6e62f64d6d19230ed1852098b08b44ab.jpeg" 
+  },
+  {
+    name: "Garden Rake",
+    desc: "Steel 12 Teeth Rake",
+    price: 310,
+    brand: "Sharpex",
+    type: "Rake",
+    img: "https://m.media-amazon.com/images/I/61z3pg2uxiL._AC_SL1500_.jpg" 
+  },
+  {
+    name: "Weeder Tool",
+    desc: "Manual Hand Weeder with Blade",
+    price: 210,
+    brand: "Kisankraft",
+    type: "Weeder",
+    img: "https://cdn.onbuy.com/product/65aa13b8dd711/500-500/garden-weeder-hand-grower-gardening-weeding-weed-removal-tool.jpg" 
+  },
+  {
+    name: "Sickle",
+    desc: "Sharp Curved Blade - 12 inch",
+    price: 140,
+    brand: "Falcon",
+    type: "Cutting Tool",
+    img: "https://th.bing.com/th/id/R.b9158439f7a249b9550fcba0ff848831?rik=mk3HLFcBlwuqwQ&riu=http%3a%2f%2f3.bp.blogspot.com%2f-RHV_bAs8-g0%2fTlnAMC88OtI%2fAAAAAAAAAlM%2fxPlhWXunmwo%2fs1600%2fSickle1.jpg&ehk=mi5qpHAGZ%2fGXh2eqw9M2x0QQsEBTYTGap6a%2frUZ4NnQ%3d&risl=&pid=ImgRaw&r=0" 
+  },
+  {
+    name: "Soil Tester Kit",
+    desc: "pH & Moisture Meter",
+    price: 680,
+    brand: "Agricare",
+    type: "Tester",
+    img: "https://m.media-amazon.com/images/I/719F1Q4PbNL._SL1500_.jpg" 
+  },
+  {
+    name: "Seedling Tray",
+    desc: "104 Cavity for Nursery Use",
+    price: 50,
+    brand: "Generic",
+    type: "Plant Tray",
+    img: "https://image.made-in-china.com/2f0j00GvjfwYMKEBkR/72-Cells-Thermoformed-Seed-Tray-Plant-Grow-Organic-Nursery-Pots-Multi-Function-Storage-Reusable-Seed-Tray-Flat-Plastic-Seedling-Tray-Seed-Tray-Plug-Tray.jpg" 
+  },
+  {
+    name: "Wheel Hoe",
+    desc: "Manual Weeder with 2 Blades",
+    price: 1350,
+    brand: "Kisankraft",
+    type: "Hoe",
+    img: "https://www.johnnyseeds.com/dw/image/v2/BJGJ_PRD/on/demandware.static/-/Sites-jss-master/default/dw097eb50a/images/products/tools/7620_01_terrateckdoublewheelhoe.jpg?sw=800&cx=396&cy=88&cw=1000&ch=1000" 
+  },
+  {
+    name: "Garden Trowel",
+    desc: "Hand Shovel - Stainless Steel",
+    price: 170,
+    brand: "Trust Basket",
+    type: "Trowel",
+    img: "https://images-na.ssl-images-amazon.com/images/I/71N8W8Wmx9L._AC_SL1500_.jpg" 
+  },
+  {
+    name: "Brush Cutter",
+    desc: "Petrol Operated - 52cc",
+    price: 8700,
+    brand: "Balwaan",
+    type: "Power Tool",
+    img: "https://images.thdstatic.com/productImages/6a39be1d-6811-460e-a88a-0c4d511e81f1/svn/echo-brush-cutter-attachments-99944200601-64_600.jpg" 
+  },
+  
+  {
+    name: "Soil Auger",
+    desc: "Manual Earth Auger - 4 inch",
+    price: 1100,
+    brand: "Heavy Duty",
+    type: "Digging Tool",
+    img: "https://www.royaleijkelkamp.com/media/aliph15p/root-augers.jpg?width=864&height=649&mode=crop" 
+  },
+  {
+    name: "Mango Harvester",
+    desc: "Manual Earth Auger - 4 inch",
+    price: 290,
+    brand: "Dharitri",
+    type: "Harvester",
+    img: "https://2.imimg.com/data2/SU/DY/MY-1708531/mango-harvester-1000x1000.jpg" 
+  },
+  {
+    name: "spade",
+    desc: "Manual Earth spade - 4 inch",
+    price: 750,
+    brand: "Heavy Duty",
+    type: "mixing soil Tool",
+    img: "https://tse4.mm.bing.net/th/id/OIP.DnX9aOs9-erLAXHkiB_XWwHaIf?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" 
+  },
+  {
+    name: "Garden Gloves with Claws",
+    desc: "For Digging & Planting",
+    price: 99,
+    brand: "Home Crop",
+    type: "Gloves",
+    img: "https://i5.walmartimages.com/asr/f83ecc53-29a6-4dd0-8203-0f43eacb7d2b.b1904869e7a60287a3a02d58ec016669.jpeg" 
+  }
+];
+
+    function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      function applyFilters() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const sortOption = document.getElementById("sortPrice").value;
+    
+        let filtered = growthPromoters.filter(p =>
+          p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+        );
+    
+        if (sortOption === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOption === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+    
+        renderProducts(filtered);
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+         renderProducts(growthPromoters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+         document.getElementById("sortPrice").addEventListener("change", applyFilters);
+        initPage(growthPromoters);
+
+      });
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>

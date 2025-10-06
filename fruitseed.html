@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fruitseed - Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search Fruitseed..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Fruit seed </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
+      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
+      <div id="cartItems" class="space-y-2"></div>
+    </section> -->
+    
+    
+    <script>
+      const growthPromoters = [
+  {
+    name: "Watermelon Seeds",
+    desc: "High-Yield Hybrid - 50g",
+    price: 120,
+    brand: "East West",
+    type: "Fruit Seed",
+    img: "https://www.thespruceeats.com/thmb/Twl-rxMSNzm-lvVnZ1wMsatS_xM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/snack-time-640150613-5887d57d5f9b58bdb38ea501.jpg"
+  },
+  {
+    name: "Muskmelon Seeds",
+    desc: "Sweet Variety - 10g",
+    price: 85,
+    brand: "Namdhari",
+    type: "Fruit Seed",
+    img: "https://th.bing.com/th/id/R.b663d119d40bea38a4551bd2db00df3e?rik=vePGErtJXwWdpA&riu=http%3a%2f%2fcdn.shopify.com%2fs%2ffiles%2f1%2f0572%2f5300%2f3427%2fproducts%2fMusk-Melon-Seeds-1_1200x1200.jpg%3fv%3d1627731397&ehk=giEatRVbirrjJcFw6j0tXTTREuqaRfZFWtbHNNCMjv8%3d&risl=&pid=ImgRaw&r=0"
+  },
+  {
+    name: "Papaya Seeds",
+    desc: "Red Lady Hybrid - 10g",
+    price: 140,
+    brand: "Known You",
+    type: "Fruit Seed",
+    img: "https://www.herbazest.com/imgs/e/c/0/533814/papaya_seeds.jpg"
+  },
+  {
+    name: "Guava Seeds",
+    desc: "Pink Flesh Variety - 10g",
+    price: 90,
+    brand: "Green India",
+    type: "Fruit Seed",
+    img: "https://foodiosity.com/wp-content/uploads/2020/11/guava-seeds.jpg"
+  },
+  {
+    name: "Pomegranate Seeds",
+    desc: "Bhagwa Variety - 10g",
+    price: 150,
+    brand: "Katyayani",
+    type: "Fruit Seed",
+    img:"https://afoodcentriclife.com/wp-content/uploads/2012/11/pomegranates.jpg"
+  },
+  {
+    name: "Strawberry Seeds",
+    desc: "Winter Growing Hybrid - 2g",
+    price: 70,
+    brand: "Kraft Seeds",
+    type: "Fruit Seed",
+    img: "https://simplyafricanseedcompany.co.za/wp-content/uploads/2022/03/SASC-2-2-1.jpg"
+  },
+  {
+    name: "Custard Apple Seeds",
+    desc: "High Germination Rate - 10g",
+    price: 80,
+    brand: "Desi Seeds",
+    type: "Fruit Seed",
+    img: "https://m.media-amazon.com/images/I/71NxxZbi8NL._AC_.jpg"
+  },
+  {
+    name: "Sapota (Chikoo) Seeds",
+    desc: "Manilkara Zapota - 10g",
+    price: 95,
+    brand: "Organic Seeds",
+    type: "Fruit Seed",
+    img: "https://rukminim2.flixcart.com/image/416/416/xif0q/plant-seed/5/3/i/25-sobeda-25-seeds-per-packet-075-sree-original-imagu747dmkaxqk3.jpeg?q=70&crop=false"
+  },
+  {
+    name: "Jackfruit Seeds",
+    desc: "Kathal Variety - 5 Seeds",
+    price: 60,
+    brand: "Green Eden",
+    type: "Fruit Seed",
+    img: "https://down-ph.img.susercontent.com/file/4feb9c80acad8969a3412525f39a0f5c"
+  },
+  {
+    name: "Fig Seeds",
+    desc: "Common Fig - 1g",
+    price: 55,
+    brand: "Nature’s Gift",
+    type: "Fruit Seed",
+    img: "https://minnetonkaorchards.com/wp-content/uploads/2023/03/fig-tree-seeds-2.jpg"
+  },
+  {
+    name: "Banana Seeds",
+    desc: "Tissue Culture Variety - 10g",
+    price: 110,
+    brand: "Ugaoo",
+    type: "Fruit Seed",
+    img: "https://www.healthbenefitstimes.com/9/gallery/bananas/Banana-seeds.jpg"
+  },
+  {
+    name: "Apple Seeds",
+    desc: "Hybrid Red Apple - 5g",
+    price: 95,
+    brand: "Gardening India",
+    type: "Fruit Seed",
+    img: "https://5.imimg.com/data5/SELLER/Default/2024/10/462498292/FF/YJ/WY/29475546/apple-seeds-fresh-apple-fruit-seeds-500x500.jpg"
+  },
+  {
+    name: "Mango Seeds",
+    desc: "Alphonso Variety - 5g",
+    price: 125,
+    brand: "Farmson",
+    type: "Fruit Seed",
+    img: "https://i.pinimg.com/736x/a3/1f/c6/a31fc67457307b4cd891c1f007f8a15b.jpg"
+  },
+  {
+    name: "Jamun Seeds",
+    desc: "Indian Black Plum - 10g",
+    price: 90,
+    brand: "Grow Basket",
+    type: "Fruit Seed",
+    img: "https://mdpansar.pk/wp-content/uploads/2024/11/JAMUN-SEEDS-scaled.jpg"
+  },
+  {
+    name: "Lemon Seeds",
+    desc: "Kagzi Lemon - 5g",
+    price: 75,
+    brand: "Urban Plant",
+    type: "Fruit Seed",
+    img: "https://down-ph.img.susercontent.com/file/sg-11134201-7rcd3-lqtz1hqsybdi18"
+  },
+];
+
+
+
+
+
+
+      function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      function applyFilters() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const sortOption = document.getElementById("sortPrice").value;
+    
+        let filtered = growthPromoters.filter(p =>
+          p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+        );
+    
+        if (sortOption === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOption === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+    
+        renderProducts(filtered);
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+         renderProducts(growthPromoters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+         document.getElementById("sortPrice").addEventListener("change", applyFilters);
+        initPage(growthPromoters);
+
+      });
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Farm mechinary - Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search Farm machinary..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top mechinary Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
+      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
+      <div id="cartItems" class="space-y-2"></div>
+    </section> -->
+    
+    
+    <script>
+      const growthPromoters = [
+      {
+    name: "Power Tiller – VST Shakti 130 DI",
+    desc: "13 HP diesel power tiller for land preparation",
+    price: 165000,
+    brand: "VST Shakti",
+    type: "Farm Machinery",
+    img: "https://5.imimg.com/data5/OE/HK/MY-59637264/vst-shakti-130-di-power-tiller-1000x1000.jpg" 
+     },
+  {
+    name: "Tractor – Mahindra 575 DI XP Plus",
+    desc: "47 HP 2WD tractor suitable for multiple farm tasks",
+    price: 725000,
+    brand: "Mahindra",
+    type: "Farm Machinery",
+    img: "https://tractorkarvan.com/storage/images/Mahindra/Multiple/575-DI-XP-Plus.jpg" 
+  },
+  {
+    name: "Mini Tractor – Kubota Neostar A211N",
+    desc: "21 HP compact tractor for inter-row cultivation",
+    price: 445000,
+    brand: "Kubota",
+    type: "Farm Machinery",
+    img: "https://traktorsanayi.com/wp-content/uploads/2023/09/Kubota-B1181-Tractor-17.4-hp-600x600.jpeg" 
+  },
+  {
+    name: "Brush Cutter – Honda UMK450T",
+    desc: "4-stroke powerful brush cutter - 2 HP",
+    price: 22500,
+    brand: "Honda",
+    type: "Farm Machinery",
+    img: "https://5.imimg.com/data5/SELLER/Default/2024/6/425614438/NX/RQ/UL/111899054/honda-brush-cutter-umk450t-u2nt-500x500.png" 
+  },
+  {
+    name: "Rotavator – Shaktiman Regular 6 Feet",
+    desc: "6 feet rotavator for soil preparation",
+    price: 95000,
+    brand: "Shaktiman",
+    type: "Farm Machinery",
+    img: "https://novo3ds.in/wp-content/uploads/2023/06/AG214_Sakthiman_rotavator_1.jpg" 
+  },
+  {
+    name: "Seed Drill – Khedut Manual Seeder",
+    desc: "Manual seed cum fertilizer drill - 6 rows",
+    price: 8500,
+    brand: "Khedut",
+    type: "Farm Machinery",
+    img: "https://shop.vgtindia.in/wp-content/uploads/2022/05/1618655236646DPMAE200239.jpg" 
+  },
+  {
+    name: "Sprayer – Aspee Marut 12L",
+    desc: "Battery operated sprayer – 12L tank",
+    price: 3800,
+    brand: "Aspee",
+    type: "Farm Machinery",
+    img: "https://5.imimg.com/data5/SELLER/Default/2025/2/489241132/HM/OT/GS/225719627/aspee-marut-hand-compression-sprayer-500x500.jpg" 
+  },
+  {
+    name: "Threshing Machine – Mild Steel Paddy Thresher",
+    desc: "Semi-automatic paddy thresher",
+    price: 92000,
+    brand: "Generic",
+    type: "Farm Machinery",
+    img: "https://tiimg.tistatic.com/fp/1/007/533/yellow-and-green-mild-steel-body-paddy-thresher-with-15-hp-for-tractor-uses-913.jpg" 
+  },
+  {
+    name: "Chaff Cutter – Manual Hand Operated",
+    desc: "Chaff cutter for fodder cutting",
+    price: 7800,
+    brand: "Generic",
+    type: "Farm Machinery",
+    img: "https://5.imimg.com/data5/SELLER/Default/2021/7/GD/ZE/RT/42919278/manual-operated-chaff-cutter-machine-500x500.png" 
+  },
+  {
+    name: "Milking Machine – Portable Single Bucket",
+    desc: "Electric milking machine for 1 cow",
+    price: 19500,
+    brand: "V-Tech",
+    type: "Farm Machinery",
+    img: "https://tiimg.tistatic.com/fp/1/008/335/3-horsepower-220-volts-single-bucket-portable-milking-machine-324.jpg" 
+  }
+];
+      function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      function applyFilters() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const sortOption = document.getElementById("sortPrice").value;
+    
+        let filtered = growthPromoters.filter(p =>
+          p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+        );
+    
+        if (sortOption === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOption === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+    
+        renderProducts(filtered);
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+         renderProducts(growthPromoters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+         document.getElementById("sortPrice").addEventListener("change", applyFilters);
+        initPage(growthPromoters);
+
+      });
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>
