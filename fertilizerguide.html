@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Green Harvest - Fertilizer Guide</title>
+  <link rel="icon" type="image" href="logo1.png">
+
+  <style>
+    :root{
+      --green:#2e7d32;
+      --green-2:#388e3c;
+      --teal:#00796b;
+      --bg:#fffef5;
+      --card:#eaf7ea;
+    }
+    body { font-family: Arial, sans-serif; margin:0; background:var(--bg); color:#333; line-height:1.6; }
+    header { background: linear-gradient(90deg, var(--green), var(--green-2)); color:white; padding:15px 30px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000; }
+    header img { height:50px; }
+    header h1 { margin-left:15px; flex:1; font-size:1.8rem; }
+    nav ul { list-style:none; display:flex; gap:20px; }
+    nav ul li a { text-decoration:none; color:white; padding:8px 14px; border-radius:5px; transition:0.3s; }
+    nav ul li a:hover { background:#66bb6a; }
+    .menu-toggle { display:none; flex-direction:column; cursor:pointer; }
+    .menu-toggle div { width:25px; height:3px; background:white; margin:4px 0; }
+    @media(max-width:768px){
+      nav ul { display:none; flex-direction:column; background:var(--green); position:absolute; top:70px; right:0; width:200px; padding:15px; border-radius:5px; }
+      nav ul.show { display:flex; }
+      .menu-toggle { display:flex; }
+    }
+
+    /* Translate bar */
+    .translate-section{
+      background: #f3fbf3;
+      border-bottom: 1px solid #d8ecd8;
+      display:flex; justify-content:center; align-items:center;
+      padding:10px 16px;
+    }
+    .translate-wrap{
+      background:#ffffff; border:1px solid #cfe6cf; border-radius:10px;
+      padding:8px 12px; box-shadow:0 3px 10px rgba(0,0,0,0.05);
+      display:inline-flex; align-items:center; gap:10px;
+    }
+    .translate-title{ color:var(--teal); font-weight:600; }
+
+    .hero { background:url('https://images.pexels.com/photos/3696170/pexels-photo-3696170.jpeg') no-repeat center center/cover; height:60vh; display:flex; align-items:center; justify-content:center; text-align:center; color:white; position:relative; }
+    .hero::before { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.45); }
+    .hero-content { position:relative; z-index:1; }
+    .hero-content h2 { font-size:3rem; margin-bottom:12px; }
+    .hero-content p { font-size:1.2rem; max-width:700px; margin:auto; }
+
+    .section { padding:60px 20px; background:#f9fff9; }
+    .section h2 { font-size:2.2rem; color:var(--green); margin-bottom:24px; text-align:center; }
+    .search-bar { text-align:center; margin-bottom:20px; }
+    .search-bar input { width:min(700px,90%); padding:12px; border:2px solid var(--green); border-radius:10px; font-size:1rem; }
+
+    .filters { text-align:center; margin:20px; }
+    .filters button { background:var(--teal); color:white; padding:10px 18px; margin:5px; border:none; border-radius:10px; cursor:pointer; }
+    .filters button:hover { background:#004d40; }
+
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px; }
+    .card { background:var(--card); padding:20px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform .2s ease, box-shadow .2s ease; text-align:left; cursor:pointer; }
+    .card:hover { transform:translateY(-4px); box-shadow:0 10px 24px rgba(0,0,0,0.15); }
+    .card img { width:100%; border-radius:12px; margin-bottom:12px; height:180px; object-fit:cover; }
+    .card h3 { color:var(--teal); margin-bottom:8px; }
+    .card p { font-size:0.95rem; display:none; }
+    .card.active p { display:block; }
+
+    table { width:100%; border-collapse:collapse; margin:auto; background:#fff; box-shadow:0 4px 12px rgba(0,0,0,0.06); border-radius:12px; overflow:hidden; }
+    th, td { padding:14px; text-align:center; border:1px solid #e8e8e8; }
+    th { background:var(--green); color:white; }
+    tr:nth-child(even) { background:#f7faf7; }
+
+    .tips { background:#f0fff0; padding:24px; border-radius:12px; }
+    .step { background:#e6f7e6; padding:15px; margin:10px 0; border-left:6px solid var(--green); border-radius:8px; }
+
+    .download-section { text-align:center; margin:40px 0; }
+    .download-btn { background:var(--green); color:white; padding:14px 24px; border:none; border-radius:10px; font-size:1.05rem; cursor:pointer; }
+    .download-btn:hover { background:var(--green-2); }
+
+    footer { background:var(--green); color:white; text-align:center; padding:18px; margin-top:40px; }
+
+    /* Calculator modal */
+    .open-calc-btn{
+      display:inline-flex; align-items:center; gap:8px;
+      background: #00564b; color:#fff; border:none; border-radius:10px; padding:12px 18px; cursor:pointer;
+    }
+    .open-calc-btn:hover{ background:#03423a; }
+
+    .modal{ position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; z-index:2000; }
+    .modal.show{ display:flex; }
+    .modal-card{
+      background:#fff; width:min(840px,92%); border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.25);
+      padding:20px 20px 24px; position:relative;
+    }
+    .modal-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+    .modal-title{ font-size:1.3rem; color:var(--green); font-weight:700; }
+    .close-btn{
+      background:transparent; border:none; font-size:1.6rem; line-height:1; cursor:pointer; color:#333; padding:6px 10px; border-radius:8px;
+    }
+    .close-btn:hover{ background:#f3f3f3; }
+    .modal-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media(max-width:720px){ .modal-grid{ grid-template-columns:1fr; } }
+
+    .input-group{ display:flex; flex-direction:column; gap:6px; }
+    .input-group label{ font-weight:600; color:#2f3b2f; }
+    .input, .select{
+      padding:12px; border:1.8px solid #c8e2c8; border-radius:10px; outline:none; font-size:0.98rem; background:#fbfffb;
+    }
+    .input:focus, .select:focus{ border-color:#6bb86b; background:#fff; }
+
+    .radio-row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+
+    .calc-actions{ display:flex; gap:10px; margin-top:10px; }
+    .btn{
+      border:none; border-radius:10px; padding:10px 16px; cursor:pointer; font-weight:600;
+    }
+    .btn.primary{ background:var(--teal); color:#fff; }
+    .btn.primary:hover{ background:#065f54; }
+    .btn.ghost{ background:#eef7ee; color:#265f26; }
+
+    .result-card{
+      margin-top:16px; background:#f6fff6; border:1px solid #d5ecd5; border-radius:12px; padding:12px;
+    }
+    .result-card h4{ margin:8px 0 8px; color:#044f44; }
+    .result-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:12px; }
+    .pill{ background:#e8f6e8; border:1px solid #cfe6cf; border-radius:12px; padding:10px; text-align:center; }
+
+    .disclaimer{ font-size:.85rem; color:#526152; margin-top:8px; }
+
+
+    .form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media(max-width:700px){ .form-grid{ grid-template-columns:1fr; } }
+    .textarea{ min-height:120px; resize:vertical; }
+    .form-actions{ display:flex; gap:10px; align-items:center; margin-top:12px; }
+    .success-msg{ display:none; color:#0d6a31; font-weight:600; }
+    .error-msg{ display:none; color:#b00020; font-weight:600; }
+    /* Hide Google branding & labels */
+    .goog-logo-link,
+    .goog-te-gadget span,
+    .goog-te-banner-frame.skiptranslate { display:none !important; }
+    body { top:0 !important; }
+  </style>
+
+  <!-- jsPDF + html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <header>
+    <img src="baner.png" alt="Logo">
+    <h1>Green Harvest</h1>
+    <div class="menu-toggle" onclick="toggleMenu()">
+        <div></div><div></div><div></div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="news.html">Home</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Marquee section after header -->
+<marquee behavior="scroll" direction="left" style="color: rgb(255, 51, 0); font-weight: bold; font-size: 16px;">
+  🌿 Your ultimate Fertilizer Guide is here! Tips, types, and crop care secrets for thriving harvests. 🌱
+</marquee>
+
+
+  <!-- Google Translate centered below header -->
+  <section class="translate-section">
+    <div class="translate-wrap">
+      <span class="translate-title"></span>
+      <div id="google_translate_element"></div>
+    </div>
+  </section>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Fertilizer Guide</h2>
+      <p>Discover the best fertilizers for your crops and ensure healthy, sustainable yields.</p>
+    </div>
+  </section>
+
+
+  <!-- Fertilizer Cards -->
+  <section class="section">
+    <h2>Fertilizer Categories</h2>
+    <div class="search-bar"><input type="text" id="searchInput" onkeyup="searchFertilizers()" placeholder="Search fertilizer type..."></div>
+    <div class="grid">
+      <div class="card" data-type="nitrogen" onclick="expandCard(this)">
+        <img src="https://t3.ftcdn.net/jpg/09/68/07/70/240_F_968077068_C4Px28DKBCSqvnWfZjkbqgRxZzsALIj4.jpg" alt="Nitrogen">
+        <h3>Nitrogen (N) Fertilizers</h3>
+        <p>Boosts leaf growth. Common: Urea (46% N), Ammonium Nitrate.</p>
+      </div>
+      <div class="card" data-type="phosphorus" onclick="expandCard(this)">
+        <img src="https://storables.com/wp-content/uploads/2023/10/how-to-store-granular-fertilizer-1697291366.jpg" alt="Phosphorus">
+        <h3>Phosphorus (P) Fertilizers</h3>
+        <p>Strengthens roots. Common: DAP (18-46-0), SSP.</p>
+      </div>
+      <div class="card" data-type="potassium" onclick="expandCard(this)">
+        <img src="https://loyalfertilizer.com/wp-content/uploads/2024/06/potassium-fertilizer-3.png" alt="Potassium">
+        <h3>Potassium (K) Fertilizers</h3>
+        <p>Enhances fruit quality. Common: MOP (60% K₂O), SOP.</p>
+      </div>
+      <div class="card" data-type="organic" onclick="expandCard(this)">
+        <img src="https://i.ytimg.com/vi/lofNYAtHYu4/maxresdefault.jpg" alt="Organic">
+        <h3>Organic Fertilizers</h3>
+        <p>Eco-friendly. Examples: Compost, Manure, Vermicompost.</p>
+      </div>
+      <div class="card" data-type="urea" onclick="expandCard(this)">
+        <img src="https://cropaia.com/wp-content/uploads/Urea-fertilizer.jpg" alt="Urea">
+        <h3>Urea</h3>
+        <p>High nitrogen fertilizer. Boosts leafy growth in crops like wheat, rice, and maize.</p>
+      </div>
+      <div class="card" data-type="ssp" onclick="expandCard(this)">
+        <img src="https://5.imimg.com/data5/SELLER/Default/2023/9/343803328/ZL/RB/AI/163292555/single-super-phosphate-ssp-fertilizer-50kg-500x500.jpg" alt="SSP">
+        <h3>Single Super Phosphate (SSP)</h3>
+        <p>Source of phosphorus, sulfur, and calcium. Improves flowering and seed formation.</p>
+      </div>
+      <div class="card" data-type="dap" onclick="expandCard(this)">
+        <img src="https://kamkaco.com/wp-content/uploads/2023/07/81kn7-tHuKL._SL1500_.jpg" alt="DAP">
+        <h3>Di-Ammonium Phosphate (DAP)</h3>
+        <p>Rich in nitrogen & phosphorus. Promotes strong root development and early growth.</p>
+      </div>
+      <div class="card" data-type="micro" onclick="expandCard(this)">
+        <img src="https://t4.ftcdn.net/jpg/14/99/92/89/240_F_1499928969_xPSWsFAHmAtN62iAK5862840UIvLYXzx.jpg" alt="Micronutrients">
+        <h3>Micronutrients</h3>
+        <p>Essential small amounts. Includes Zinc, Iron, Boron, Mn.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Crop Recommendation -->
+  <section class="section">
+    <h2>Crop–Fertilizer Recommendation</h2>
+    <div style="text-align:center">
+      <select id="cropSelect" class="select" style="min-width:240px;">
+        <option value="">Select Crop</option>
+        <option value="wheat">Wheat</option>
+        <option value="rice">Rice</option>
+        <option value="tomato">Tomato</option>
+        <option value="maize">maize</option>
+        <option value="potato">potato</option>
+        <option value="onion">onion</option>
+        <option value="carrot">carrot</option>
+        <option value="cabbage">cabbage</option>
+        <option value="cotton">cotton</option>
+        <option value="sugarcane">sugarcane</option>
+        <option value="sunflower">sunflower</option>
+        <option value="mustard">mustard</option>
+        <option value="soybean">soybean</option>
+        <option value="peas">peas</option>
+        <option value="chickpea">chickpea</option>
+        <option value="brinjal">brinjal</option>
+        <option value="capsicum">capsicum</option>
+        <option value="okra">okra</option>
+        <option value="banana">banana</option>
+        <option value="mango">mango</option>
+        <option value="guava">guava</option>
+        <option value="papaya">papaya</option>
+        <option value="grapes">grapes</option>
+        <option value="apple">apple</option>
+        <option value="pomegranate">pomegranate</option>
+        <option value="pear">pear</option>
+        <option value="peach">peach</option>
+        <option value="plum">plum</option>
+        <option value="strawberry">strawberry</option>
+        <option value="watermelon">watermelon</option>
+        <option value="muskmelon">muskmelon</option>
+        <option value="cucumber">cucumber</option>
+        <option value="bottleGourd">bottleGourd</option>
+        <option value="bitterGourd">bitterGourd</option>
+        <option value="snakeGourd">snakeGourd</option>
+        <option value="ridgeGourd">ridgeGourd</option>
+        <option value="cauliflower">cauliflower</option>
+        <option value="broccoli">broccoli</option>
+        <option value="lettuce">lettuce</option>
+      </select>
+      <button class="btn primary" onclick="recommendFertilizer()">Get Recommendation</button>
+    </div>
+    <p id="recommendation" style="text-align:center; font-weight:600; color:#064f46; margin-top:10px;"></p>
+  </section>
+
+<!-- CALCULATOR Section (button that opens modal) -->
+  <section class="section" style="text-align:center">
+    <h2>Fertilizer Calculator</h2>
+    <button class="open-calc-btn" onclick="openCalc()">🧮 Open Calculator</button>
+    <p style="margin-top:8px;color:#4d664d;">Accurate nutrient-based calculation using Urea, DAP and MOP. Choose unit (acre/hectare) and soil fertility.</p>
+  </section>
+
+  <!-- Calculator Modal -->
+  <div class="modal" id="calcModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
+      <div class="modal-header">
+        <div class="modal-title" id="calcTitle">Fertilizer Calculator</div>
+        <button class="close-btn" onclick="closeCalc()" aria-label="Close calculator">✕</button>
+      </div>
+
+      <div class="modal-grid">
+        <div class="input-group">
+          <label for="calcCrop">Crop</label>
+          <select id="calcCrop" class="select">
+            <option value="">Select Crop</option>
+            <option value="wheat">Wheat</option>
+            <option value="rice">Rice</option>
+            <option value="tomato">Tomato</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="landArea">Land Area</label>
+          <input type="number" id="landArea" class="input" placeholder="Enter number (e.g., 2)">
+        </div>
+
+        <div class="input-group">
+          <label>Unit</label>
+          <div class="radio-row">
+            <label><input type="radio" name="unit" value="acre" checked> Acre</label>
+            <label><input type="radio" name="unit" value="hectare"> Hectare</label>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Soil Fertility</label>
+          <select id="soilLevel" class="select">
+            <option value="medium" selected>Medium (default)</option>
+            <option value="low">Low (increase 20%)</option>
+            <option value="high">High (reduce 20%)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="calc-actions">
+        <button class="btn primary" onclick="calculateFertilizer()">Calculate</button>
+        <button class="btn ghost" onclick="resetCalc()">Reset</button>
+      </div>
+
+      <div id="calcResult" class="result-card" style="display:none;">
+        <h4>Recommended Nutrients (total):</h4>
+        <div class="result-grid" id="nutrientGrid"></div>
+
+        <h4 style="margin-top:10px;">Fertilizer Quantities:</h4>
+        <div class="result-grid" id="fertGrid"></div>
+
+        <div class="disclaimer">Note: Recommendations are general. Adjust based on local soil test & agronomist advice. DAP N contribution is credited before Urea is calculated.</div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Downloadable/Printable Section -->
+  <div id="print-section">
+    <!-- Comparison Table -->
+    <section class="section">
+      <h2>Fertilizer Comparison Table</h2>
+      <table>
+        <tr><th>Type</th><th>Key Benefit</th><th>Examples</th><th>Best For</th></tr>
+        <tr><td>Nitrogen</td><td>Leaf growth</td><td>Urea</td><td>Wheat, Rice</td></tr>
+        <tr><td>Phosphorus</td><td>Root strength</td><td>DAP</td><td>Legumes, Fruit trees</td></tr>
+        <tr><td>Potassium</td><td>Fruit quality</td><td>MOP</td><td>Vegetables, Fruits</td></tr>
+        <tr><td>Organic</td><td>Soil health</td><td>Compost</td><td>All crops</td></tr>
+        <tr><td>Micronutrients</td><td>Fix deficiencies</td><td>Zinc, Iron</td><td>Special cases</td></tr>
+      </table>
+    </section>
+
+    <!-- Usage Tips -->
+    <section class="section">
+      <h2>Fertilizer Usage Tips</h2>
+      <div class="tips">
+        <h3>Step-by-Step Guide</h3>
+        <div class="step"><b>Step 1:</b> Test your soil before applying fertilizers to know the nutrient requirements.</div>
+        <div class="step"><b>Step 2:</b> Apply <b>Nitrogen fertilizers</b> during active growth stages (avoid overuse to prevent leaf burn).</div>
+        <div class="step"><b>Step 3:</b> Use <b>Phosphorus fertilizers</b> at planting or early root development for strong establishment.</div>
+        <div class="step"><b>Step 4:</b> Apply <b>Potassium fertilizers</b> before flowering/fruiting to enhance yield and quality.</div>
+        <div class="step"><b>Step 5:</b> Mix <b>Organic fertilizers</b> (compost/manure) into soil to improve fertility & water retention.</div>
+        <div class="step"><b>Step 6:</b> Spray <b>Micronutrients</b> (zinc, boron, iron) if visible deficiencies appear in leaves/flowers.</div>
+        <div class="step"><b>Step 7:</b> Always follow recommended dosages and water the crops after fertilizer application.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Actions -->
+  <div class="download-section">
+    <button class="download-btn" onclick="downloadPDF()">📥 Download Guide as PDF</button>
+  </div>
+
+
+  
+
+ 
+
+  <footer><p>&copy; 2025 Green Harvest. All rights reserved.</p></footer>
+
+  <!-- ====== SCRIPTS ====== -->
+  <script>
+    function toggleMenu(){ document.querySelector('nav ul').classList.toggle('show'); }
+
+    function searchFertilizers(){
+      let input = document.getElementById("searchInput").value.toLowerCase();
+      let cards = document.getElementsByClassName("card");
+      for(let i=0;i<cards.length;i++){
+        let title = cards[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+        cards[i].style.display = title.includes(input) ? "" : "none";
+      }
+    }
+    function filterFertilizers(type){
+      document.querySelectorAll(".card").forEach(c=>{
+        c.style.display = (type==="all" || c.dataset.type===type) ? "block" : "none";
+      });
+    }
+    function expandCard(el){ el.classList.toggle("active"); }
+
+    async function downloadPDF(){
+      const { jsPDF } = window.jspdf;
+      const element = document.getElementById("print-section");
+      const canvas = await html2canvas(element, {scale:2});
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p","mm","a4");
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData,"PNG",0,0,pdfWidth,pdfHeight);
+      pdf.save("Fertilizer_Guide.pdf");
+    }
+
+    function recommendFertilizer() {
+    const crop = document.getElementById("cropSelect").value;
+    const rec = document.getElementById("recommendation");
+
+    const recommendations = {
+        wheat: "Recommended: Urea (N) split doses + DAP at sowing; consider MOP if soil K is low.",
+        rice: "Recommended: Urea in 3 splits (basal, tillering, panicle) + DAP basal; add MOP if K is low.",
+        tomato: "Recommended: Basal DAP + regular N and K (Urea + MOP); add micronutrients as needed.",
+        maize: "Recommended: Apply DAP at sowing + split N (Urea) at 3-4 leaf stage and pre-tasseling.",
+        potato: "Recommended: Basal application of FYM + NPK (DAP + MOP); side dress with Urea as needed.",
+        onion: "Recommended: Basal DAP + split Urea applications; consider zinc and sulfur if deficient.",
+        carrot: "Recommended: Organic compost + NPK balanced fertilizer; avoid excess N to prevent leafiness.",
+        cabbage: "Recommended: DAP at transplanting + split Urea; MOP as per soil K level.",
+        cotton: "Recommended: Basal DAP + NPK fertilizers; top dress Urea at squaring and flowering stages.",
+        sugarcane: "Recommended: Basal NPK + split N applications during growth; MOP if soil K is low.",
+        sunflower: "Recommended: DAP at sowing + Urea split at vegetative stage; MOP as required.",
+        mustard: "Recommended: DAP at sowing + Urea split at vegetative growth; micronutrients like boron can help.",
+        soybean: "Recommended: Basal P and K fertilizers + NPK balanced feed; inoculate with Rhizobium for N fixation.",
+        peas: "Recommended: Basal DAP + minimal N; K and micronutrients as needed.",
+        chickpea: "Recommended: Basal P (DAP) + balanced N; MOP if soil K is low; zinc can improve yield.",
+        brinjal: "Recommended: Basal DAP + split N (Urea); K (MOP) as per soil test; micronutrients optional.",
+        capsicum: "Recommended: DAP at planting + split Urea + K (MOP); apply micronutrients like Mg and Zn if required.",
+        okra: "Recommended: DAP at sowing + split N and K; FYM or compost improves yield.",
+        banana: "Recommended: Basal NPK + split N (Urea) and K (MOP); micronutrients like Mg and Zn can be applied.",
+        mango: "Recommended: Organic manure + NPK fertilizers during growth; micronutrients like Zn, B can help flowering.",
+        guava: "Recommended: FYM + NPK fertilizers; Zn and B recommended during flowering.",
+        papaya: "Recommended: Basal NPK + Urea split doses; add Mg and Zn if deficient.",
+        grapes: "Recommended: Compost + NPK fertilizers; micronutrients like B and Zn improve yield.",
+        apple: "Recommended: Organic manure + NPK; apply Zn, B, and Mg based on soil test.",
+        pomegranate: "Recommended: Basal NPK + split Urea; add micronutrients like Zn and B for flowering.",
+        pear: "Recommended: Organic manure + NPK; Zn and Mg can improve fruit quality.",
+        peach: "Recommended: Basal NPK + Urea split; Zn and B applied as foliar spray.",
+        plum: "Recommended: Organic manure + NPK; micronutrients Zn, B, and Mg improve growth.",
+        strawberry: "Recommended: Compost + NPK; regular micronutrients like Fe, Zn, and B.",
+        watermelon: "Recommended: Basal NPK + split N; MOP if K is low; micronutrients optional.",
+        muskmelon: "Recommended: Basal NPK + Urea split; add micronutrients like Mg and Zn.",
+        cucumber: "Recommended: Basal NPK + split N; micronutrients like Zn and B applied as needed.",
+        bottleGourd: "Recommended: Basal NPK + Urea; micronutrients Mg and Zn can improve yield.",
+        bitterGourd: "Recommended: DAP at planting + split Urea; K (MOP) and micronutrients optional.",
+        snakeGourd: "Recommended: Basal NPK + split Urea; micronutrients like Zn and B can be applied.",
+        ridgeGourd: "Recommended: Basal DAP + split Urea; K (MOP) and micronutrients as needed.",
+        cauliflower: "Recommended: DAP at transplanting + split Urea; MOP as per soil K level.",
+        broccoli: "Recommended: Basal DAP + split Urea; micronutrients like Zn, B can help growth.",
+        lettuce: "Recommended: Compost + balanced NPK; avoid excess N to prevent leafiness."
+    };
+
+    rec.innerHTML = recommendations[crop] || "Please select a crop.";
+}
+
+
+    
+    const cropRates = {
+      wheat:  { N:120, P2O5:60,  K2O:40  },
+      rice:   { N:100, P2O5:50,  K2O:50  },
+      tomato: { N:100, P2O5:50,  K2O:100 }
+    };
+    const fertAnalysis = {
+      UREA_N: 0.46,      // 46% N
+      DAP_N: 0.18,       // 18% N
+      DAP_P2O5: 0.46,    // 46% P2O5
+      MOP_K2O: 0.60      // 60% K2O
+    };
+
+    function openCalc(){ document.getElementById('calcModal').classList.add('show'); }
+    function closeCalc(){ document.getElementById('calcModal').classList.remove('show'); }
+    function resetCalc(){
+      document.getElementById('calcCrop').value = "";
+      document.getElementById('landArea').value = "";
+      document.getElementsByName('unit')[0].checked = true; // acre
+      document.getElementById('soilLevel').value = "medium";
+      document.getElementById('calcResult').style.display = "none";
+      document.getElementById('nutrientGrid').innerHTML = "";
+      document.getElementById('fertGrid').innerHTML = "";
+    }
+
+    function calculateFertilizer(){
+      const crop = document.getElementById("calcCrop").value;
+      const area = parseFloat(document.getElementById("landArea").value);
+      const unit = document.querySelector('input[name="unit"]:checked').value;
+      const soil = document.getElementById("soilLevel").value;
+
+      const resultBox = document.getElementById("calcResult");
+      const nutrientGrid = document.getElementById("nutrientGrid");
+      const fertGrid = document.getElementById("fertGrid");
+
+      if(!crop){ alert("Please select a crop."); return; }
+      if(!(area>0)){ alert("Enter a valid land area."); return; }
+
+      // Base per hectare
+      let base = {...cropRates[crop]}; // kg/ha
+      // Soil factor
+      const factor = soil==="low" ? 1.2 : soil==="high" ? 0.8 : 1.0;
+      base.N *= factor; base.P2O5 *= factor; base.K2O *= factor;
+
+      // Convert area to hectares
+      const areaHa = unit==="acre" ? (area / 2.471) : area;
+
+      // Total nutrient requirement (kg)
+      const needN = base.N * areaHa;
+      const needP = base.P2O5 * areaHa;
+      const needK = base.K2O * areaHa;
+
+      // Fertilizer plan: DAP for P first
+      const dapKg = needP / fertAnalysis.DAP_P2O5;     // kg DAP to meet P
+      const nFromDAP = dapKg * fertAnalysis.DAP_N;     // N supplied by DAP
+      const nRemaining = Math.max(needN - nFromDAP, 0);
+      const ureaKg = nRemaining / fertAnalysis.UREA_N; // kg Urea for remaining N
+      const mopKg  = needK / fertAnalysis.MOP_K2O;     // kg MOP for K
+
+      // Round to 0.1 kg
+      function r(x){ return Math.round(x*10)/10; }
+
+      nutrientGrid.innerHTML = `
+        <div class="pill"><b>N (kg):</b><br>${r(needN)}</div>
+        <div class="pill"><b>P₂O₅ (kg):</b><br>${r(needP)}</div>
+        <div class="pill"><b>K₂O (kg):</b><br>${r(needK)}</div>
+      `;
+      fertGrid.innerHTML = `
+        <div class="pill"><b>DAP (kg):</b><br>${r(dapKg)}</div>
+        <div class="pill"><b>Urea (kg):</b><br>${r(ureaKg)}</div>
+        <div class="pill"><b>MOP (kg):</b><br>${r(mopKg)}</div>
+      `;
+
+      resultBox.style.display = "block";
+    }
+
+    
+  </script>
+
+  <!-- Google Translate: keep at end so it's initialized after element exists -->
+  <script>
+    function googleTranslateElementInit(){
+      new google.translate.TranslateElement(
+        {pageLanguage:'en', includedLanguages:'hi,kn,ml,ta,te,bn,gu,mr,pa,or,as,ur,sd,ks,ne'},
+        'google_translate_element'
+      );
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
