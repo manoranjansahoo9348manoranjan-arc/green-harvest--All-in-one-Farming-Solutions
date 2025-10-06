@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Green Harvest Categories</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <!-- Swiper CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            includedLanguages:
+              "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          },
+          "google_translate_element"
+        );
+      }
+      function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    </script>
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+
+    <!-- Styling -->
+    <style>
+      .hover-zoom {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-radius: 0.5rem;
+      }
+
+      .hover-zoom:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .swiper-slide img {
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .swiper-slide:hover img {
+        transform: scale(1.05);
+      }
+
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+        background: linear-gradient(to bottom right, #e6f9e6, #f0fff0);
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      .sidebar {
+        transition: transform 0.3s ease-in-out;
+      }
+      .sidebar-hidden {
+        transform: translateX(-100%);
+      }
+      .sidebar-overlay {
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .hidden {
+        display: none !important;
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+      #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background-color: #228B22;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 12px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #backToTop:hover {
+      background-color: #2ecc71;
+      transform: scale(1.1);
+    }
+    /* darkmode */
+    .dark-mode {
+  background: #222 !important;
+  color: #eee;
+}
+
+.dark-mode .frame {
+  background-color: #333;
+}
+
+.dark-mode input,
+.dark-mode .login-btn {
+  background-color: #555;
+  color: white;
+}
+
+  </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Sidebar Menu -->
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 sidebar sidebar-hidden">
+      <div class="flex justify-between items-center p-4 border-b">
+        <span class="font-bold text-lg text-green-600">Green Harvest</span>
+        <button onclick="toggleSidebar()" class="text-gray-500 text-xl">&times;</button>
+      </div>
+      <nav class="p-4 space-y-4">
+        <a href="service.html" class="block text-gray-700 hover:text-green-600">Home</a>
+        <a href="news.html" class="block text-gray-700 hover:text-green-600">information</a>
+        <a href="OrganicFarming.html" class="block text-gray-700 hover:text-green-600">Organic Farming</a>
+        <a href="cart.html" class="block text-gray-700 hover:text-green-600">Cart</a>
+        <a href="orders.html" class="block text-gray-700 hover:text-green-600">Your order</a>
+        <a href="mybooking.html" class="block text-gray-700 hover:text-green-600">your rent mechine</a>
+        <a href="my-loans.html" class="block text-gray-700 hover:text-green-600">your loan</a>
+        <a href="wishlist.html" class="block text-gray-700 hover:text-green-600">your Wishlist❤️</a>
+        <a href="chatbot.html" class="block text-gray-700 hover:text-green-600">Ai chatbot</a>
+        <a href="youtubepage.html" class="block text-gray-700 hover:text-green-600">Video suggestion</a>
+        <a href="aboutus.html" class="block text-gray-700 hover:text-green-600">About</a>
+        <a href="contactus.html" class="block text-gray-700 hover:text-green-600">Contact</a>
+
+        <!-- darkmode -->
+        <button onclick="toggleTheme()" style="position: absolute; top: 10px; right: 10px;">🌓</button>
+        <script>function toggleTheme() {document.body.classList.toggle("dark-mode");}</script>
+          
+      
+ <!-- Dropdown Trigger -->
+<div class="relative inline-block">
+  <button onclick="toggleDropdown()" class="text-green-700 font-semibold px-3 py-1 text-sm">
+    listen summary ▼
+  </button>
+
+  <!-- Dropdown Content -->
+  <div id="dropdownContent" class="hidden bg-green-100 border border-green-300 mt-1 w-56 shadow-md z-10 p-3 rounded-md space-y-2 max-h-64 overflow-y-auto overflow-y-auto scroll-smooth">
+
+    <!-- Hindi -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnHindi" onclick="toggleAudio('hindi')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (हिंदी)</span>
+    </div>
+    <audio id="greenHarvestHindi" src="hindi voice.m4a" preload="auto"></audio>
+
+    <!-- Odia -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnOdia" onclick="toggleAudio('odia')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (ଓଡ଼ିଆ)</span>
+    </div>
+    <audio id="greenHarvestOdia" src="odia voice.m4a" preload="auto"></audio>
+
+    <!-- Assamese -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnAssamese" onclick="toggleAudio('assamese')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (অসমীয়া)</span>
+    </div>
+    <audio id="greenHarvestAssamese" src="asameas voice .m4a" preload="auto"></audio>
+
+    <!-- Bengali -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnBengali" onclick="toggleAudio('bengali')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (বাংলা)</span>
+    </div>
+    <audio id="greenHarvestBengali" src="Bangla.m4a" preload="auto"></audio>
+
+    <!-- Gujarati -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnGujarati" onclick="toggleAudio('gujarati')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (ગુજરાતી)</span>
+    </div>
+    <audio id="greenHarvestGujarati" src="gujrati voice.m4a" preload="auto"></audio>
+
+    <!-- Kannada -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnKannada" onclick="toggleAudio('kannada')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (ಕನ್ನಡ)</span>
+    </div>
+    <audio id="greenHarvestKannada" src="kannada voice.m4a" preload="auto"></audio>
+
+    <!-- Malayalam -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnMalayalam" onclick="toggleAudio('malayalam')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (മലയാളം)</span>
+    </div>
+    <audio id="greenHarvestMalayalam" src="malayalam voice.mp3" preload="auto"></audio>
+
+    <!-- Marathi -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnMarathi" onclick="toggleAudio('marathi')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (मराठी)</span>
+    </div>
+    <audio id="greenHarvestMarathi" src="marathi voice.mp3" preload="auto"></audio>
+
+    <!-- Nepali -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnNepali" onclick="toggleAudio('nepali')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (नेपाली)</span>
+    </div>
+    <audio id="greenHarvestNepali" src="nepali voice.mp3" preload="auto"></audio>
+
+    <!-- Punjabi -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnPunjabi" onclick="toggleAudio('punjabi')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (ਪੰਜਾਬੀ)</span>
+    </div>
+    <audio id="greenHarvestPunjabi" src="punjabi voice.mp3" preload="auto"></audio>
+
+    <!-- Sinhala -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnSinhala" onclick="toggleAudio('sinhala')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (සිංහල)</span>
+    </div>
+    <audio id="greenHarvestSinhala" src="sinhala voice.mp3" preload="auto"></audio>
+
+    <!-- Tamil -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnTamil" onclick="toggleAudio('tamil')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (தமிழ்)</span>
+    </div>
+    <audio id="greenHarvestTamil" src="tamil voice.mp3" preload="auto"></audio>
+
+    <!-- Telugu -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnTelugu" onclick="toggleAudio('telugu')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (తెలుగు)</span>
+    </div>
+    <audio id="greenHarvestTelugu" src="telgu voice.mp3" preload="auto"></audio>
+    
+    <!-- Urdu -->
+    <div class="flex items-center space-x-2">
+      <button id="audioToggleBtnUrdu" onclick="toggleAudio('urdu')" class="text-lg hover:scale-125 hover:text-green-600 transition-transform">🔊</button>
+      <span class="text-xs text-gray-800 hover:text-green-600">Play in (اردو)</span>
+    </div>
+    <audio id="greenHarvestUrdu" src="urdu.mp3" preload="auto"></audio>
+  </div>
+</div>
+
+<!-- Script -->
+<script>
+  const languageList = [
+    'hindi', 'odia', 'assamese', 'bengali', 'gujarati', 'kannada', 'malayalam',
+    'marathi', 'nepali', 'punjabi', 'sinhala', 'tamil', 'telugu', 'urdu'
+  ];
+
+  const audios = {};
+  const buttons = {};
+
+  languageList.forEach(lang => {
+    audios[lang] = document.getElementById(`greenHarvest${capitalize(lang)}`);
+    buttons[lang] = document.getElementById(`audioToggleBtn${capitalize(lang)}`);
+  });
+
+  function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  function toggleDropdown() {
+    document.getElementById('dropdownContent').classList.toggle('hidden');
+  }
+
+  function toggleAudio(language) {
+    const audio = audios[language];
+    const btn = buttons[language];
+
+    if (audio.paused) {
+      languageList.forEach(lang => {
+        if (lang !== language) {
+          audios[lang].pause();
+          buttons[lang].textContent = '🔊';
+        }
+      });
+      audio.play();
+      btn.textContent = '⏸';
+    } else {
+      audio.pause();
+      btn.textContent = '🔊';
+    }
+  }
+
+  languageList.forEach(lang => {
+    audios[lang].addEventListener('ended', () => {
+      buttons[lang].textContent = '🔊';
+    });
+  });
+</script>
+
+
+    </nav>
+    </div>
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 z-40 sidebar-overlay hidden"></div>
+
+    <!-- Header -->
+    <header class="flex items-center justify-between p-4 shadow-md">
+      <div class="flex items-center">
+        <button onclick="toggleSidebar()" class="text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+        <img src="logo33.png" alt="Green Harvest Logo" class="h-16 ml-4" />
+      </div><h1><marquee>🌾Welcome to Green Harvest🌱</marquee></h1>
+      
+      
+
+      
+
+      <div class="flex items-center space-x-4">
+        
+        <a href="/dashboard.html" class="text-green-700 font-semibold hover:underline">Home</a>
+        <div id="google_translate_element"></div>
+        <a href="/cart.html" class="text-2xl text-gray-700 hover:text-green-600">
+          <i class="fas fa-shopping-cart"></i>
+        </a>
+      </div>
+      
+    </header>
+
+ <!-- Search Bar -->
+    <div class="p-4">
+      <div class="relative">
+        <input
+        type="text"
+        id="categorySearch"
+        placeholder="Search..."
+        class="w-full border border-gray-300 rounded-md p-2"
+        />
+      
+        <button
+          class="absolute top-1/2 right-3 transform -translate-y-1/2 text-orange-500"
+        >
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+
+<!-- Carousel -->
+<div class="px-4 mb-6">
+    <div class="swiper mySwiper rounded-lg overflow-hidden relative">
+      <div class="swiper-wrapper">
+        <!-- Slide 1 -->
+        <div class="swiper-slide relative searchable" data-search="Modern Farming">
+          <img src="https://imgscf.slidemembers.com/docs/1/1/872/smart_farming_guide_business_powerpoint_templates_871273.jpg" class="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-contain" alt="Slide 1" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white">
+            <h3 class="text-xl font-bold">Modern Farming</h3>
+            <a href="what is iot in agriculture.html" class="mt-2 px-4 py-2 bg-green-500 rounded hover:bg-green-600">Explore</a>
+          </div>
+        </div>
+  
+        <!-- Slide 2 -->
+        <div class="swiper-slide relative searchable" data-search="Sustainable Agriculture">
+          <img src="sustainable.png" class="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-contain" alt="Slide 2" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white">
+            <h3 class="text-xl font-bold">Sustainable Agriculture</h3>
+            <a href="Sustainable Farming.html" class="mt-2 px-4 py-2 bg-green-500 rounded hover:bg-green-600">Learn More</a>
+          </div>
+        </div>
+  
+        <!-- Slide 3 -->
+        <div class="swiper-slide relative searchable" data-search="Crop Protection">
+          <img src="https://media.geeksforgeeks.org/wp-content/uploads/20240229093746/Crop-Protection.webp" class="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-contain" alt="Slide 3" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white">
+            <h3 class="text-xl font-bold">Crop Protection</h3>
+            <a href="pesticides.html" class="mt-2 px-4 py-2 bg-green-500 rounded hover:bg-green-600">View Products</a>
+            
+          </div>
+        </div>
+  
+        <!-- Slide 4 -->
+        <div class="swiper-slide relative searchable" data-search="Organic Solutions">
+          <img src="organic solution.png" class="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-contain" alt="Slide 4" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white">
+            <h3 class="text-xl font-bold">Organic Solutions</h3>
+            <a href="OrganicFarming.html" class="mt-2 px-4 py-2 bg-green-500 rounded hover:bg-green-600">Discover</a>
+          </div>
+        </div>
+  
+        <!-- Slide 5 -->
+        <div class="swiper-slide relative searchable" data-search="Smart Irrigation">
+          <img src="https://businessner.com/wp-content/uploads/2023/11/agricultural-field-showcasing-advanced-irrigation-technology.jpg" class="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-contain" alt="Slide 5" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white">
+            <h3 class="text-xl font-bold">Smart Irrigation</h3>
+            <a href="https://www.youtube.com/watch?v=-Z9OayYItXU" class="mt-2 px-4 py-2 bg-green-500 rounded hover:bg-green-600">learn more</a>
+          </div>
+        </div>
+  
+        <!-- Slide 6 -->
+        <div class="swiper-slide relative searchable" data-search="Best Fertilizers">
+          <img src="best fertilizer.png" class="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-contain" alt="Slide 6" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white">
+            <h3 class="text-xl font-bold">Best Fertilizers</h3>
+            <a href="Fertilizers.html" class="mt-2 px-4 py-2 bg-green-500 rounded hover:bg-green-600">Shop Now</a>
+          </div>
+        </div>
+        <div class="swiper-slide relative searchable" data-search="Rent in Machinery">
+          <img src="https://www.rishabhsoft.com/wp-content/uploads/2022/04/RSPL-Std-Case-Farming-Equipment-Hiring-Platform-Development-.jpg" class="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-contain" alt="Rent in Machinery" />
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white">
+            <h3 class="text-xl font-bold">Rent in Machinery</h3>
+            <a href="rental machine.html" class="mt-2 px-4 py-2 bg-green-500 rounded hover:bg-green-600">Explore</a>
+          </div>
+        </div>
+
+      </div>
+  
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Navigation buttons -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+  
+
+    <!-- Swiper Initialization -->
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    </script>
+    
+<!-- Categories -->
+<div class="p-4">
+  <h2 class="text-center text-2xl font-semibold mb-4">Categories</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div class="text-center searchable" data-search="Pesticides & Insecticides">
+      <a href="pesticides.html">
+        <img src="https://storage.googleapis.com/a1aa/image/GpZDbXJrqLNP3X4VhVud_yWfKZotAffbrDui7PFXDDM.jpg" alt="Pesticides" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Pesticides </p>
+    </div>
+
+    <div class="text-center searchable" data-search="Growth Promoters">
+      <a href="Growth promotor.html">
+        <img src="https://storage.googleapis.com/a1aa/image/U2h3NAe_q9FSFK-3RXIoos7Z4AnZRt_vJPz4TSCF9N0.jpg" alt="Growth Promoters" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Growth Promoters</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Rent in Machinery">
+  <a href="rental machine.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/4515/4515352.png" 
+         alt="Rent in Machinery" 
+         class="mx-auto mb-2 hover-zoom" 
+         width="110" 
+         height="110" />
+  </a>
+  <p>Rent in Machinery</p>
+</div>
+
+
+    <div class="text-center searchable" data-search="Fertilizers">
+      <a href="fertilizers.html">
+        <img src="https://4rplus.org/wp-content/uploads/source.png" alt="Fertilizers" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Fertilizers </p>
+    </div>
+
+    <div class="text-center searchable" data-search="Vegetable Seeds">
+      <a href="vegetableseed.html">
+        <img src="https://storage.googleapis.com/a1aa/image/T1T5WFUi2xBUVGMydBRQckUWP0svtRtKk514jSgxngc.jpg" alt="Vegetable Seeds" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Vegetable Seeds</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Farm Machinery">
+      <a href="farm machinary.html">
+        <img src="https://storage.googleapis.com/a1aa/image/Ib-pPkxwWCrst_ooIkmzDlup5j9FncLSkl6dHtu_wb0.jpg" alt="Farm Machinery" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Farm Machinery</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Nutrients">
+      <a href="newtrients.html">
+        <img src="https://storage.googleapis.com/a1aa/image/sZXeHS5ijg7NvoVovHeN5b7_wcezQcKt1t1iFvFrXi8.jpg" alt="Nutrients" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Nutrients</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Flower Seeds">
+      <a href="Flowerseed.html">
+        <img src="https://storage.googleapis.com/a1aa/image/Yxd8uw0O6CSkDNj1KXqXcZ-6Bj41_M2gjI5eMRgV0OE.jpg" alt="Flower Seeds" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Flower Seeds</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Greenhouse & Polyhouse">
+      <a href="Greenhouse.html">
+        <img src="https://media.istockphoto.com/vectors/isometric-greenhouse-illustration-vector-id1201251451?k=20&m=1201251451&s=612x612&w=0&h=j1yjAlcdhhyDK-BtS5wUeetpQjvDCtbmzNkEgcE_aU0=" alt="Greenhouse" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Greenhouse & Polyhouse</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Organic Farming">
+      <a href="OrganicFarming.html">
+        <img src="https://storage.googleapis.com/a1aa/image/956C2aNrDWJpP3ESx51iEytIMx1tnXNV3izMcsAM8bY.jpg" alt="Organic Farming" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Organic Farming</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Fruit Seeds">
+      <a href="fruitseed.html">
+        <img src="https://down-ph.img.susercontent.com/file/e7a783cdc711fd90bf08faf796f4a065" alt="Fruit Seeds" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Fruit Seeds</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Agricultural Tools">
+      <a href="Agricultural Tools.html">
+        <img src="https://img.freepik.com/premium-vector/farm-tools-gardening-equipment-vector_8071-30505.jpg?w=2000" alt="Agricultural Tools" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Agricultural Tools</p>
+    </div>
+
+    <div class="text-center searchable" data-search="Irrigation & Water">
+      <a href="Irrigation Water.html">
+        <img src="https://static.vecteezy.com/system/resources/previews/040/294/759/original/irrigation-logo-design-icon-symbol-vector.jpg" alt="Irrigation" class="mx-auto mb-2 hover-zoom" width="110" height="110" />
+      </a>
+      <p>Irrigation & Water</p>
+    </div>
+  </div>
+</div>
+
+<!-- Brands Section -->
+<div class="p-4 mt-8">
+  <h2 class="text-center text-2xl font-semibold mb-4">Brands</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center justify-center">
+
+    <div class="text-center searchable" data-search="Bayer">
+      <a href="bayer.html" class="block">
+        <img src="https://www.bayer.com/sites/default/files/styles/1_91_1_aspect_ratio/public/2023-08/bayer-cross-01.jpg?h=6ab03119&itok=_mXULQgP" alt="Bayer" class="mx-auto h-16 object-contain hover-zoom" />
+        <p class="mt-2 text-sm">Bayer</p>
+      </a>
+    </div>
+
+    <div class="text-center searchable" data-search="Syngenta">
+      <a href="syngenta.html" class="block">
+        <img src="https://1000logos.net/wp-content/uploads/2020/08/Syngenta-Logo-640x400.png" alt="Syngenta" class="mx-auto h-16 object-contain hover-zoom" />
+        <p class="mt-2 text-sm">Syngenta</p>
+      </a>
+    </div>
+
+    <div class="text-center searchable" data-search="Monsanto">
+      <a href="monsanto.html" class="block">
+        <img src="https://tse1.mm.bing.net/th/id/OIP.aoIM3X-ilVPCetcPCkM04wAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Monsanto" class="mx-auto h-16 object-contain hover-zoom" />
+        <p class="mt-2 text-sm">Monsanto</p>
+      </a>
+    </div>
+
+    <div class="text-center searchable" data-search="UPL">
+      <a href="UPL.html" class="block">
+        <img src="https://www.underconsideration.com/brandnew/archives/upl_openag_logo_before_after.jpg" alt="UPL" class="mx-auto h-16 object-contain hover-zoom" />
+        <p class="mt-2 text-sm">UPL</p>
+      </a>
+    </div>
+
+    <div class="text-center searchable" data-search="Coromandel">
+      <a href="Coromandel.html" class="block">
+        <img src="https://whatthelogo.com/storage/logos/coromandel-123888.png" alt="Coromandel" class="mx-auto h-16 object-contain hover-zoom" />
+        <p class="mt-2 text-sm">Coromandel</p>
+      </a>
+    </div>
+
+    <div class="text-center searchable" data-search="PI Industries">
+      <a href="PI Industries.html" class="block">
+        <img src="https://logowik.com/content/uploads/images/pi-industries5248.jpg" alt="PI Industries" class="mx-auto h-16 object-contain hover-zoom" />
+        <p class="mt-2 text-sm">PI Industries</p>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Top Selling Products -->
+<main class="p-6 mt-10">
+  <h2 class="text-2xl font-semibold text-center text-black-800 mb-6">Top Selling Products</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+    <!-- Product 1 -->
+    <div class="border rounded-lg shadow-md transition transform hover:scale-105 hover:shadow-xl hover:bg-green-50 p-4 text-center searchable" data-search="Organic Fertilizer">
+      <img src="https://kj1bcdn.b-cdn.net/media/81755/panchagavya.jpeg" alt="Organic Fertilizer" class="h-40 mx-auto object-contain mb-4 rounded-md">
+      <h3 class="font-semibold text-lg mb-2">Organic Fertilizer</h3>
+      <p class="text-gray-600 text-sm mb-1">Organic Fertilizer 1lt</p>
+      <p class="text-sm text-gray-500 italic mb-1">Brand: Organic India</p>
+      <p class="text-green-600 font-bold mb-2">₹180</p>
+      <label class="block text-sm mb-1">Qty (max 20)</label>
+      <input type="number" min="1" max="20" value="1" class="border rounded w-16 text-center mb-2">
+      <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add to cart</button>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="border rounded-lg shadow-md transition transform hover:scale-105 hover:shadow-xl hover:bg-green-50 p-4 text-center searchable" data-search="Drip Irrigation Kit">
+      <img src="https://m.media-amazon.com/images/I/81oeG1Zo-aL.jpg" alt="Drip Irrigation Kit" class="h-40 mx-auto object-contain mb-4 rounded-md">
+      <h3 class="font-semibold text-lg mb-2">Drip Irrigation Kit</h3>
+      <p class="text-gray-600 text-sm mb-1">20 Plants Drip Set with Accessories</p>
+      <p class="text-sm text-gray-500 italic mb-1">Brand:Netafim</p>
+      <p class="text-green-600 font-bold mb-2">₹950</p>
+      <label class="block text-sm mb-1">Qty (max 20)</label>
+      <input type="number" min="1" max="20" value="1" class="border rounded w-16 text-center mb-2">
+      <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add to cart</button>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="border rounded-lg shadow-md transition transform hover:scale-105 hover:shadow-xl hover:bg-green-50 p-4 text-center searchable" data-search="Cucumber – Himangi F1">
+      <img src="https://www.seedlelo.com/image/cache/catalog/IMG20200219172828-500x445.jpg" alt="Cucumber – Himangi F1" class="h-40 mx-auto object-contain mb-4 rounded-md">
+      <h3 class="font-semibold text-lg mb-2">Cucumber – Himangi F1</h3>
+      <p class="text-gray-600 text-sm mb-1">F1 hybrid slicing cucumber - 50g</p>
+      <p class="text-sm text-gray-500 italic mb-1">Brand: Seminis</p>
+      <p class="text-green-600 font-bold mb-2">₹150</p>
+      <label class="block text-sm mb-1">Qty (max 20)</label>
+      <input type="number" min="1" max="20" value="1" class="border rounded w-16 text-center mb-2">
+      <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add to cart</button>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="border rounded-lg shadow-md transition transform hover:scale-105 hover:shadow-xl hover:bg-green-50 p-4 text-center searchable" data-search="Mango Harvester">
+      <img src="https://2.imimg.com/data2/SU/DY/MY-1708531/mango-harvester-1000x1000.jpg" alt="Mango Harvester" class="h-40 mx-auto object-contain mb-4 rounded-md">
+      <h3 class="font-semibold text-lg mb-2">Mango Harvester</h3>
+      <p class="text-gray-600 text-sm mb-1">Manual Earth Auger - 4 inch</p>
+      <p class="text-sm text-gray-500 italic mb-1">Brand: Dharitri</p>
+      <p class="text-green-600 font-bold mb-2">₹290</p>
+      <label class="block text-sm mb-1">Qty (max 20)</label>
+      <input type="number" min="1" max="20" value="1" class="border rounded w-16 text-center mb-2">
+      <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add to cart</button>
+    </div>
+
+  </div>
+  
+</main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <customer review> -->
+<div class="p-6 mt-10 bg-gray-100 rounded-lg">
+  <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">What Our Customers Say</h2>
+
+  <div class="flex space-x-4 overflow-x-auto scrollbar-hide">
+    
+    <!-- Review 1 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow flex-shrink-0">
+      <p class="text-sm text-gray-600 italic">"The best organic products I've used so far! Great delivery too."</p>
+      <div class="text-yellow-500 mt-2">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+      </div>
+      <p class="text-sm mt-2 text-green-700 font-bold">— Ramesh Kumar</p>
+    </div>
+
+    <!-- Review 2 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow flex-shrink-0">
+      <p class="text-sm text-gray-600 italic">"Affordable and high-quality seeds. My harvest has never looked better."</p>
+      <div class="text-yellow-500 mt-2">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+      </div>
+      <p class="text-sm mt-2 text-green-700 font-bold">— Priya Mehta</p>
+    </div>
+
+    <!-- Review 3 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow flex-shrink-0">
+      <p class="text-sm text-gray-600 italic">"Loved the smart irrigation solutions. Super easy to install!"</p>
+      <div class="text-yellow-500 mt-2">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+      </div>
+      <p class="text-sm mt-2 text-green-700 font-bold">— Akash Patel</p>
+    </div>
+
+    <!-- Review 4 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow flex-shrink-0">
+      <p class="text-sm text-gray-600 italic">"Customer support was excellent. Helped me choose the right tools."</p>
+      <div class="text-yellow-500 mt-2">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+      </div>
+      <p class="text-sm mt-2 text-green-700 font-bold">— Sunita Rao</p>
+    </div>
+
+    <!-- Review 5 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow flex-shrink-0">
+      <p class="text-sm text-gray-600 italic">"My vegetables grew better than ever with their natural fertilizers!"</p>
+      <div class="text-yellow-500 mt-2">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+      </div>
+      <p class="text-sm mt-2 text-green-700 font-bold">— Manoj Verma</p>
+    </div>
+
+    <!-- Review 6 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow flex-shrink-0">
+      <p class="text-sm text-gray-600 italic">"Highly recommended for eco-friendly farming. Quality is top-notch."</p>
+      <div class="text-yellow-500 mt-2">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+      </div>
+      <p class="text-sm mt-2 text-green-700 font-bold">— Neha Sharma</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="p-6 mt-10">
+  <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Latest from the Blog</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Blog Card 1 -->
+    <div class="bg-white shadow rounded-lg overflow-hidden hover:shadow-md transition" data-video="">
+      <div class="w-full h-40 overflow-hidden">
+        <iframe class="w-full h-full"
+                src="https://www.youtube.com/embed/cab-PNqho4I"
+                title="Organic Farming Tips"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+      </div>
+      <div class="p-4">
+        <h3 class="font-semibold text-lg">Organic Farming Tips (Video)</h3>
+        <p class="text-sm text-gray-600 mt-2">Watch this expert guide on organic farming techniques and soil health...</p>
+        <a href="https://www.youtube.com/watch?v=cab-PNqho4I" class="text-green-600 hover:underline text-sm mt-3 block" target="_blank">Watch on YouTube</a>
+      </div>
+    </div>
+
+    <!-- Blog Card 2 -->
+    <div class="bg-white shadow rounded-lg overflow-hidden hover:shadow-md transition" data-video="https://www.youtube.com/watch?v=XjMnrxu94Uc">
+      <div class="w-full h-40 overflow-hidden">
+        <iframe class="w-full h-full"
+                src="https://www.youtube.com/embed/-Z9OayYItXU"
+                title="Smart Irrigation Techniques"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+      </div>
+      <div class="p-4">
+        <h3 class="font-semibold text-lg">Smart Irrigation Techniques</h3>
+        <p class="text-sm text-gray-600 mt-2">Learn efficient irrigation systems that save water and boost crop yield...</p>
+        <a href="https://www.youtube.com/embed/-Z9OayYItXU" class="text-green-600 hover:underline text-sm mt-3 block" target="_blank">Watch on YouTube</a>
+      </div>
+    </div>
+
+    <!-- Blog Card 3 -->
+    <div class="bg-white shadow rounded-lg overflow-hidden hover:shadow-md transition" data-video="">
+      <div class="w-full h-40 overflow-hidden">
+        <iframe class="w-full h-full"
+                src="https://www.youtube.com/embed/PpW9n510ISo"
+                title="Best Fertilizer Practices"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+      </div>
+      <div class="p-4">
+        <h3 class="font-semibold text-lg">Best Fertilizer Practices</h3>
+        <p class="text-sm text-gray-600 mt-2">Explore the top organic and biofertilizers for sustainable growth...</p>
+        <a href="https://www.youtube.com/embed/PpW9n510ISo" class="text-green-600 hover:underline text-sm mt-3 block" target="_blank">Watch on YouTube</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="text-center mt-8">
+    <a href="youtubepage.html" target="_blank" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded transition">
+      View More Videos
+    </a>
+  </div>
+</div>
+
+
+
+
+<!-- Frequently Asked Questions -->
+<div class="p-6 mt-10 bg-gray-100 rounded-lg">
+  <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Frequently Asked Questions</h2>
+
+  
+  <div class="flex space-x-4 overflow-x-auto scrollbar-hide px-2">
+
+    <!-- Q1 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: How do I track my order?</h3>
+      <p class="text-sm text-gray-600 mt-1">You can track your order from the “Your Order” page in the navigation menu.</p>
+    </div>
+
+    <!-- Q2 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: Do you offer COD?</h3>
+      <p class="text-sm text-gray-600 mt-1">Yes, we support cash on delivery for most pin codes.</p>
+    </div>
+
+    <!-- Q3 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: Are your products certified organic?</h3>
+      <p class="text-sm text-gray-600 mt-1">Yes, all our organic products are certified by trusted agencies and meet national organic standards.</p>
+    </div>
+
+    <!-- Q4 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: What is the return policy?</h3>
+      <p class="text-sm text-gray-600 mt-1">You can return any item within 7 days of delivery. Please refer to our Returns & Refunds page for details.</p>
+    </div>
+
+    <!-- Q5 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: How long does delivery take?</h3>
+      <p class="text-sm text-gray-600 mt-1">Delivery usually takes 3–5 business days, depending on your location.</p>
+    </div>
+
+    <!-- Q6 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: Do you offer bulk purchase discounts?</h3>
+      <p class="text-sm text-gray-600 mt-1">Yes, we provide discounts for bulk and wholesale orders. Please contact our sales team for more info.</p>
+    </div>
+
+    <!-- Q7 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: Can I change my shipping address after placing an order?</h3>
+      <p class="text-sm text-gray-600 mt-1">Yes, please contact our support team immediately to update your address before dispatch.</p>
+    </div>
+
+    <!-- Q8 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: Are there any membership benefits?</h3>
+      <p class="text-sm text-gray-600 mt-1">Yes! Members enjoy early access to sales, special discounts, and exclusive products.</p>
+    </div>
+
+    <!-- Q9 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: What if I receive a damaged item?</h3>
+      <p class="text-sm text-gray-600 mt-1">Please contact us with photos within 24 hours of delivery for a free replacement or refund.</p>
+    </div>
+
+    <!-- Q10 -->
+    <div class="min-w-[300px] bg-white p-4 rounded shadow hover:shadow-md transition duration-200 flex-shrink-0">
+      <h3 class="font-semibold text-green-700">Q: Do you ship internationally?</h3>
+      <p class="text-sm text-gray-600 mt-1">Currently, we only ship within India, but international shipping is coming soon.</p>
+    </div>
+
+  </div>
+</div> 
+
+<!-- How to Use Our Site -->
+<div class="mt-10 text-center">
+  <h3 class="text-xl font-semibold text-gray-800 mb-2">Watch: How to Use Our Site</h3>
+  <iframe 
+    class="w-full max-w-xl mx-auto rounded shadow" 
+    height="250" 
+    src="https://www.youtube.com/embed/lae7m1QQn_w?start=25" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+
+<!-- Was this section helpful? -->
+<div class="mt-8 text-center text-gray-700" id="feedback-section">
+  <p>Was this section helpful?</p>
+  <div class="flex justify-center gap-4 mt-2">
+    <button onclick="handleFeedback('yes')" class="text-green-600 hover:text-green-800">👍 Yes</button>
+    <button onclick="handleFeedback('no')" class="text-red-500 hover:text-red-700">👎 No</button>
+  </div>
+  <p id="feedback-response" class="mt-4 text-sm text-green-700 font-medium hidden"></p>
+</div>
+
+<script>
+  function handleFeedback(response) {
+    const message = response === 'yes' 
+      ? "Thank you for your feedback! 😊"
+      : "Thanks! We'll try to improve. 🙏";
+    document.getElementById("feedback-response").textContent = message;
+    document.getElementById("feedback-response").classList.remove("hidden");
+  }
+</script>
+
+
+
+
+
+
+<!-- Help Section -->
+<div id="help-section" class="p-6 mt-6 bg-gray-100 rounded-lg">
+  <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Need Help?</h2>
+  <p class="text-center text-gray-600 mb-4">Contact us via phone, email, or live chat for support.</p>
+  <div class="flex flex-col sm:flex-row justify-center gap-6 text-sm text-gray-700">
+    <p><i class="fas fa-phone-alt mr-2 text-green-600"></i> <a href="tel:+919668673210" style="color:blue; text-decoration:underline;">+91 9668673210</a></p>
+    <p><i class="fas fa-envelope mr-2 text-green-600"></i> <a href="mailto:support@greenharvest.com"style="color:blue; text-decoration:underline;">support@greenharvest.com</a></p>
+    <div><i class="fas fa-map-marker-alt mr-2 text-green-600"></i> Bhubaneswar, India</div>
+
+    <!-- WhatsApp Chat Button -->
+<div class="text-center mt-8">
+  <a href="https://wa.me/9668673210" target="_blank" rel="noopener noreferrer"
+     class="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200">
+    <i class="fab fa-whatsapp mr-2"></i> Chat on WhatsApp
+  </a>
+</div>
+
+
+    <div class="text-center mt-10">
+    <a href="contactus.html" class="text-blue-700 font-medium hover:underline">Go to Help</a>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+  &copy; 2025 Green Harvest. All rights reserved.
+</footer>
+
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    document.querySelectorAll("button").forEach((btn) => {
+      if (btn.textContent.trim() === "Add to cart") {
+        btn.addEventListener("click", function () {
+          const productCard = btn.closest(".searchable");
+          const name = productCard.querySelector("h3").innerText.trim();
+          const priceText = productCard.querySelector(".text-green-600").innerText.trim();
+          const price = parseFloat(priceText.replace("₹", "").replace(",", ""));
+          const img = productCard.querySelector("img")?.src || ""; // 👈 get product image
+          const qtyInput = productCard.querySelector("input[type='number']");
+          const quantity = parseInt(qtyInput.value);
+
+          if (isNaN(quantity) || quantity < 1 || quantity > 20) {
+            alert("Please enter a valid quantity (1-20).");
+            return;
+          }
+
+          const existing = cart.find((item) => item.name === name);
+
+          if (existing) {
+            if (existing.quantity + quantity > 20) {
+              alert("Cannot add more than 20 units of this product to the cart.");
+              return;
+            }
+            existing.quantity += quantity;
+          } else {
+            cart.push({ name, price, quantity, img }); // 👈 store image with product
+          }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
+          alert(`Added ${quantity} of "${name}" to cart.`);
+        });
+      }
+    });
+  });
+</script>
+
+    
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchInput = document.getElementById("categorySearch");
+      const swiper = new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+  
+      const categoryItems = document.querySelectorAll(
+        ".grid .searchable"
+      ); // Only categories
+      const slideItems = document.querySelectorAll(
+        ".swiper-slide.searchable"
+      ); // Only slides
+  
+      searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase();
+  
+        // Filter category grid
+        categoryItems.forEach((item) => {
+          const text = item.dataset.search?.toLowerCase() || "";
+          item.style.display = text.includes(query) ? "" : "none";
+        });
+  
+        // Filter carousel slides (by adding/removing hidden class, not display:none)
+        slideItems.forEach((slide) => {
+          const text = slide.dataset.search?.toLowerCase() || "";
+          if (text.includes(query) || query === "") {
+            slide.classList.remove("hidden");
+          } else {
+            slide.classList.add("hidden");
+          }
+        });
+  
+        // Manually update Swiper after DOM changes
+        swiper.update();
+      });
+    });
+  </script>
+  
+
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (sidebar.classList.contains('sidebar-hidden')) {
+          sidebar.classList.remove('sidebar-hidden');
+          overlay.classList.remove('hidden');
+        } else {
+          sidebar.classList.add('sidebar-hidden');
+          overlay.classList.add('hidden');
+        }
+      }
+    </script>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" onclick="scrollToTop()">⬆️ Back to Top</button>
+
+  <script>
+    const backToTopButton = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTopButton.style.display = window.scrollY > 300 ? 'block' : 'none';
+    });
+  </script>
+  
+  </body>
+</html>
