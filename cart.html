@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Cart - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <header class="p-4 shadow-md flex justify-between items-center bg-white">
+    <h1 class="text-2xl font-bold text-green-700">🛒 Your Cart</h1>
+    <a href="service.html" class="text-blue-600 hover:underline">← Back to Shop</a>
+  </header>
+
+  <main class="p-6 max-w-3xl mx-auto">
+    <div id="cartItems" class="space-y-4"></div>
+
+    <div class="mt-6 text-right">
+      <p class="text-xl font-semibold">Total: ₹<span id="cartTotal">0</span></p>
+      <button id="clearCartBtn" onclick="clearCart()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        🗑️ Clear All
+      </button>
+      <div class="flex justify-center mt-6">
+        <button id="buyNowBtn" onclick="buyNowAnimation()" class="bg-green-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-green-700 transition transform active:scale-95">
+          🛍️ Buy Now
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("cartItems");
+      const totalDisplay = document.getElementById("cartTotal");
+      const clearCartBtn = document.getElementById("clearCartBtn");
+      const buyNowBtn = document.getElementById("buyNowBtn");
+      container.innerHTML = "";
+      let total = 0;
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p>Your cart is empty.</p>";
+        totalDisplay.textContent = "0";
+        if (clearCartBtn) clearCartBtn.style.display = "none";
+        if (buyNowBtn) buyNowBtn.style.display = "none";
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+
+        const div = document.createElement("div");
+        div.className = "flex justify-between items-center bg-white p-6 border rounded-lg";
+
+        div.innerHTML = `
+          <div class="flex items-center space-x-4">
+            <img src="${item.img}" alt="${item.name}" class="w-24 h-24 object-cover rounded-xl" />
+            <div>
+              <h2 class=" text-lg font-bold">${item.name}</h2>
+              <p class="text-sm text-gray-500">${item.quantity} × ₹${item.price} = ₹${item.price * item.quantity}</p>
+            </div>
+          </div>
+          <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700">
+            <i class="fas fa-trash"></i>
+          </button>
+        `;
+
+        container.appendChild(div);
+      });
+
+      totalDisplay.textContent = total;
+      if (clearCartBtn) clearCartBtn.style.display = "inline-block";
+      if (buyNowBtn) buyNowBtn.style.display = "inline-block";
+    }
+
+    function removeFromCart(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();
+    }
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      loadCart();
+    }
+
+    function buyNowAnimation() {
+  const btn = document.getElementById("buyNowBtn");
+  btn.classList.add("animate-ping");
+
+  setTimeout(() => {
+    btn.classList.remove("animate-ping");
+    // Redirect to checkout page after animation
+    window.location.href = "address.html";  // Change to your actual filename if different
+  }, 1000);
+}
+
+
+    window.addEventListener("DOMContentLoaded", loadCart);
+  </script>
+
+</body>
+</html>
