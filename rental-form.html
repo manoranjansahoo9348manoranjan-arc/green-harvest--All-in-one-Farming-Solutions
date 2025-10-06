@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rental Booking - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Header -->
+<header class="px-2 py-1 bg-green-700 text-white flex justify-between items-center text-xs sm:text-sm">
+  <div class="font-bold flex items-center gap-1 text-xs sm:text-sm">
+   🌱 Rental Booking
+  </div>
+  <div id="google_translate_element" class="ml-2"></div>
+</header>
+
+<style>
+  /* Hide extra text */
+  .goog-te-gadget {
+    font-size: 0 !important;
+    height: 20px !important;
+    overflow: hidden !important;
+  }
+  .goog-te-gadget img {
+    display: none !important; /* hide Google icon */
+  }
+  #google_translate_element select {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+    height: 20px !important;
+    line-height: 18px !important;
+    border-radius: 3px;
+    border: none !important;
+    background: #ffffff;
+    color: #333;
+  }
+</style>
+ 
+
+
+
+<main class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+
+  <!-- Product Info -->
+  <div id="productInfo" class="bg-white shadow rounded-lg p-4"></div>
+
+  <!-- Booking Form -->
+  <div class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-lg font-semibold mb-4">Fill Your Booking Details</h2>
+    <form id="bookingForm" class="space-y-4">
+      <input id="fullName" type="text" placeholder="Full Name" class="w-full border p-2 rounded" required>
+      <input id="phoneNumber" type="tel" placeholder="Phone Number (10 digits)" pattern="[0-9]{10}" maxlength="10" class="w-full border p-2 rounded" required>
+
+      <input id="pincode" type="text" placeholder="Pincode" maxlength="6" class="w-full border p-2 rounded" required>
+      <input id="village" type="text" placeholder="Village / City" class="w-full border p-2 rounded" required>
+      <input id="district" type="text" placeholder="District" class="w-full border p-2 rounded" required>
+      <input id="state" type="text" placeholder="State" class="w-full border p-2 rounded" required>
+      <input id="landmark" type="text" placeholder="Landmark (Optional)" class="w-full border p-2 rounded">
+
+      <button type="button" id="getLocation" class="bg-blue-600 text-white px-3 py-1 rounded">📍 Use Current Location</button>
+
+      <label class="block text-sm">Select Date</label>
+      <input id="bookingDate" type="date" class="w-full border p-2 rounded" required>
+
+      <label class="block text-sm">Select Payment Option</label>
+      <select id="payment" class="w-full border p-2 rounded" required>
+        <option value="">-- Select Payment Option --</option>
+        <option value="cash">Cash on Delivery</option>
+        <option value="upi">UPI (PhonePe / Google Pay / Paytm)</option>
+        <option value="card">Credit / Debit Card</option>
+      </select>
+
+      <div id="paymentDetails" class="space-y-3 hidden mt-2"></div>
+
+      <button class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Confirm Booking</button>
+    </form>
+  </div>
+</main>
+
+<script>
+  // Google Translate
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,bn,te,ta,ml,gu,kn,mr,or,pb,as,sd,ne,pa,kn', // 15 Indian languages
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  const product = JSON.parse(localStorage.getItem("selectedRental"));
+  const container = document.getElementById("productInfo");
+  if (product) {
+    container.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="w-full h-56 object-contain rounded mb-4">
+      <h3 class="text-xl font-bold">${product.name}</h3>
+      <p class="text-sm text-gray-600">${product.desc}</p>
+      <p class="italic">Brand: ${product.brand}</p>
+      <p class="mt-2">Hours: <b>${product.hours}</b></p>
+      <p class="font-semibold text-green-700 mt-2">Total Rent: ₹${product.total}</p>
+    `;
+  } else container.innerHTML = `<p class="text-red-600">⚠ No product selected.</p>`;
+
+  document.getElementById("getLocation").addEventListener("click", () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const { latitude, longitude } = pos.coords;
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+          const data = await res.json();
+          if (data && data.address) {
+            document.getElementById("pincode").value = (data.address.postcode||"").substring(0,6);
+            document.getElementById("village").value = data.address.village || data.address.town || data.address.city || "";
+            document.getElementById("district").value = data.address.county || data.address.state_district || "";
+            document.getElementById("state").value = data.address.state || "";
+            document.getElementById("landmark").value = data.display_name || "";
+          }
+        } catch{}
+      });
+    }
+  });
+
+  const paymentSelect = document.getElementById("payment");
+  const paymentDetails = document.getElementById("paymentDetails");
+  paymentSelect.addEventListener("change", () => {
+    paymentDetails.innerHTML = "";
+    paymentDetails.classList.add("hidden");
+    if (paymentSelect.value === "card") {
+      paymentDetails.classList.remove("hidden");
+      paymentDetails.innerHTML = `
+        <input id="cardNumber" type="text" maxlength="16" placeholder="Card Number" class="w-full border p-2 rounded" required>
+        <div class="grid grid-cols-2 gap-2">
+          <input id="cardExpiry" type="month" class="w-full border p-2 rounded" required>
+          <input id="cardCVV" type="password" maxlength="3" placeholder="CVV" class="w-full border p-2 rounded" required>
+        </div>
+      `;
+    } else if (paymentSelect.value === "upi") {
+      paymentDetails.classList.remove("hidden");
+      paymentDetails.innerHTML = `
+        <select id="upiApp" class="w-full border p-2 rounded" required>
+          <option value="">-- Select UPI App --</option>
+          <option value="phonepe">PhonePe</option>
+          <option value="gpay">Google Pay</option>
+          <option value="paytm">Paytm</option>
+        </select>
+        <input id="upiId" type="text" placeholder="Enter UPI ID" class="w-full border p-2 rounded" required>
+      `;
+    }
+  });
+
+  document.getElementById("bookingForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const bookingData = {
+      name: document.getElementById("fullName").value,
+      phone: document.getElementById("phoneNumber").value,
+      pincode: document.getElementById("pincode").value.substring(0,6),
+      village: document.getElementById("village").value,
+      district: document.getElementById("district").value,
+      state: document.getElementById("state").value,
+      landmark: document.getElementById("landmark").value,
+      date: document.getElementById("bookingDate").value,
+      payment: document.getElementById("payment").value,
+      product,
+      createdAt: new Date().toISOString()
+    };
+
+    if (bookingData.payment === "card") {
+      bookingData.cardNumber = document.getElementById("cardNumber").value;
+      bookingData.cardExpiry = document.getElementById("cardExpiry").value;
+      bookingData.cardCVV = document.getElementById("cardCVV").value;
+    } else if (bookingData.payment === "upi") {
+      bookingData.upiApp = document.getElementById("upiApp").value;
+      bookingData.upiId = document.getElementById("upiId").value;
+    }
+
+    let pendingBookings = JSON.parse(localStorage.getItem("pendingBookings")) || [];
+    pendingBookings.push(bookingData);
+    localStorage.setItem("pendingBookings", JSON.stringify(pendingBookings));
+    window.location.href = "confirmation.html";
+  });
+</script>
+<footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+
+</body>
+</html>
