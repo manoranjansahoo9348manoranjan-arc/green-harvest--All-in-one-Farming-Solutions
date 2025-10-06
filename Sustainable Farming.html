@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Harvest - Gamified Sustainable Farming</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      background: #f4faf4;
+      color: #333;
+    }
+    header {
+      background: #2e7d32;
+      color: #fff;
+      padding: 0.5rem 1rem; /* smaller header */
+      text-align: center;
+    }
+    nav {
+      background: #1b5e20;
+      padding: .5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 .5rem;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+    }
+    nav a:hover { background: #2e7d32; }
+
+    /* Dropdown */
+    .user-switch {
+      background: #388e3c;
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .user-switch:hover {
+      background: #2e7d32;
+    }
+
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      background: url("sustain2.png") center/cover no-repeat;
+      color: #fff;
+      text-align: center;
+      min-height: 45vh;
+    }
+    .hero h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+    .hero button {
+      background: #ffca28;
+      border: none;
+      padding: .8rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Video Button */
+    .video-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: #e53935;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .video-btn:hover { background: #c62828; }
+
+    /* Popup Modal */
+    .video-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .video-modal iframe {
+      width: 80%;
+      height: 70%;
+      border: none;
+      border-radius: 10px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .section {
+      padding: 2.5rem 1.5rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,.1);
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,.15);
+    }
+    .card h3 { margin: 0.5rem 0; color: #2e7d32; }
+
+    footer {
+      background:#2e7d32;
+      color:#fff;
+      text-align:center;
+      padding:1rem 2rem;
+      margin-top:2rem;
+    }
+
+    /* Google Translate Widget */
+    #google_translate_element { margin:0.5rem auto; text-align:center; }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hero h2 { font-size: 1.8rem; }
+      .hero p { font-size: 0.95rem; }
+      nav { flex-direction: column; gap: 0.5rem; }
+      .features { grid-template-columns: 1fr; }
+      .video-btn {
+        bottom: 10px;
+        right: 10px;
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+      }
+      .video-modal iframe {
+        width: 95%;
+        height: 55%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌱 Green Harvest</h1>
+    <p>Gamified Platform to Promote Sustainable Farming Practices</p>
+  </header>
+
+  <nav>
+    <!-- Left side -->
+    <div id="google_translate_element"></div>
+    
+    <!-- Right side user switch -->
+    <select class="user-switch" onchange="switchUser(this.value)">
+      <option value="farmer">👨‍🌾 Farmer</option>
+      <option value="admin">🛠️ Admin</option>
+    </select>
+  </nav>
+
+  <section class="hero">
+    <h2>Play. Learn. Grow Sustainable.</h2>
+    <p>Turn eco-friendly farming into an exciting journey with rewards and challenges.</p>
+    <button onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Explore Features</button>
+
+    <!-- Watch Video Button -->
+    <button class="video-btn" onclick="openVideo()">▶ Watch Video</button>
+  </section>
+
+  <!-- Video Modal -->
+  <div id="videoModal" class="video-modal">
+    <span class="close-btn" onclick="closeVideo()">&times;</span>
+    <iframe id="videoFrame" src="" allowfullscreen></iframe>
+  </div>
+
+  <section id="features" class="section">
+    <h2 style="text-align:center; color:#2e7d32;">Platform Features</h2>
+    <div class="features">
+      <a href="#challenges" class="card"><h3>🎯 Challenges</h3><p>Take daily/weekly challenges like water-saving, organic pest control, or crop rotation.</p></a>
+      <a href="#rewards" class="card"><h3>🏆 Rewards</h3><p>Earn points, badges, and ranks for adopting eco-friendly farming practices.</p></a>
+      <a href="community.html" class="card"><h3>🤝 Community</h3><p>Share tips, learn from peers, and grow together in a community of green farmers.</p></a>
+      <a href="Insights.html" class="card"><h3>📊 Insights</h3><p>Track your farm’s sustainability progress with interactive dashboards.</p></a>
+      <a href="#quests" class="card"><h3>🎮 Quests</h3><p>Embark on seasonal quests that simulate real farming decisions with eco-impact results.</p></a>
+      <a href="#eco-market" class="card"><h3>🌍 Eco-Market</h3><p>Redeem points for discounts on sustainable seeds, tools, and organic fertilizers.</p></a>
+      <a href="Mini-Games.html" class="card"><h3>🧩 Mini-Games</h3><p>Play fun, quick games like quizzes that teach sustainable farming in an interactive way.</p></a>
+      <a href="quiz.html" class="card"><h3>💡 Farming Quiz</h3><p>Gain knowledge while enjoying interactive quizzes.</p></a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Green Harvest | Promoting Sustainable Farming through Gamification</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,bn,te,ta,mr,gu,kn,ml,pa,or,as,sd,ur,ne,si', 
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+
+    // Switch User Function
+    function switchUser(role) {
+      if (role === "admin") {
+        window.location.href = "admin.html";
+      } else {
+        window.location.href = "sustainable farming.html"; // stays farmer
+      }
+    }
+
+    // Video Popup Functions
+    function openVideo() {
+  const modal = document.getElementById("videoModal");
+  const frame = document.getElementById("videoFrame");
+  frame.src = "https://www.youtube.com/embed/QxK4YbPrWXk?autoplay=1"; 
+  modal.style.display = "flex";
+}
+
+
+    function closeVideo() {
+      const modal = document.getElementById("videoModal");
+      const frame = document.getElementById("videoFrame");
+      frame.src = "";
+      modal.style.display = "none";
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
