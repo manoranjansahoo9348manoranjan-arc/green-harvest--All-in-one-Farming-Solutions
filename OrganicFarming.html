@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Organic farming - Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search organic farming..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top organic farming Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    
+    
+    
+    <script>
+      const growthPromoters = [
+  {
+    name: "Panchagavya",
+    desc: "Natural Plant Growth Promoter - 1L",
+    price: 180,
+    brand: "Organic India",
+    type: "Organic Input",
+    img: "https://kj1bcdn.b-cdn.net/media/81755/panchagavya.jpeg" 
+  },
+  {
+    name: "Jeevamrut",
+    desc: "Organic Liquid Fertilizer - 5L",
+    price: 350,
+    brand: "Desi Agro",
+    type: "Organic Fertilizer",
+    img: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/457e1a14-d8fb-43e8-a14e-818081a762de.__CR0,0,970,600_PT0_SX970_V1___.jpg" 
+  },
+  {
+    name: "Vermicompost",
+    desc: "Organic Soil Conditioner - 5kg",
+    price: 225,
+    brand: "TrustBasket",
+    type: "Soil Conditioner",
+    img: "https://th.bing.com/th/id/R.e2c1520a94af735c2c3907f3f8e456f7?rik=eLijBBz8dtVHoA&riu=http%3a%2f%2fstatic1.squarespace.com%2fstatic%2f563cef71e4b01fcd611400d8%2f5649d334e4b052d55b93f36c%2f609eae8ae80e80002239d3e6%2f1621012697881%2fcompost-with-redworm-vermicompost.jpg%3fformat%3d1500w&ehk=gSYsBhx4GtoAbvzoRLhEWjSipvpGJrqfp6X%2bX05HNEY%3d&risl=&pid=ImgRaw&r=0" 
+  },
+  {
+    name: "Neem Cake",
+    desc: "Organic Manure - 2kg",
+    price: 199,
+    brand: "Kraft Seeds",
+    type: "Organic Manure",
+    img: "https://mygreenbin.in/wp-content/uploads/2023/03/neem-cake.jpg" 
+  },
+  {
+    name: "Cow Dung Cakes",
+    desc: "Traditional Organic Manure - 2kg",
+    price: 120,
+    brand: "Desi Gai",
+    type: "Manure",
+    img: "https://tamilcrew.com/wp-content/uploads/2022/01/Cow-Dung-Cakes.jpg" 
+  },
+  {
+    name: "Bio Compost",
+    desc: "Humic Acid Rich Organic Fertilizer - 5kg",
+    price: 275,
+    brand: "IFFCO",
+    type: "Fertilizer",
+    img: "https://th.bing.com/th/id/R.7f86ca7612bcc50d1fd2a1737db76864?rik=8%2b7QDustKXni%2fA&riu=http%3a%2f%2fwww.champsdereves.com%2fcdn%2fshop%2ffiles%2fimage_53.jpg%3fv%3d1709259853&ehk=eYrqAKTYbHzXNdQRrBRXHUPye%2bEBfcXQ%2fXK6wHXFcys%3d&risl=&pid=ImgRaw&r=0" 
+  },
+  {
+    name: "Fish Amino Acid",
+    desc: "Organic Growth Enhancer - 1L",
+    price: 320,
+    brand: "FarmRoots",
+    type: "Growth Promoter",
+    img: "https://tse4.mm.bing.net/th/id/OIP.hBp4wyeQ2lf1S5VQ0-DFMQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" 
+  },
+  {
+    name: "Silt / Organic Farm Soil",
+    desc: "Loamy Soil for Organic Beds - 25kg",
+    price: 499,
+    brand: "GreenSoil",
+    type: "Soil",
+    img: "https://gardentutor.com/wp-content/uploads/2019/09/Sand-silt-clay-and-loam-soil-1024x682.jpg" 
+  },
+  
+  {
+    name: "PSB Liquid",
+    desc: "Phosphate Solubilizing Bacteria - 1L",
+    price: 180,
+    brand: "T Stanes",
+    type: "Bio Fertilizer",
+    img: "https://5.imimg.com/data5/LV/RA/MY-4805042/psb-liquid-biofertilizer-1000x1000.jpg" 
+  },
+  {
+    name: "Biozyme Liquid",
+    desc: "Organic Stimulant - 500ml",
+    price: 210,
+    brand: "Biozyme",
+    type: "Plant Tonic",
+    img: "https://agrosiaa.com/uploads/userdata/seller/752ae7bdbb96bf25280b55990570beabf2048ce0/product_images/279340540e3893ef0ed2606d91f9a230b565610d4fdec3eea.png" 
+  },
+  {
+    name: "Azospirillum",
+    desc: "Nitrogen Fixing Bacteria - 1L",
+    price: 170,
+    brand: "AgriLife",
+    type: "Bio Fertilizer",
+    img: "https://www.katyayaniorganics.com/wp-content/uploads/2022/06/aceto.png" 
+  },
+  {
+    name: "Humic Acid",
+    desc: "Plant Bio-Stimulant - 250ml",
+    price: 160,
+    brand: "IFFCO",
+    type: "Stimulant",
+    img: "https://i5.walmartimages.com/asr/ced85329-fd68-4a5a-86e3-e4e797147936.73905e207d8585b5b002c213c257b848.jpeg" 
+  },
+  {
+    name: "Cow Urine Ark",
+    desc: "Organic Pest Repellent - 1L",
+    price: 250,
+    brand: "Goseva",
+    type: "Pest Control",
+    img: "https://5.imimg.com/data5/SELLER/Default/2021/3/HS/YJ/XA/105562790/100-ml-pure-organic-indian-cow-urine-ark-1000x1000.jpg" 
+  },
+  {
+    name: "Bio NPK Consortia",
+    desc: "Microbial Mix Fertilizer - 1L",
+    price: 230,
+    brand: "EcoLife",
+    type: "Bio Fertilizer",
+    img: "https://www.katyayaniorganics.com/wp-content/uploads/2022/06/npk-cansortia-1024x1024.png" 
+  }
+];
+
+
+
+
+
+      function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      function applyFilters() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const sortOption = document.getElementById("sortPrice").value;
+    
+        let filtered = growthPromoters.filter(p =>
+          p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+        );
+    
+        if (sortOption === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOption === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+    
+        renderProducts(filtered);
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+         renderProducts(growthPromoters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+         document.getElementById("sortPrice").addEventListener("change", applyFilters);
+        initPage(growthPromoters);
+
+      });
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>
