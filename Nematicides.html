@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nematicides- Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+     <style>
+      body {
+        background: linear-gradient(to bottom right, #e6f9e6, #f0fff0);
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌾🌱Green Harvest🌾🌱
+    </h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="pesticides.html" class="text-sm text-blue-600 hover:underline">Go to pesticides</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search Nematicides..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Nematicides Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
+      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
+      <div id="cartItems" class="space-y-2"></div>
+    </section> -->
+    
+    
+    <script>
+      const growthPromoters = [
+      { name: "Nemacure", desc: "Biological Nematicide (Paecilomyces lilacinus) - 1L", price: 480, brand: "Biotech", img: "https://5.imimg.com/data5/SELLER/Default/2024/11/466163420/VT/LU/OU/44099956/paecilomyceslilacinus.jpg" },
+          { name: "paecilomyces", desc: "Paecilomyces lilacinus - 1kg", price: 550, brand: "RhizoTech", img: "https://5.imimg.com/data5/SELLER/Default/2024/5/422794986/BF/PT/DO/3886959/paecilomyces-lilacinus-biopesticides-500x500.jpg" },
+          { name: "Bioniqe", desc: "Bio-Nematicide Liquid - 1L", price: 620, brand: "T Stanes", img: "https://5.imimg.com/data5/SELLER/Default/2022/1/JQ/WS/UE/34351992/1-liter-bio-nematicide-500x500.jpeg" },
+          { name: "Nemacure ", desc: "Bio Nematicide Liquid (P. lilacinus) - 1L", price: 430, brand: "katyayani", img: "https://5.imimg.com/data5/SELLER/Default/2024/11/466163420/VT/LU/OU/44099956/paecilomyceslilacinus-500x500.jpg" },
+          { name: "Neemraj Super", desc: "Azadirachtin 0.03% (Neem based) - 1L", price: 350, brand: "Raj Biotech", img: "https://5.imimg.com/data5/SELLER/Default/2025/6/516006762/YX/GZ/JC/78524298/natural-insecticide-azadirachtin-neem-oil-0-03-300-ppm-min-500x500.jpeg" },
+          { name: "Nematoz-p", desc: "Botanical Nematicide - 1L", price: 450, brand: "Wesfra", img: "https://m.media-amazon.com/images/I/51XEqoc81ZL.jpg" },
+          { name: "Nema Free", desc: "Organic Nematicide Liquid - 1L", price: 399, brand: "Geolife", img: "https://cdn.salla.sa/bBYVx/8683f482-5b41-4681-a747-447ee0e5f604-750x1000-BJ3D8hU1rUCpwUIzeCU7oWgjfdCGd7EOAzRZCSBM.png" },
+          { name: "Nema pro", desc: "Biocontrol for Root-Knot Nematodes - 1kg", price: 480, brand: "Racine", img: "https://image.made-in-china.com/202f0j00msRkfdUhEiol/NEMA-PRO-Wettable-Powder-Effective-Biological-Control-Root-Knot-Nematodes-Organic-Nematicide.webp" },
+          { name: "Neemoz-Gold", desc: "Neem Oil Based Nematicide - 1L", price: 390, brand: "SBL", img: "https://utkarshagro.com/cdn/shop/files/NeemozGold-1liter-1.jpg?v=1683205368" },
+          { name: "Nema cure", desc: "Paecilomyces lilacinus WP - 1kg", price: 560, brand: "Multiplex", img: "https://5.imimg.com/data5/SELLER/Default/2024/11/466163420/VT/LU/OU/44099956/paecilomyceslilacinus.jpg" },
+          { name: "Killer", desc: "Azadirachtin 300 ppm EC - 1L", price: 410, brand: "Biotech", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9o3arYRp1pjn_oRlVAtHys-Sy5pYi2fgzWA&s" },
+          { name: "Neemex", desc: "Neem-based botanical formulation - 1L", price: 465, brand: "Gold Crop", img: "https://5.imimg.com/data5/SELLER/Default/2022/10/BY/ZE/EB/82573127/neem-oil-based-ec-containing-azadirachtin-0-03-300-ppm-min-.jpg" },
+      ];
+    
+      function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      function applyFilters() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const sortOption = document.getElementById("sortPrice").value;
+    
+        let filtered = growthPromoters.filter(p =>
+          p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+        );
+    
+        if (sortOption === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOption === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+    
+        renderProducts(filtered);
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+         renderProducts(growthPromoters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+         document.getElementById("sortPrice").addEventListener("change", applyFilters);
+        initPage(growthPromoters);
+
+      });
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>
