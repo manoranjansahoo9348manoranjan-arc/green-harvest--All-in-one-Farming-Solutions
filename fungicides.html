@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fungicides- Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="pesticides.html" class="text-sm text-blue-600 hover:underline">Go to pesticides</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search fungicide..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Fungicide Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
+      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
+      <div id="cartItems" class="space-y-2"></div>
+    </section> -->
+    
+    
+    <script>
+      const growthPromoters = [
+      { name: "Bayer Nativo WG", desc: "Tebuconazole + Trifloxystrobin - 100g", price: 682, brand: "Bayer", img: "https://5.imimg.com/data5/SELLER/Default/2022/6/CT/TP/QD/59373149/nativo-tebuconazole-50-trifloxystrobin-25-w-w-wg-75-wg-100-gm-1000x1000.png" },
+        { name: "Saaf", desc: "Carbendazim + Mancozeb - 100g", price: 89, brand: "UPL", img: "https://cf.shopee.in/file/d3b0c7b532279bf9ddbcf41b3ce29240" },
+        { name: "Indofil M‑45", desc: "Mancozeb - 1kg", price: 459, brand: "Indofil", img: "https://www.farmspotagro.com/wp-content/uploads/2024/05/m45.png" },
+        { name: "Indofil Picozole", desc: "Picoxystrobin + Propiconazole - 250g", price: 838, brand: "Indofil", img: "https://agribegri.com/productimage/19245331431736410820.webp" },
+        { name: "Ridomil Gold", desc: "Metalaxyl + Mancozeb - 500g", price: 119, brand: "Syngenta", img: "https://www.agriplexindia.com/cdn/shop/products/RidomilGold_1.png?v=1678530443" },
+        { name: "Amistar", desc: "Azoxystrobin 23% SC - 200ml", price: 1050, brand: "Syngenta", img: "https://farmkey.in/uploads/product/download_111.jpg" },
+        { name: "Score", desc: "Difenoconazole - 100ml", price: 550, brand: "Syngenta", img: "https://5.imimg.com/data5/SELLER/Default/2023/10/351906483/CA/FJ/JK/124067625/100ml-score-syngenta-fungicide-1000x1000.png" },
+        { name: "Tilt", desc: "Propiconazole - 250ml", price: 929, brand: "Syngenta", img: "https://5.imimg.com/data5/SELLER/Default/2021/5/VK/KD/KE/25908241/tilt-1-500x500.jpg" },
+        { name: "Timorex Gold", desc: "Melaleuca oil - 5L", price: 4000, brand: "Biobee", img: "https://th.bing.com/th/id/R.aaf512daeec609bc477aea24dfc1335d?rik=YaYgwUdm6EI8%2fw&riu=http%3a%2f%2fagrizon.com%2fcdn%2fshop%2ffiles%2fTIMOREXGOLD5L_1200x1200.jpg%3fv%3d1698420938&ehk=k%2frRBJ%2fmTh9JNKkD5IPjF0ZqQ8fjX97%2fkUk7S1u2YnA%3d&risl=&pid=ImgRaw&r=0" },
+        { name: "Curzate", desc: "Cymoxanil + Mancozeb - 250g", price: 445, brand: "DuPont", img: "https://down-ph.img.susercontent.com/file/1d25ad3177054e23c8438e865fa88cd8" },
+        { name: "Sectin", desc: "Fenamidone + Mancozeb - 250g", price: 500, brand: "Bayer", img: "https://5.imimg.com/data5/PI/HD/MY-20513950/g-500x500.png" },
+        { name: "Tata Master", desc: "Hexaconazole based mix - 100g", price: 170, brand: "Tata", img: "https://indohobby.co/wp-content/uploads/TATA-Master-Fungicide-1.jpg" },
+        { name: "Luna Experience", desc: "Fluopyram + Tebuconazole - 250g", price: 2000, brand: "Bayer", img: "https://agrariagioiese.it/30103-large_default/bayer-luna-experience-fungicide-based-on-fluopyram-and-tebuconazole-lt-1.jpg" },
+        { name: "Cabrio Top", desc: "Pyraclostrobin + Metiram - 300g", price: 678, brand: "BASF", img: "https://www.agriplexindia.com/cdn/shop/products/Cabrio-Top-04.png?v=1674478295" },
+        { name: "Aliette", desc: "Fosetyl-Al - 500g", price: 379, brand: "Bayer", img: "https://agrosiaa.com/uploads/userdata/seller/752ae7bdbb96bf25280b55990570beabf2048ce0/product_images/46664629881d94e6f23384c37a38ef76daed7c94635d42110c.png" },
+        { name: "Kavach", desc: "Chlorothalonil - 100g", price: 215, brand: "Syngenta", img: "https://www.agriplexindia.com/cdn/shop/products/Kavach-15.png?v=1678346609" },
+        { name: "Zineb", desc: "Zinc dithiocarbamate - 1kg", price: 500, brand: "Generic", img: "https://www.hogarjardin.com.ar/wp-content/uploads/2022/06/Grhesa_Zineb_3_900x900.jpg" },
+        { name: "Benomyl", desc: "Benzimidazole fungicide - 1 sachet", price: 250, brand: "Generic", img: "https://agwaychemicals.com.ph/wp-content/uploads/2020/11/BENOMYL-50WP.jpg" },
+        { name: "Kitazin", desc: "Isoprothiolane - 250ml", price: 840, brand: "pi", img: "https://tse2.mm.bing.net/th/id/OIP.lueXIcXoSMrg22A4mQhwcgHaJ4?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
+        { name: "Contaf Plus", desc: "Hexaconazole + Validamycin - 100g", price: 800, brand: "Tata", img: "https://5.imimg.com/data5/GE/QL/KJ/SELLER-59373149/tata-contaf-plus-1000x1000.jpg" },
+        { name: "Blitox-50W", desc: "Copper oxychloride - 100g", price: 109, brand: "Tata", img: "https://5.imimg.com/data5/SELLER/Default/2023/12/371941838/QD/NF/DM/59373149/tata-blitox-50-w-fungicide-500x500.png" },
+        { name: "Tricure", desc: "Azadirachtin + botanical oils - 250ml", price: 250, brand: "Biotech", img: "http://pjmargo.com/Products/images/Tricure_new.jpg" },
+        { name: "Roko", desc: "Thiophanate-methyl - 250g", price: 300, brand: "Dhanuka", img: "https://agriplexindia.com/cdn/shop/files/Product_thumlines-44.png?crop=center&height=940&v=1742376964&width=940" },
+        { name: "Taqat", desc: "Azoxystrobin + Tebuconazole - 250ml", price: 900, brand: "Tata", img: "https://www.kissanemart.com/storage/tata-taqat-800x800.jpg" },
+        { name: "Vitavax Power", desc: "Carboxin + Thiram - 100g", price: 550, brand: "Dhanuka", img: "https://5.imimg.com/data5/YG/AG/TC/GLADMIN-3061/dhanuka-vitavax-power-fungicide-500x500.png" },
+        { name: "Monceren", desc: "Pencycuron - 100ml", price: 650, brand: "Bayer", img: "https://5.imimg.com/data5/SELLER/Default/2021/1/ZY/LW/CA/5111461/bayer-monceren-1-ltr-contact-fungicide-1000x1000.jpg" },
+        { name: "Fluton", desc: "Flusilazole - 100g", price: 400, brand: "Rallis", img: "https://th.bing.com/th/id/R.72d6c6e2781fcf907a80983d02d744a9?rik=nM%2bKaen0xEmAzA&riu=http%3a%2f%2fkrushidukan.bharatagri.com%2fcdn%2fshop%2ffiles%2fPI_FLUTON_Insecticide.webp%3fv%3d1718952899&ehk=kqhjqKnWnhx2bsg5xYfsH6O8VVPf6kl8nIfb7HgItGQ%3d&risl=&pid=ImgRaw&r=0" },
+        { name: "Shield", desc: "Propineb - 250g", price: 350, brand: "pi", img: "https://5.imimg.com/data5/SELLER/Default/2022/9/XG/WW/YS/19199652/sheild-packshot-500x500.png" },
+        { name: "Zerlate", desc: "Ziram - 250g", price: 450, brand: "UPL", img: "https://image.made-in-china.com/2f0j00LdRTVbWtvOrE/Ziram-95-TC-98-TC-72-WP-80-WP-Fungicide.jpg" },
+        { name: "Validacin", desc: "Validamycin - 100g", price: 700, brand: "T Stanes", img: "https://www.inquiport.com/wp-content/uploads/2024/03/Fungicida-VALIDACIN-1L-3.png" }
+      ];
+    
+      function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      function applyFilters() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const sortOption = document.getElementById("sortPrice").value;
+    
+        let filtered = growthPromoters.filter(p =>
+          p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+        );
+    
+        if (sortOption === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOption === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+    
+        renderProducts(filtered);
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+         renderProducts(growthPromoters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+         document.getElementById("sortPrice").addEventListener("change", applyFilters);
+        initPage(growthPromoters);
+
+      });
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>
