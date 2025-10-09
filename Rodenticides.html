@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rodenticides- Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="pesticides.html" class="text-sm text-blue-600 hover:underline">Go to pesticides</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search Rodenticides..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Rodenticides Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
+      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
+      <div id="cartItems" class="space-y-2"></div>
+    </section> -->
+    
+    
+    <script>
+      const growthPromoters = [
+          { name: "Racumin", desc: "Rodent bait powder - 100g", price: 85, brand: "Bayer", img: "https://tse1.mm.bing.net/th/id/OIP.Mjumwk_B1yLDliRFpb5obQAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" },
+          { name: "Roban Cake", desc: "Bromadiolone 0.005% Cake - 100g", price: 95, brand: "Pci", img: "https://images.apollo247.in/pub/media/catalog/product/R/O/ROB0041_1.jpg" },
+          { name: "Rodex", desc: "Bromadiolone 0.005% - 100g", price: 70, brand: "UPL", img: "https://www.botanistii.ro/media/catalog/product/cache/1/image/640x505/c7706f6f45256e60fa0222ea72414886/p/e/pelgar-rodenticid-rodex-wax-block-2-5-kg.jpg" },
+          { name: "Ratol Paste", desc: "Coumatetralyl 0.037% - 100g", price: 55, brand: "Talon", img: "https://5.imimg.com/data5/ANDROID/Default/2022/10/BA/LP/EA/153644603/product-jpeg-1000x1000.jpg" },
+          { name: "Talon", desc: "Brodifacoum - 100g", price: 120, brand: "Syngenta", img: "https://www.easypestsupplies.com.au/cdn/shop/files/TalonPellets2_4.jpg?v=1689819052" },
+          { name: "Roban Pellets", desc: "Ready-to-use bait pellets - 100g", price: 90, brand: "PelGar", img: "https://www.pelgar.co.uk/canada/wp-content/uploads/sites/9/2017/05/ROBAN-PELLETS-5KG.jpg" },
+          { name: "Rodenticide Cake", desc: "Zinc Phosphide cake formulation - 100g", price: 50, brand: "Generic", img: "https://tiimg.tistatic.com/fp/1/007/250/zinc-phosphide-rodenticide-cake-546.jpg" },
+          { name: "Mortein Rat Kill", desc: "Bromadiolone cake bait - 100g", price: 65, brand: "Mortein", img: "https://m.media-amazon.com/images/I/61vsX7P6hAL.UF1000,1000_QL80.jpg" },
+          { name: "Quickphos", desc: "Aluminium Phosphide - 100g", price: 130, brand: "UPL", img: "https://farmguru.co.in/wp-content/uploads/2024/10/615679588737cf4e346ebd19fa984805b6fd2ef5d37c58987d.jpg" },
+          { name: "Storm", desc: "Flocoumafen - 100g", price: 110, brand: "BASF", img: "https://down-my.img.susercontent.com/file/f73d87580e531d1bfbe3275af79e725c" },
+          { name: "Dead-End", desc: "Zinc phosphide paste - 100g", price: 75, brand: "Sudha Agro", img: "https://m.media-amazon.com/images/I/71IbodMQY4L.UF1000,1000_QL80.jpg" },
+          { name: "Rodbait", desc: "Bromadiolone wax block - 100g", price: 90, brand: "Krishi Rasayan", img: "https://www.pestmanglobal.com/wp-content/uploads/2019/11/Bromadiolone-0.005-Wax-Block-07.jpg" },
+          { name: "Redox Plus", desc: "Zinc Phosphide 80% WP - 1kg", price: 1050, brand: "Tatva", img: "https://5.imimg.com/data5/SELLER/Default/2024/12/475810364/CL/XX/HF/14909885/zinc-phosphide-80-w-v-rodenticide-500x500.jpg" },
+          { name: "Killrat", desc: "Coumatetralyl 0.037% paste - 100g", price: 60, brand: "Generic", img: "https://cdn.specialistsales.com.au/wp-content/uploads/2020/12/09161857/Racumin_Rat_and_Mouse_Coumatetralyl_Rodenticide_Paste_2kg.jpg" },
+          { name: "Zincocide", desc: "Zinc phosphide bait mix - 100g", price: 52, brand: "PI Industries", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy9cllB1jv4snwHG92hadw3uo_-PVqXFvWhF3asCDHLn-8ivZv8qUo-uhYaGhDINVFO7w&usqp=CAU" },
+          { name: "Deadly Bait", desc: "Ready-to-use bait blocks - 100g", price: 95, brand: "Katyayani", img: "https://www.stpetersgardencentre.co.uk/files/images/webshop/product-2048x1447-649067471864d_l.jpg" },
+          { name: "Ratnap", desc: "Bromadiolone ready bait - 100g", price: 70, brand: "Insecticides India", img: "https://www.awiner.com/wp-content/uploads/2024/07/bromadiolone-mouse-poison.jpg" },
+      ];
+    
+      function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      function applyFilters() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const sortOption = document.getElementById("sortPrice").value;
+    
+        let filtered = growthPromoters.filter(p =>
+          p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+        );
+    
+        if (sortOption === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOption === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+    
+        renderProducts(filtered);
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+         renderProducts(growthPromoters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+         document.getElementById("sortPrice").addEventListener("change", applyFilters);
+        initPage(growthPromoters);
+
+      });
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>
