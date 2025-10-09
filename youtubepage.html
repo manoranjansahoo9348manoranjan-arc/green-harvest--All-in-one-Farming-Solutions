@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Gallery - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+
+  <style>
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .goog-te-banner-frame.skiptranslate,
+    .goog-logo-link,
+    .goog-te-gadget span {
+      display: none !important;
+    }
+    body {
+      top: 0 !important;
+    }
+    #google_translate_element select {
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Header -->
+  <header class="p-4 shadow-md flex justify-between items-center bg-white">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+    </div>
+  </header>
+
+  <!-- Search Bar -->
+  <div class="p-4 flex justify-center">
+    <input id="searchInput" type="text" placeholder="Search Videos..." class="border p-2 rounded w-64" />
+  </div>
+
+  <!-- Main Content -->
+  <div class="p-6 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-bold text-center text-green-700 mb-10">Green Harvest - Video Gallery</h2>
+    <div id="videoGallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Video cards will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+
+  <script>
+    const videos = [
+      { title: "Organic Farming Tips", desc: "Expert guide on organic farming techniques...", url: "https://www.youtube.com/embed/cab-PNqho4I" },
+      { title: "Smart Irrigation Techniques", desc: "Efficient systems that save water...", url: "https://www.youtube.com/embed/-Z9OayYItXU" },
+      { title: "Best Fertilizer Practices", desc: "Top organic and biofertilizers explained...", url: "https://www.youtube.com/embed/PpW9n510ISo" },
+      { title: "Sustainable Crop Rotation", desc: "Rotating crops for soil health...", url: "https://www.youtube.com/embed/pB126W6dFoo" },
+      { title: "Sustainable Agriculture", desc: " Sustainable Agriculture, Organic Farming, Biofertilizer, Vermicomposting...", url: "https://www.youtube.com/embed/QxK4YbPrWXk" },
+      { title: "Top 10 Most Profitable Farming in 2025", desc: " Top 10 Innovative Agriculture Business Ideas for 2025", url: "https://www.youtube.com/embed/M_A7MtxFy_Q" },
+      { title: "Best farming Business Ideas for 2025", desc: " farming Business Ideas for 2025", url: "https://www.youtube.com/embed/4CnyUwxpeI0" },
+      { title: "Dairy Farming Business Idea(Hindi)", desc: "earn how to start a profitable dairy farming business, including setup, cattle selection, feed management, and revenue potential.", url: "https://www.youtube.com/embed/rzjT8cfEbrk?start=423" },
+      { title: "Dairy Farming Business Idea(Odia)", desc: "8 year sucess Dairy Farm business / Daily 170 liter milk / Dairy Farming in Odisha", url: "https://www.youtube.com/embed/A7TsGt0vlIA" },
+      { title: "Top 10 Modern Agriculture Tools(by tractor)", desc: "Modern Agriculture Machines ", url: "https://www.youtube.com/embed/TfiWMGrRU7w" },
+      { title: "Top 10 Modern Agriculture Tools", desc: "Modern Technology Agriculture Machines That Are At Another Level", url: "https://www.youtube.com/embed/a3m5U1d06AY" },
+      { title: "How Does Vertical Farming Work? part1", desc: "Farms of Future ? Vertical Farming  Explained |High Tech Future Farming ", url: "https://www.youtube.com/embed/kNcYxcPJT_k" },
+      { title: "How Does Vertical Farming Work? part2", desc: "What Is Vertical Farming, Definition, Types & Benefits  ", url: "https://www.youtube.com/embed/9fAS3-aeWLA" },
+      { title: "What is IoT in Agriculture?", desc: "Now there will be precise and smart farming", url: "https://www.youtube.com/embed/xubxKQDIRcM" },
+      { title: "What is Hydroponic Tomato Farming?", desc: "Hydroponic Tomato nutrition", url: "https://www.youtube.com/embed/NBQ6cQYtfc8" },
+      { title: "Tools to Protect Crops from Damage(part1)", desc: "Automatic Crop Protection ANTI BIRDS System Project | Remove Monkey, Rats & other animals", url: "https://www.youtube.com/embed/7FzDVxl-XQM" },
+      { title: "Tools to Protect Crops from Damage(part2)", desc: "Sound system for crop and plant protection", url: "https://www.youtube.com/embed/SLy_-1T1WyU" },
+      { title: "Tools to Protect Crops from Damage(part3)", desc: "Solar Wild Animals and Birds Reppeller", url: "https://www.youtube.com/embed/X-WqZGVRkEE" },
+      { title: "Drip Irrigation System in Rice", desc: "Direct Seeding of Rice with Drip Irrigation || Dhan Ki Kheti", url: "https://www.youtube.com/embed/4-PW4NrLNRk" },
+      { title: "Top 10 Most Profitable vegetable Crops in India", desc: "Exotic Vegetable", url: "https://www.youtube.com/embed/3532bcaBDu0" },
+      { title: "🌿 Organic vs. Conventional Farming", desc: "Benefits of Organic & Chemical-Free Farming", url: "https://www.youtube.com/embed/D7ymAbmepVQ" },
+      { title: "Powerful organic insecticide and tonic in farming", desc: " Organic highpower insecticide ", url: "https://www.youtube.com/embed/uUafZ0l5phU" },
+      
+    ];
+
+    let players = [];
+
+  function onYouTubeIframeAPIReady() {
+    renderVideos(); // Wait until API is ready
+  }
+
+  function stopAllVideos(exceptPlayer) {
+    players.forEach(player => {
+      if (player !== exceptPlayer && player.pauseVideo) {
+        player.pauseVideo();
+      }
+    });
+  }
+
+  function renderVideos(filterText = "") {
+    const gallery = document.getElementById("videoGallery");
+    gallery.innerHTML = "";
+    players = [];
+
+    videos
+      .filter(v => v.title.toLowerCase().includes(filterText.toLowerCase()))
+      .forEach((video, index) => {
+        const playerId = `player-${index}`;
+        const card = document.createElement("div");
+        card.className = "bg-white shadow rounded-lg overflow-hidden hover:shadow-md transition";
+        card.innerHTML = `
+          <div class="video-wrapper">
+            <div id="${playerId}"></div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg">${video.title}</h3>
+            <p class="text-sm text-gray-600 mt-2">${video.desc}</p>
+          </div>
+        `;
+        gallery.appendChild(card);
+
+        // Wait for iframe API to be ready and create the player
+        setTimeout(() => {
+          const player = new YT.Player(playerId, {
+            videoId: extractVideoId(video.url),
+            events: {
+              onStateChange: event => {
+                if (event.data === YT.PlayerState.PLAYING) {
+                  stopAllVideos(event.target);
+                }
+              }
+            }
+          });
+          players.push(player);
+        }, 100);
+      });
+  }
+
+  function extractVideoId(url) {
+    const match = url.match(/\/embed\/([^\?&"]+)/);
+    return match ? match[1] : null;
+  }
+
+  document.getElementById("searchInput").addEventListener("input", (e) => {
+    renderVideos(e.target.value);
+  });
+  </script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+
+</body>
+</html>
