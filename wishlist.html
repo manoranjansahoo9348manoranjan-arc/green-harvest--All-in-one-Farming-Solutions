@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wishlist - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body class="bg-white text-gray-800">
+  <!-- Header -->
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-pink-600">❤️ My Wishlist</h1>
+    <a href="rental machine.html" class="text-sm text-blue-600 hover:underline">← Back to Products</a>
+  </header>
+
+  <main class="p-6">
+    <div id="wishlistContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+  </main>
+
+  <script>
+    function getWishlist() {
+      return JSON.parse(localStorage.getItem("wishlist")) || [];
+    }
+    function removeFromWishlist(name) {
+      let list = getWishlist().filter(p => p.name !== name);
+      localStorage.setItem("wishlist", JSON.stringify(list));
+      renderWishlist();
+    }
+
+    function renderWishlist() {
+      const container = document.getElementById("wishlistContainer");
+      const list = getWishlist();
+      container.innerHTML = "";
+      if (list.length === 0) {
+        container.innerHTML = "<p class='text-center col-span-4 text-gray-500'>No products in wishlist.</p>";
+        return;
+      }
+      list.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "border rounded-lg p-4 flex flex-col items-center shadow bg-white";
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.name}" class="w-40 h-40 object-contain rounded">
+          <h3 class="mt-2 text-lg font-medium">${p.name}</h3>
+          <p class="text-sm text-gray-600">${p.desc}</p>
+          <p class="mt-1 text-green-600 font-semibold">₹${p.price}</p>
+          <button class="mt-2 px-3 py-1 bg-red-500 text-white rounded remove-btn">Remove</button>
+        `;
+        card.querySelector(".remove-btn").addEventListener("click", ()=>removeFromWishlist(p.name));
+        container.appendChild(card);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", renderWishlist);
+  </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+</body>
+</html>
