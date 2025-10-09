@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Biopesticide- Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="pesticides.html" class="text-sm text-blue-600 hover:underline">Go to pesticides</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+  <select id="typeFilter" class="border p-2 rounded">
+    <option value="">All Types</option>
+    <option value="Botanical">Botanical</option>
+    <option value="Fungal">Fungal</option>
+    <option value="Bacterial">Bacterial</option>
+    <option value="Viral">Viral</option>
+    <option value="Biochemical">Biochemical</option>
+  </select>
+    <input id="searchInput" type="text" placeholder="Search Biopesticide..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Biopesticide Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
+      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
+      <div id="cartItems" class="space-y-2"></div>
+    </section> -->
+    
+    
+    <script>
+      const growthPromoters = [
+      { name: "Neemazal-T/s", desc: "1lt", price: 1700, brand: "Parry's Bio", type:"Botanical", img: "https://agriplexindia.com/cdn/shop/products/Neemazal_1.png?v=1678710176" },
+        { name: "TrichoRich ", desc: "100 g", price: 180, brand: "baraka crop science", type: "Fungal", img: "https://5.imimg.com/data5/SELLER/Default/2023/10/354784036/FR/EB/JA/194899466/trichorich-bio-fungicide-1000x1000.png" },
+        { name: "Beauveria bassiana", desc: "100 g", price: 220, brand: "Katyayani Organics ", type: "Fungal", img: "https://www.katyayaniorganics.com/wp-content/uploads/2022/06/Bauveria-bassiana-1_resize-946x1024.png" },
+        { name: "VertiGuard ", desc: "100 g", price: 200, brand: "Wellcrop Biotech.", type: "Fungal", img: "https://5.imimg.com/data5/SELLER/Default/2023/7/327844820/GV/RF/NE/6735208/vertiguard-500x500.jpg" },
+        { name: "Inomon", desc: "250 ml", price: 160, brand: "Inora Biotech", type: "Bacterial", img: "https://5.imimg.com/data5/SELLER/Default/2023/3/296699987/EC/RE/EF/4281347/pseudomonas-biopesticide-liquid-1000x1000.jpg" },
+        { name: "Metaguard ", desc: "100 g", price: 230, brand: "Biofix ", type: "Fungal", img: "https://3.imimg.com/data3/FM/LP/MY-769333/meta-guard-bio-pesticide-500x500.jpg" },
+        { name: "Agrilabh H‑NPV", desc: "100 ml", price: 229, brand: "Agrilabh", type: "Viral", img: "https://agrosiaa.com/uploads/userdata/seller/b1d5781111d84f7b3fe45a0852e59758cd7a87e5/product_images/25946884756a147a186dd43ed08735d1970aaf4969661687fc.png" },
+        { name: "EcoNeem", desc: "250 ml", price: 280, brand: "Margo", type: "Botanical", img: "https://th.bing.com/th/id/R.9baeb9ed0e74b2af813f093aaa8fb3d2?rik=qdhx9lvFFAUwBg&riu=http%3a%2f%2fpjmargo.com%2fProducts%2fimages%2fEconeem_0.30_per_EC_3000_ppm_Azadirachtin.jpg&ehk=d2mA8qfw9PmfA%2byxoYW4DBabIYEX%2bjCa1o2AhX0439Y%3d&risl=&pid=ImgRaw&r=0" },
+        { name: "Chilly+", desc: "1lt", price: 850, brand: "Sansar Agro’s Chilli Liquid Food", type: "", img: "https://5.imimg.com/data5/SELLER/Default/2020/12/DN/AF/FD/6129996/38-500x500.jpg" },
+        { name: "Biostrike", desc: "1lt", price: 746, brand: "Multiplex", type: "Botanical", img: "https://www.agriplexindia.com/cdn/shop/products/Bio-strike-20.png?v=1691065192" },
+        { name: "Karanjin ", desc: "1lt", price: 1840, brand: "Agri Life (India) Private Limiteds", type: "Botanical", img: "https://tse4.mm.bing.net/th/id/OIP.821EXossNsEh09Zuwrk8OAAAAA?r=0&pid=ImgDet&w=179&h=255&c=7&dpr=1.3&o=7&rm=3" },
+        { name: "Serenade sc", desc: "1lt", price: 1106, brand: "Bayer", type: "fungal", img: "https://www.pestarmor.ph/wp-content/uploads/2023/03/viber_image_2023-07-24_13-45-07-879-removebg-preview-e1690239145643.png" },
+        { name: "Double Nickel 55", desc: "1kg", price: 13523, brand: "Certis USA ", type: "fungal", img: "https://farmhydrosupplies.com/wp-content/uploads/2023/03/certis_bio_double_nickle_55_1201-800x800.jpg" },
+        { name: "Lepinox plus", desc: "1kg", price: 4450, brand: "Biocont", type: "Bacterial", img: "https://a.allegroimg.com/s512/114866/e2a7b5724bb09ef98b57238ee3c7/LEPINOX-PLUS-1KG-NA-GASIENICE-CMY-BUKSZPANOWEJ" },
+        { name: "Neemax Gold", desc: "250 ml", price: 1250, brand: "Maxiva", type: "Botanical", img: "https://maxivacropcare.com/wp-content/uploads/2022/05/neemax-scaled.jpg" },
+        { name: "BioTricho", desc: "200 g", price: 15159.18, brand: "Biomip", type: "Fungal", img: "https://http2.mlstatic.com/D_NQ_NP_959132-MLB75920553997_042024-O.webp" },
+        { name: "Neem Guard", desc: "1lt", price: 1400, brand: "Dev Amrut", type: "Botanical", img: "https://cpimg.tistatic.com/08361094/b/4/Devamrut-Neem-Guard-10000.jpg" },
+        { name: "FungiKill 250EW", desc: "250ml", price: 360, brand: "Crop Business", type: "Fungal", img: "https://cropbusiness.com/wp-content/uploads/2020/08/90-crop-business-600x902.jpg" },
+      ];
+    
+      function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      // function applyFilters() {
+      //   const typeFilter = document.getElementById("typeFilter").value.toLowerCase();
+      //   const search = document.getElementById("searchInput").value.toLowerCase();
+      //   const sortOption = document.getElementById("sortPrice").value;
+    
+      //   let filtered = growthPromoters.filter(p =>
+      //     p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+      //   );
+    
+      //   if (sortOption === "asc") {
+      //     filtered.sort((a, b) => a.price - b.price);
+      //   } else if (sortOption === "desc") {
+      //     filtered.sort((a, b) => b.price - a.price);
+      //   }
+    
+      //   renderProducts(filtered);
+      // }
+      function applyFilters() {
+  const typeFilter = document.getElementById("typeFilter").value.toLowerCase();
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const sortOption = document.getElementById("sortPrice").value;
+
+  let filtered = growthPromoters.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search);
+    const matchesType = !typeFilter || (p.type && p.type.toLowerCase() === typeFilter);
+    return matchesSearch && matchesType;
+  });
+
+  if (sortOption === "asc") {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (sortOption === "desc") {
+    filtered.sort((a, b) => b.price - a.price);
+  }
+
+  renderProducts(filtered);
+} 
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+  renderProducts(growthPromoters);
+  document.getElementById("searchInput").addEventListener("input", applyFilters);
+  document.getElementById("sortPrice").addEventListener("change", applyFilters);
+  document.getElementById("typeFilter").addEventListener("change", applyFilters); // 📍 Added this line
+  initPage(growthPromoters);
+});
+
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>
