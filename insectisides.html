@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insectisides- Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+  ></script>
+
+    <!-- Tailwind CSS and Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      .product-img {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        object-position: center;
+      }
+      .goog-te-banner-frame.skiptranslate,
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+
+      body {
+        top: 0 !important;
+      }
+
+      #google_translate_element select {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white">
+    <!-- Header -->
+    
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="pesticides.html" class="text-sm text-blue-600 hover:underline">Go to pesticides</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+        <i class="fas fa-shopping-cart text-xl"></i>
+       
+        
+        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+      
+    </div>
+  </header>
+  <!-- Filters -->
+<div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search insecticides..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+  
+
+    <!-- Fungicide Product List -->
+    <main class="p-6">
+      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Insecticide Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </main>
+    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
+      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
+      <div id="cartItems" class="space-y-2"></div>
+    </section> -->
+    
+    
+    <script>
+      const growthPromoters = [
+      { name: "Confidor", desc: "Imidacloprid - 100ml", price: 320, brand: "Bayer", img: "https://5.imimg.com/data5/SELLER/Default/2022/10/DT/JJ/EE/6648681/51hz02gvefl-sl1099--500x500.jpg" },
+        { name: "Coragen", desc: "Chlorantraniliprole - 50ml", price: 1320, brand: "FMC", img: "https://www.agriplexindia.com/cdn/shop/products/Coragen_2.png?v=1679921600" },
+        { name: "Rogor", desc: "Dimethoate - 250ml", price: 200, brand: "fmc", img: "https://5.imimg.com/data5/SELLER/Default/2021/5/WB/WX/PV/28154989/fmc-rogor-insecticide-1000x1000.jpg" },
+        { name: "Sumipro EW", desc: "Cypermethrin - 1lt", price: 5927, brand: "Sumitomo Chemical", img: "https://th.bing.com/th/id/R.91845e4ddedcabd6db3a7a50135ab5a0?rik=MfDkWRyVmMPRrg&riu=http%3a%2f%2fcasachemical.com%2fwp-content%2fuploads%2f2022%2f07%2fSumipro-EW-.jpg&ehk=9fNplk7owClSaTbUGQsHgTqcEyCAGDsZg6Wjlta75Zk%3d&risl=&pid=ImgRaw&r=0" },
+        { name: "Larvin", desc: "Thiodicarb - 250g", price: 410, brand: "Bayer", img: "https://5.imimg.com/data5/SELLER/Default/2021/3/TT/OH/HN/5111461/larvin-insecticide-500x500.jpg" },
+        { name: "Dursban", desc: "Chlorpyrifos - 500ml", price: 370, brand: "Dow AgroSciences", img: "https://agrosiaa.com/uploads/userdata/seller/752ae7bdbb96bf25280b55990570beabf2048ce0/product_images/79011872087c616624a05bc2b8a6b737f760785eafee7a684.png" },
+        { name: "Thimet", desc: "Phorate - 1kg", price: 180, brand: "M/S.Jay Deep Agro Industries", img: "https://agrosiaa.com/uploads/userdata/seller/b1d5781111d84f7b3fe45a0852e59758cd7a87e5/product_images/8260883089f4ec78a90034cff23ff83e2664cb45f4bcadf635.jpeg" },
+        { name: "Match 050EC", desc: "Lufenuron - 250ml", price: 811, brand: "Syngenta", img: "https://img.lazcdn.com/g/p/f19732dea2d4519c1f8ca8dd15b42604.png_720x720q80.png" },
+        { name: "Tracer (Spinosad)", desc: "Spinosad - 100ml", price: 680, brand: "Dow AgroSciences", img: "https://cdn.shopify.com/s/files/1/0605/3144/1863/products/Tracer_1445x.jpg?v=1658405433" },
+        { name: "Nuvan", desc: "Dichlorvos - 100ml", price: 125, brand: "Nuvan", img: "https://agrosiaa.com/uploads/userdata/seller/b1d5781111d84f7b3fe45a0852e59758cd7a87e5/product_images/61642861986ea4e8b239a150a562b68ee7326b44f32d86ddae.png" },
+        { name: "Kinadon plus", desc: "Phosphamidon - 250ml", price: 165, brand: "Upl", img: "https://5.imimg.com/data5/TI/FA/TC/GLADMIN-3061/upl-kinadon-plus-insecticide-500x500.jpg" },
+        { name: "Pyrifos", desc: "Chlorpyrifos - 1liter", price: 1032, brand: "ICTC", img: "https://down-ph.img.susercontent.com/file/ph-11134207-23020-l484bvck5cnv2e" },
+        { name: "NeemAzal-T/S", desc: "Azadirachtin - 250ml", price: 1358, brand: "Coromandel", img: "https://www.agriplexindia.com/cdn/shop/products/Neemazal_1.png?v=1678710176" },
+        { name: "Indofil Z-78", desc: "Lambda-cyhalothrin - 500gm", price: 420, brand: "Indofil", img: "https://5.imimg.com/data5/SELLER/Default/2023/8/338716043/ML/PY/OX/49495737/indofil-z-78-fungicide-500x500.jpeg" },
+        { name: "Decis", desc: "Deltamethrin - 100ml", price: 310, brand: "Bayer", img: "https://agrosiaa.com/uploads/userdata/seller/752ae7bdbb96bf25280b55990570beabf2048ce0/product_images/1999255056623b039622348db1867b72b678e2a61f1f24aa9d.jpg" },
+        { name: "Alika", desc: "Thiamethoxam + Lambda-cyhalothrin - 100ml", price: 600, brand: "Syngenta", img: "https://www.agriplexindia.com/cdn/shop/products/Alika.png?v=1648881221" },
+        { name: "Krishield", desc: "Thia methoxam + Lambda cyhalothrin - 100ml", price: 480, brand: "Krishi Rasayan Group", img: "https://krishirasayan.com/storage/product/1706095707-krishield-thiamethoxam-and-lambdacyhalothrin-sku17.png" },
+        { name: "Marshal", desc: "Carbosulfan - 250ml", price: 360, brand: "Syngenta", img: "https://www.agriplexindia.com/cdn/shop/products/Marshal.png?v=1678346772" },
+        { name: "Belt Expert", desc: "Flubendiamide + Thiacloprid - 100ml", price: 1050, brand: "Bayer", img: "https://static.agrostar.in/static/AGS-CP-756_1.jpg" },
+        { name: "Actara", desc: "Thiamethoxam - 100g", price: 350, brand: "Syngenta", img: "https://5.imimg.com/data5/SELLER/Default/2023/9/348796532/RR/BW/PE/62742001/actara-box-1000x1000.png" }
+      ];
+    
+      function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  // ✅ Add click handlers after buttons are rendered
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+      const card = event.target.closest("div");
+  card.classList.add("bg-green-100", "ring", "ring-green-500");
+
+  // 🔁 Remove highlight after 800ms
+  setTimeout(() => {
+    card.classList.remove("bg-green-100", "ring", "ring-green-500");
+  }, 800);
+    });
+  });
+}
+
+    
+      function updatePrice(input) {
+        const card = input.closest("div");
+        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
+        const quantity = parseInt(input.value);
+        const total = unitPrice * quantity;
+        card.querySelector(".total-price").textContent = total;
+      }
+    
+      function applyFilters() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const sortOption = document.getElementById("sortPrice").value;
+    
+        let filtered = growthPromoters.filter(p =>
+          p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+        );
+    
+        if (sortOption === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOption === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+    
+        renderProducts(filtered);
+      }
+    
+      document.addEventListener("DOMContentLoaded", () => {
+         renderProducts(growthPromoters);
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+         document.getElementById("sortPrice").addEventListener("change", applyFilters);
+        initPage(growthPromoters);
+
+      });
+    </script>
+    <script src="cart.js"></script>
+    
+      
+      
+    <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+  </body>
+</html>
