@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirm Booking - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Header -->
+<header class="px-2 py-1 bg-green-700 text-white flex justify-between items-center text-xs sm:text-sm">
+  <div class="font-bold flex items-center gap-1 text-xs sm:text-sm">
+    ✅ Confirm Your Bookings
+  </div>
+  <div id="google_translate_element" class="ml-2"></div>
+</header>
+
+<style>
+  /* Hide extra text */
+  .goog-te-gadget {
+    font-size: 0 !important;
+    height: 20px !important;
+    overflow: hidden !important;
+  }
+  .goog-te-gadget img {
+    display: none !important; /* hide Google icon */
+  }
+  #google_translate_element select {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+    height: 20px !important;
+    line-height: 18px !important;
+    border-radius: 3px;
+    border: none !important;
+    background: #ffffff;
+    color: #333;
+  }
+</style>
+ 
+
+
+
+<main class="p-6 max-w-5xl mx-auto grid gap-6" id="bookingList"></main>
+
+<script>
+  // Google Translate
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,bn,te,ta,ml,gu,kn,mr,or,pb,as,sd,ne,pa,kn',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+let pendingBookings = JSON.parse(localStorage.getItem("pendingBookings")) || [];
+const container = document.getElementById("bookingList");
+
+function renderBookings() {
+  container.innerHTML = "";
+  if (pendingBookings.length === 0) {
+    container.innerHTML = `<p class="text-center text-red-600">⚠ No pending bookings.</p>`;
+    return;
+  }
+
+  pendingBookings.forEach((b, index) => {
+    let paymentInfo = b.payment === "card" ? 
+      `Card ****${b.cardNumber.slice(-4)} (Exp: ${b.cardExpiry})` :
+      b.payment === "upi" ? `UPI via ${b.upiApp} (${b.upiId})` : "Cash on Delivery";
+
+    container.innerHTML += `
+      <div class="bg-white shadow rounded-lg p-4 flex gap-4 mb-4" id="booking-${index}">
+        <img src="${b.product.img}" alt="${b.product.name}" class="w-28 h-20 object-contain rounded">
+        <div class="flex-1">
+          <h3 class="font-bold text-lg">${b.product.name}</h3>
+          <p><b>Name:</b> ${b.name}</p>
+          <p><b>Phone:</b> ${b.phone}</p>
+          <p><b>Address:</b> ${b.village}, ${b.district}, ${b.state}, ${b.pincode}</p>
+          <p><b>Landmark:</b> ${b.landmark || "N/A"}</p>
+          <p><b>Date:</b> ${b.date}</p>
+          <p><b>Payment:</b> ${paymentInfo}</p>
+          <p class="font-semibold text-green-700">₹${b.product.total}</p>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Confirm all
+function confirmAll() {
+  let allBookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+  // Add createdAt timestamp to each confirmed booking
+  const withTimestamps = pendingBookings.map(b => {
+    return { ...b, createdAt: new Date().toISOString() };
+  });
+
+  allBookings = allBookings.concat(withTimestamps);
+  localStorage.setItem("bookings", JSON.stringify(allBookings));
+  localStorage.removeItem("pendingBookings");
+
+  // ✅ Redirect to My Bookings after saving
+  window.location.href = "mybooking.html";
+}
+
+renderBookings();
+
+// Confirm All button
+const confirmBtn = document.createElement("button");
+confirmBtn.textContent = "✅ Confirm All Bookings";
+confirmBtn.className = "w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 mt-4";
+confirmBtn.onclick = confirmAll;
+container.after(confirmBtn);
+</script>
+<footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+
+</body>
+</html>
