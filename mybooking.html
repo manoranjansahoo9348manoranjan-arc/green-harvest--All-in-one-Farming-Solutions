@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Bookings - Green Harvest</title>
+  <link rel="icon" type="image/png" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Header -->
+<!-- Header -->
+<header class="px-2 py-1 bg-green-700 text-white flex justify-between items-center text-xs sm:text-sm">
+  <div class="font-bold flex items-center gap-1 text-xs sm:text-sm">
+    🌱 Green Harvest
+  </div>
+  <a href="rental machine.html" class="bg-white text-green-700 px-2 py-0.5 rounded font-medium hover:bg-gray-200 text-xs sm:text-sm">
+    ⬅ Home
+  </a>
+  <div id="google_translate_element" class="ml-2"></div>
+</header>
+
+<style>
+  /* Hide extra text */
+  .goog-te-gadget {
+    font-size: 0 !important;
+    height: 40px !important;
+    overflow: hidden !important;
+  }
+  .goog-te-gadget img {
+    display: none !important; /* hide Google icon */
+  }
+  #google_translate_element select {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+    height: 20px !important;
+    line-height: 18px !important;
+    border-radius: 3px;
+    border: none !important;
+    background: #ffffff;
+    color: #333;
+  }
+</style>
+
+
+<!-- Booking List -->
+<main class="p-3 sm:p-4 max-w-5xl mx-auto grid gap-4" id="bookingList"></main>
+
+<!-- Remove History Button -->
+<div class="p-3 sm:p-4 max-w-5xl mx-auto">
+  <button onclick="removeAllBookings()" 
+    class="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 text-sm sm:text-base">
+    🗑 Remove History
+  </button>
+</div>
+
+<!-- Google Translate -->
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,bn,te,ta,ml,gu,kn,mr,or,pb,as,sd,ne,pa',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+const container = document.getElementById("bookingList");
+
+// Render bookings
+function renderBookings() {
+  container.innerHTML = "";
+  if (bookings.length === 0) {
+    container.innerHTML = `<p class="text-center text-red-600">⚠ No bookings found.</p>`;
+    return;
+  }
+
+  bookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  bookings.forEach((b, index) => {
+    let paymentInfo = b.payment === "card" ? 
+      `Card ****${b.cardNumber.slice(-4)} (Exp: ${b.cardExpiry})` :
+      b.payment === "upi" ? `UPI via ${b.upiApp} (${b.upiId})` : "Cash on Delivery";
+
+    let statusText = "";
+    if (b.status === "cancelled") {
+      statusText = `<p class="text-red-600 font-semibold text-xs sm:text-sm">❌ Cancelled (Reason: ${b.cancelReason || "N/A"})</p>`;
+    } else {
+      statusText = `<p class="text-green-600 font-semibold text-xs sm:text-sm">✅ Confirmed</p>`;
+    }
+
+    const createdAt = new Date(b.createdAt);
+    const diffMs = Date.now() - createdAt.getTime();
+    const within5Minutes = diffMs < 5 * 60 * 1000;
+    const remainingMs = Math.max(0, 5 * 60 * 1000 - diffMs);
+    const remainingSec = Math.floor(remainingMs / 1000);
+
+    container.innerHTML += `
+      <div class="bg-white shadow rounded-lg p-3 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3">
+        <div class="flex gap-3 w-full sm:w-auto">
+          <img src="${b.product.img}" alt="${b.product.name}" class="w-24 h-20 object-contain rounded mx-auto sm:mx-0">
+          <div class="text-xs sm:text-sm">
+            <h3 class="font-bold text-sm sm:text-lg">${b.product.name}</h3>
+            <p><b>Name:</b> ${b.name}</p>
+            <p><b>Phone:</b> ${b.phone}</p>
+            <p><b>Address:</b> ${b.village}, ${b.district}, ${b.state}, ${b.pincode}</p>
+            <p><b>Landmark:</b> ${b.landmark || "N/A"}</p>
+            <p><b>Date:</b> ${b.date}</p>
+            <p><b>Payment:</b> ${paymentInfo}</p>
+            <p class="font-semibold text-green-700">₹${b.product.total}</p>
+            ${statusText}
+            <div class="mt-2 flex flex-col gap-1" id="actions-${index}">
+              ${b.status !== "cancelled" && within5Minutes
+                ? `<button onclick="cancelBooking(${index})" class="bg-yellow-500 text-white px-2 sm:px-3 py-1 rounded hover:bg-yellow-600 text-xs sm:text-sm">Cancel</button>
+                   <p id="countdown-${index}" class="text-gray-500 text-xs">⏳ Cancel expires in ${formatTime(remainingSec)}</p>`
+                : ""}
+              <button onclick="removeBooking(${index})" class="bg-red-600 text-white px-2 sm:px-3 py-1 rounded hover:bg-red-700 text-xs sm:text-sm">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    if (within5Minutes && b.status !== "cancelled") {
+      startCountdown(index, createdAt);
+    }
+  });
+}
+
+// Countdown
+function startCountdown(index, createdAt) {
+  const interval = setInterval(() => {
+    const diffMs = Date.now() - new Date(createdAt).getTime();
+    const remainingMs = Math.max(0, 5 * 60 * 1000 - diffMs);
+    const remainingSec = Math.floor(remainingMs / 1000);
+    const el = document.getElementById(`countdown-${index}`);
+    if (el) {
+      if (remainingSec > 0) {
+        el.textContent = `⏳ Cancel expires in ${formatTime(remainingSec)}`;
+      } else {
+        clearInterval(interval);
+        renderBookings();
+      }
+    }
+  }, 1000);
+}
+
+// Format seconds
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+// Cancel booking
+function cancelBooking(index) {
+  const reasons = ["Change of mind", "Ordered by mistake", "Found cheaper elsewhere", "Delayed delivery", "Other"];
+  let reasonList = "Choose reason:\n";
+  reasons.forEach((r, i) => { reasonList += `${i + 1}. ${r}\n`; });
+  const choice = prompt(reasonList);
+  if (!choice || isNaN(choice) || choice < 1 || choice > reasons.length) return;
+  bookings[index].status = "cancelled";
+  bookings[index].cancelReason = reasons[choice - 1];
+  localStorage.setItem("bookings", JSON.stringify(bookings));
+  renderBookings();
+}
+
+// Remove booking
+function removeBooking(index) {
+  if (!confirm("Are you sure you want to remove this booking?")) return;
+  bookings.splice(index, 1);
+  localStorage.setItem("bookings", JSON.stringify(bookings));
+  renderBookings();
+}
+
+// Remove all
+function removeAllBookings() {
+  if (!confirm("⚠ Are you sure you want to clear all booking history?")) return;
+  localStorage.removeItem("bookings");
+  bookings = [];
+  renderBookings();
+}
+
+renderBookings();
+</script>
+<footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+
+</body>
+</html>
