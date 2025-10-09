@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Orders - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #e6f9e6, #f0fff0);
+    }
+    .sidebar-hidden { transform: translateX(-100%); }
+    .sidebar-overlay { background: rgba(0, 0, 0, 0.5); }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 sidebar sidebar-hidden">
+    <div class="flex justify-between items-center p-4 border-b">
+      <span class="font-bold text-lg text-green-600">Green Harvest</span>
+      <button onclick="toggleSidebar()" class="text-gray-500 text-xl">&times;</button>
+    </div>
+    <nav class="p-4 space-y-4">
+      <a href="service.html" class="block text-gray-700 hover:text-green-600">Home</a>
+      <a href="pesticides.html" class="block text-gray-700 hover:text-green-600">Pesticides</a>
+      <a href="Fertilizers.html" class="block text-gray-700 hover:text-green-600">Fertilizers</a>
+      <a href="OrganicFarming.html" class="block text-gray-700 hover:text-green-600">Organic Farming</a>
+      <a href="cart.html" class="block text-gray-700 hover:text-green-600">Cart</a>
+      <a href="orders.html" class="block text-green-600 font-semibold">Your Orders</a>
+    </nav>
+  </div>
+  <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 z-40 sidebar-overlay hidden"></div>
+
+  <!-- Header -->
+  <header class="flex items-center justify-between p-4 shadow-md bg-white">
+    <div class="flex items-center space-x-4">
+      <button onclick="toggleSidebar()" class="text-2xl"><i class="fas fa-bars"></i></button>
+      <a href="dashboard.html"><img src="logo33.png" alt="Green Harvest Logo" class="h-14" /></a>
+      <h1 class="text-xl font-bold text-green-700">Your Orders</h1>
+    </div>
+    <a href="cart.html" class="text-2xl text-gray-700 hover:text-green-600"><i class="fas fa-shopping-cart"></i></a>
+  </header>
+
+  <!-- Orders Table -->
+  <section class="p-6 max-w-6xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Order Summary</h2>
+    <div class="overflow-x-auto shadow rounded-lg bg-white">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-green-100 text-green-700">
+          <tr>
+            <th class="py-3 px-4">Order ID</th>
+            <th class="py-3 px-4">Product Name</th>
+            <th class="py-3 px-4">Quantity</th>
+            <th class="py-3 px-4">Price</th>
+            <th class="py-3 px-4">Date</th>
+            <th class="py-3 px-4">Status</th>
+            <th class="py-3 px-4">Action</th>
+            <th class="py-3 px-4">Invoice</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTable">
+          <tr>
+            <td colspan="8" class="py-3 px-4 text-center text-gray-500">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-center mt-6">
+      <button onclick="downloadAllInvoices()" class="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
+        📦 Download All Invoices
+      </button>
+    </div>
+
+    <div id="emptyState" class="text-center mt-8 text-gray-500 hidden">
+      <i class="fas fa-box-open text-4xl mb-2"></i>
+      <p class="text-lg">You have no orders yet.</p>
+      <a href="service.html" class="text-green-600 font-semibold hover:underline mt-2 inline-block">Shop Now</a>
+    </div>
+  </section>
+
+  <!-- Cancel Reason Modal -->
+<div id="cancelModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h3 class="text-lg font-semibold mb-4">Reason For Cancellation</h3>
+    <form id="cancelForm" class="space-y-2">
+      <label><input type="radio" name="cancelReason" value="Changed my mind" required /> I have changed my mind</label><br/>
+      <label><input type="radio" name="cancelReason" value="Address change" /> I want to change address for the order</label><br/>
+      <label><input type="radio" name="cancelReason" value="Convert to prepaid" /> I want to convert my order to Prepaid</label><br/>
+      <label><input type="radio" name="cancelReason" value="Price increased" /> Price for the product has increased</label><br/>
+      <label><input type="radio" name="cancelReason" value="Late delivery" /> Expected delivery time is very long</label><br/>
+      <label><input type="radio" name="cancelReason" value="Quality issues" /> Product quality issues</label><br/>
+      <label><input type="radio" name="cancelReason" value="Already purchased" /> I have purchased the product elsewhere</label>
+    </form>
+
+    <div class="mt-4 flex justify-end space-x-3">
+      <button onclick="closeCancelModal()" class="text-gray-500 hover:text-gray-700">Cancel</button>
+      <button onclick="confirmCancel()" class="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+
+  <script>
+  let selectedOrderId = null;
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('sidebar-hidden');
+    document.getElementById('sidebarOverlay').classList.toggle('hidden');
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const tbody = document.getElementById("ordersTable");
+    const emptyState = document.getElementById("emptyState");
+
+    tbody.innerHTML = "";
+
+    if (orders.length === 0) {
+      emptyState.classList.remove("hidden");
+      return;
+    }
+
+    emptyState.classList.add("hidden");
+
+    const now = Date.now();
+    let updated = false;
+
+    orders.forEach(order => {
+      const orderTime = parseInt(order.id.replace("GH", ""), 36);
+      const ageMinutes = (now - orderTime) / (1000 * 60);
+
+      if (order.status === "Processing" && ageMinutes >= 2) {
+        order.status = "Delivered";
+        updated = true;
+      }
+
+      const row = document.createElement("tr");
+      row.className = "border-b hover:bg-gray-50";
+
+      const statusHTML = order.status === "Delivered"
+        ? `<span class="text-green-600 font-semibold"><i class="fas fa-check-circle mr-1"></i>Delivered</span>`
+        : order.status === "Cancelled"
+          ? `<span class="text-red-600 font-semibold">Cancelled</span>`
+          : `<span class="text-yellow-600 font-semibold">Processing</span>`;
+
+      const actionHTML = order.status === "Delivered" || order.status === "Cancelled"
+        ? `<button onclick="removeOrder('${order.id}')" class="text-red-600 hover:underline">Remove</button>`
+        : `<button onclick="cancelOrder('${order.id}')" class="text-red-600 hover:underline">Cancel</button>`;
+
+      const invoiceBtn = `<button onclick="downloadInvoice('${order.id}')" class="text-blue-600 hover:underline">Download</button>`;
+
+      row.innerHTML = `
+        <td class="py-3 px-4">${order.id}</td>
+        <td class="py-3 px-4">${order.product}</td>
+        <td class="py-3 px-4">${order.quantity}</td>
+        <td class="py-3 px-4 font-semibold text-green-700">₹${order.price}</td>
+        <td class="py-3 px-4">${order.date}</td>
+        <td class="py-3 px-4">${statusHTML}</td>
+        <td class="py-3 px-4">${actionHTML}</td>
+        <td class="py-3 px-4">${invoiceBtn}</td>
+        <td class="py-3 px-4">${order.reason || "-"}</td>
+      `;
+
+      tbody.appendChild(row);
+    });
+
+    if (updated) {
+      localStorage.setItem("orders", JSON.stringify(orders));
+    }
+  });
+
+  function cancelOrder(orderId) {
+    selectedOrderId = orderId;
+    document.getElementById("cancelModal").classList.remove("hidden");
+  }
+
+  function closeCancelModal() {
+    selectedOrderId = null;
+    document.getElementById("cancelModal").classList.add("hidden");
+  }
+
+  function confirmCancel() {
+    const reason = document.querySelector('input[name="cancelReason"]:checked');
+    if (!reason) return alert("Please select a cancellation reason.");
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const index = orders.findIndex(order => order.id === selectedOrderId);
+
+    if (index !== -1) {
+      orders[index].status = "Cancelled";
+      orders[index].reason = reason.value;
+      localStorage.setItem("orders", JSON.stringify(orders));
+    }
+
+    closeCancelModal();
+    location.reload();
+  }
+
+  function removeOrder(orderId) {
+    if (!confirm("Remove this order from history?")) return;
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders = orders.filter(order => order.id !== orderId);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    location.reload();
+  }
+function downloadInvoice(orderId) {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const order = orders.find(o => o.id === orderId);
+  if (!order) return alert("Order not found!");
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const marginX = 20;
+  let y = 20;
+
+  // Header
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("Green Harvest", marginX, y);
+  y += 6;
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  doc.text("Tax Invoice", marginX, y);
+  y += 6;
+  doc.text(`Invoice Number: INV-${order.id}`, marginX, y);
+  y += 5;
+  doc.text(`Order Date: ${order.date}`, marginX, y);
+  y += 5;
+  doc.text("GSTIN: 29ABCDE1234F2Z5", marginX, y);
+  y += 10;
+
+  // Billing Section
+  doc.setFont("helvetica", "bold");
+  doc.text("Bill To:", marginX, y);
+  y += 5;
+  doc.setFont("helvetica", "normal");
+  doc.text(`Customer: ${order.customer || "N/A"}`, marginX, y);
+  y += 5;
+  doc.text(`Address: ${order.address || "N/A"}`, marginX, y);
+  y += 10;
+
+  // Item Table
+  const price = parseFloat(order.price);
+  const discount = 0;
+  const taxable = (price / 1.28).toFixed(2);
+  const cgst = (price * 0.14).toFixed(2);
+  const sgst = (price * 0.14).toFixed(2);
+  const total = price.toFixed(2);
+
+  doc.autoTable({
+    startY: y,
+    head: [["Product", "Qty",   "Total ₹"]],
+    body: [[
+      order.product,
+      order.quantity,
+      `₹${price}`,
+      
+      
+      `₹${total}`
+    ]],
+    styles: { fontSize: 9 },
+    headStyles: { fillColor: [22, 160, 133] }, // green header
+    theme: "striped",
+    margin: { left: marginX, right: marginX }
+  });
+
+  y = doc.previousAutoTable.finalY + 10;
+
+  doc.setFont("helvetica", "bold");
+  doc.text(`Grand Total: ₹${total}`, marginX, y);
+  y += 10;
+
+  // Footer
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(10);
+  doc.text("Thank you for shopping with Green Harvest!", marginX, y);
+
+  doc.save(`Invoice_${order.id}.pdf`);
+}
+
+function downloadAllInvoices() {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  if (orders.length === 0) return alert("No orders found!");
+
+  const zip = new JSZip();
+  const { jsPDF } = window.jspdf;
+
+  const tasks = orders.map(order => {
+    const doc = new jsPDF();
+    const marginX = 20;
+    let y = 20;
+
+    // Header
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Green Harvest", marginX, y);
+    y += 6;
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("Tax Invoice", marginX, y);
+    y += 6;
+    doc.text(`Invoice Number: INV-${order.id}`, marginX, y);
+    y += 5;
+    doc.text(`Order Date: ${order.date}`, marginX, y);
+    y += 5;
+    doc.text("GSTIN: 29ABCDE1234F2Z5", marginX, y);
+    y += 10;
+
+    // Billing Info
+    doc.setFont("helvetica", "bold");
+    doc.text("Bill To:", marginX, y);
+    y += 5;
+    doc.setFont("helvetica", "normal");
+    doc.text(`Customer: ${order.customer || "N/A"}`, marginX, y);
+    y += 5;
+    doc.text("Address: 123 Village Road, Odisha - 751001", marginX, y);
+    y += 10;
+
+    // Table calculations
+    const price = parseFloat(order.price);
+    const discount = 0;
+    const taxable = (price / 1.28).toFixed(2);
+    const cgst = (price * 0.14).toFixed(2);
+    const sgst = (price * 0.14).toFixed(2);
+    const total = price.toFixed(2);
+
+    // Item Table
+    doc.autoTable({
+      startY: y,
+      head: [["Product", "Qty",    "Total ₹"]],
+      body: [[
+        order.product,
+        order.quantity,
+        `₹${price}`,
+        `₹${taxable}`,
+        
+        
+        `₹${total}`
+      ]],
+      styles: { fontSize: 9 },
+      headStyles: { fillColor: [22, 160, 133] },
+      theme: "striped",
+      margin: { left: marginX, right: marginX }
+    });
+
+    y = doc.previousAutoTable.finalY + 10;
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Grand Total: ₹${total}`, marginX, y);
+    y += 10;
+
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(10);
+    doc.text("Thank you for shopping with Green Harvest!", marginX, y);
+
+    // Add PDF to ZIP
+    return new Promise(resolve => {
+      zip.file(`Invoice_${order.id}.pdf`, doc.output("blob"));
+      resolve();
+    });
+  });
+
+  Promise.all(tasks).then(() => {
+    zip.generateAsync({ type: "blob" }).then(blob => {
+      saveAs(blob, "All_Invoices.zip");
+    });
+  });
+}
+
+  
+  
+  </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Register jsPDF and autoTable explicitly (important for mobile)
+    if (window.jspdf && window.jspdf.jsPDF) {
+      window.jsPDF = window.jspdf.jsPDF;
+
+      // Register autoTable if not already registered
+      if (!window.jsPDF.API.autoTable && window.jspdf_autotable) {
+        window.jsPDF.API.autoTable = window.jspdf_autotable;
+      }
+    }
+  });
+</script>
+
+ 
+
+</body>
+</html>
