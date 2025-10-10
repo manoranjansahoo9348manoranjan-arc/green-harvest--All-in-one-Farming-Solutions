@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agricultural Loan - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+  /* Hide extra text */
+  .goog-te-gadget {
+    font-size: 0 !important;
+    height: 20px !important;
+    overflow: hidden !important;
+  }
+  .goog-te-gadget img {
+    display: none !important; /* hide Google icon */
+  }
+  #google_translate_element select {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+    height: 20px !important;
+    line-height: 18px !important;
+    border-radius: 3px;
+    border: none !important;  
+    background: #ffffff;
+    color: #333;
+  }
+</style>
+</head>
+<body class="bg-green-50 font-sans">
+
+  <!-- Header with Google Translate -->
+  <header class="bg-green-700 text-white p-4 flex justify-between items-center">
+    <span class="text-lg font-bold">🌱 Green Harvest - Agricultural Loan Application</span>
+    <div class="flex items-center space-x-2">
+    
+      <div id="google_translate_element"></div>
+    </div>
+  </header>
+
+  <!-- Loan Info Section -->
+  <section class="max-w-5xl mx-auto p-6">
+    <h2 class="text-2xl font-bold text-green-800 mb-4">Why Choose Our Loans?</h2>
+    <p class="text-green-900 mb-4">We provide flexible, low-interest agricultural loans for farmers and equipment rentals. Use our loans to buy machinery, seeds, fertilizers, or expand your farm.</p>
+    <ul class="list-disc list-inside text-green-900 mb-6">
+      <li>Quick loan approval</li>
+      <li>Flexible repayment options</li>
+      <li>Low interest rates for farmers</li>
+      <li>Support for equipment rental & farm expansion</li>
+    </ul>
+  </section>
+
+  <!-- Interest Rate Table -->
+  <section class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md mb-6">
+    <h2 class="text-xl font-bold text-green-800 mb-4">💰 Loan Interest Rates</h2>
+    <table class="w-full border border-green-300">
+      <thead class="bg-green-100">
+        <tr>
+          <th class="p-2 border">Loan Purpose</th>
+          <th class="p-2 border">Interest Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="p-2 border">Farm Equipment</td><td class="p-2 border">7% per annum</td></tr>
+        <tr><td class="p-2 border">Seeds & Fertilizers</td><td class="p-2 border">6% per annum</td></tr>
+        <tr><td class="p-2 border">Farm Expansion</td><td class="p-2 border">8% per annum</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Loan Calculator -->
+  <section class="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md mb-6">
+    <h2 class="text-xl font-bold text-green-800 mb-4">📊 Loan EMI Calculator</h2>
+    <div class="space-y-3">
+      <input type="number" id="calcAmount" placeholder="Loan Amount (₹)" class="w-full p-2 border border-green-300 rounded">
+      <input type="number" id="calcRate" placeholder="Interest Rate (%)" class="w-full p-2 border border-green-300 rounded">
+      <input type="number" id="calcMonths" placeholder="Repayment Period (Months)" class="w-full p-2 border border-green-300 rounded">
+      <button onclick="calculateEMI()" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800">Calculate EMI</button>
+      <p id="emiResult" class="text-green-700 font-semibold"></p>
+    </div>
+  </section>
+
+  <!-- Loan Eligibility Checker -->
+  <section class="max-w-3xl mx-auto p-6 bg-green-100 rounded-xl shadow-md mb-6">
+    <h2 class="text-xl font-bold text-green-800 mb-4">✅ Check Loan Eligibility</h2>
+    <input type="number" id="income" placeholder="Annual Income (₹)" class="w-full p-2 border border-green-300 rounded mb-3">
+    <input type="number" id="land" placeholder="Land Size (Acres)" class="w-full p-2 border border-green-300 rounded mb-3">
+    <button onclick="checkEligibility()" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800">Check</button>
+    <p id="eligibilityResult" class="text-green-700 font-semibold mt-3"></p>
+  </section>
+
+  <!-- Loan Form Section -->
+  <section class="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md">
+    <h2 class="text-xl font-bold text-green-800 mb-4">📋 Apply for a Loan</h2>
+    <form id="loanForm" class="space-y-4">
+      <div>
+        <label class="block text-green-900 font-semibold mb-1">Full Name</label>
+        <input type="text" name="name" required class="w-full p-2 border border-green-300 rounded">
+      </div>
+
+      <div>
+        <label class="block text-green-900 font-semibold mb-1">Email (optional)</label>
+        <input type="email" name="email" class="w-full p-2 border border-green-300 rounded">
+      </div>
+
+      <div>
+        <label class="block text-green-900 font-semibold mb-1">Phone Number</label>
+        <input type="tel" name="phone" maxlength="10" pattern="[0-9]{10}" class="w-full p-2 border border-green-300 rounded">
+      </div>
+
+      <div>
+        <label class="block text-green-900 font-semibold mb-1">Government ID</label>
+        <select name="govtID" id="govtID" required onchange="toggleGovtIDField()" class="w-full p-2 border border-green-300 rounded">
+          <option value="">Select ID</option>
+          <option value="aadhar">Aadhar Card</option>
+          <option value="voter">Voter ID</option>
+          <option value="pan">PAN Card</option>
+        </select>
+      </div>
+
+      <!-- Extra Input for Govt ID -->
+      <div id="govtIDExtra" class="hidden">
+        <label id="govtLabel" class="block text-green-900 font-semibold mb-1"></label>
+        <input type="text" id="govtInput" name="govtIDNumber" class="w-full p-2 border border-green-300 rounded">
+      </div>
+
+      <div>
+        <label class="block text-green-900 font-semibold mb-1">Upload Bank Statement (Image)</label>
+        <input type="file" name="bankStatement" accept="image/*" required class="w-full p-2 border border-green-300 rounded">
+      </div>
+
+      <div>
+        <label class="block text-green-900 font-semibold mb-1">Loan Amount (₹)</label>
+        <input type="number" name="amount" required min="1000" class="w-full p-2 border border-green-300 rounded">
+      </div>
+
+      <div>
+        <label class="block text-green-900 font-semibold mb-1">Loan Purpose</label>
+        <select id="purposeSelect" name="purpose" required class="w-full p-2 border border-green-300 rounded" onchange="toggleOtherPurpose()">
+          <option value="">Select Purpose</option>
+          <option value="equipment">Buy Farm Equipment</option>
+          <option value="seeds">Purchase Seeds</option>
+          <option value="fertilizers">Fertilizers & Pesticides</option>
+          <option value="expansion">Farm Expansion</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div id="otherPurposeDiv" class="hidden">
+        <label class="block text-green-900 font-semibold mb-1">Specify Other Purpose</label>
+        <input type="text" name="otherPurpose" class="w-full p-2 border border-green-300 rounded">
+      </div>
+
+      <div>
+        <label class="block text-green-900 font-semibold mb-1">Repayment Period (Months)</label>
+        <input type="number" name="repayment" required min="1" max="60" class="w-full p-2 border border-green-300 rounded">
+      </div>
+
+      <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800">Submit Application</button>
+    </form>
+    
+    <p id="successMsg" class="mt-4 text-green-700 font-semibold hidden">✅ Your loan application has been submitted successfully!</p>
+    <a href="my-loans.html" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">📂 View Applications</a>
+
+  </section>
+
+  <!-- Loan Status Tracker -->
+  <section class="max-w-3xl mx-auto p-6 bg-green-50 rounded-xl shadow-md mt-6">
+    <h2 class="text-xl font-bold text-green-800 mb-4">🔍 Track Loan Status</h2>
+    <input type="text" id="trackInput" placeholder="Enter Full Name / Phone / Email" class="w-full p-2 border border-green-300 rounded mb-3">
+    <button onclick="trackLoan()" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800">Check Status</button>
+    <p id="statusResult" class="text-green-700 font-semibold mt-3"></p>
+  </section>
+
+  <!-- Applications Modal -->
+  <div id="applicationsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white w-11/12 md:w-2/3 lg:w-1/2 p-6 rounded-lg shadow-lg relative">
+      <button onclick="closeApplications()" class="absolute top-2 right-2 text-red-600 font-bold">✖</button>
+      <h2 class="text-xl font-bold text-green-800 mb-4">📂 Submitted Loan Applications</h2>
+      <div id="applicationsList" class="space-y-3 max-h-96 overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-green-700 text-white text-center p-4 mt-6">
+    © 2025 Green Harvest. Empowering Farmers with Growth & Support 🌱
+  </footer>
+
+  <script>
+    // Toggle Other Purpose field
+    function toggleOtherPurpose() {
+      let purposeSelect = document.getElementById("purposeSelect").value;
+      let otherDiv = document.getElementById("otherPurposeDiv");
+      otherDiv.classList.toggle("hidden", purposeSelect !== "other");
+    }
+
+    // Toggle Govt ID field
+    function toggleGovtIDField() {
+      let govtID = document.getElementById("govtID").value;
+      let govtDiv = document.getElementById("govtIDExtra");
+      let govtLabel = document.getElementById("govtLabel");
+      let govtInput = document.getElementById("govtInput");
+
+      govtDiv.classList.add("hidden");
+      govtInput.value = "";
+      govtInput.removeAttribute("pattern");
+      govtInput.removeAttribute("maxlength");
+
+      if (govtID === "aadhar") {
+        govtLabel.innerText = "Enter Aadhar Number";
+        govtInput.setAttribute("pattern", "[0-9]{12}");
+        govtInput.setAttribute("maxlength", "12");
+        govtDiv.classList.remove("hidden");
+      } else if (govtID === "voter") {
+        govtLabel.innerText = "Enter Voter ID";
+        govtInput.setAttribute("maxlength", "15");
+        govtDiv.classList.remove("hidden");
+      } else if (govtID === "pan") {
+        govtLabel.innerText = "Enter PAN Number";
+        govtInput.setAttribute("pattern", "[A-Z]{5}[0-9]{4}[A-Z]{1}");
+        govtInput.setAttribute("maxlength", "10");
+        govtDiv.classList.remove("hidden");
+      }
+    }
+
+    // Save loan applications
+    document.getElementById("loanForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let formData = new FormData(this);
+      let application = {};
+      formData.forEach((value, key) => { application[key] = value; });
+
+      if (!application.email && !application.phone) {
+        alert("Please provide either Email or Phone Number.");
+        return;
+      }
+
+      if (application.purpose === "other") {
+        application.purpose = application.otherPurpose || "Other (not specified)";
+      }
+
+      let applications = JSON.parse(localStorage.getItem("loanApplications")) || [];
+      applications.push(application);
+      localStorage.setItem("loanApplications", JSON.stringify(applications));
+
+      document.getElementById("successMsg").classList.remove("hidden");
+      this.reset();
+      toggleOtherPurpose();
+      toggleGovtIDField();
+    });
+
+    // EMI Calculator
+    function calculateEMI() {
+      let P = parseFloat(document.getElementById("calcAmount").value);
+      let R = parseFloat(document.getElementById("calcRate").value) / 12 / 100;
+      let N = parseInt(document.getElementById("calcMonths").value);
+
+      if (isNaN(P) || isNaN(R) || isNaN(N) || N <= 0) {
+        document.getElementById("emiResult").innerText = "⚠️ Please enter valid details.";
+        return;
+      }
+
+      let emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+      document.getElementById("emiResult").innerText = "Estimated EMI: ₹" + emi.toFixed(2) + " per month";
+    }
+
+    // Eligibility Checker
+    function checkEligibility() {
+      let income = parseFloat(document.getElementById("income").value);
+      let land = parseFloat(document.getElementById("land").value);
+
+      if (isNaN(income) || isNaN(land)) {
+        document.getElementById("eligibilityResult").innerText = "⚠️ Please enter valid details.";
+        return;
+      }
+
+      if (income >= 50000 && land >= 0.5) {
+        document.getElementById("eligibilityResult").innerText = "✅ You are eligible for a loan.";
+      } else {
+        document.getElementById("eligibilityResult").innerText = "❌ You may not meet the eligibility criteria.";
+      }
+    }
+
+    // Loan Status Tracker
+    function trackLoan() {
+      let input = document.getElementById("trackInput").value.trim().toLowerCase();
+      let applications = JSON.parse(localStorage.getItem("loanApplications")) || [];
+      let found = applications.find(app => 
+        app.name.toLowerCase() === input || 
+        (app.phone && app.phone.toLowerCase() === input) ||
+        (app.email && app.email.toLowerCase() === input)
+      );
+
+      if (found) {
+        document.getElementById("statusResult").innerText = "📌 Application Found: Status - Pending Review";
+      } else {
+        document.getElementById("statusResult").innerText = "❌ No application found.";
+      }
+    }
+
+
+    // Google Translate
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,kn,ta,te,ml,bn,gu,mr,pa,or,ur,as,ks,sd',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
