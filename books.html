@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Farmer's Book Collection</title>
+<style>
+  :root{
+    --green:#2e7d32;
+    --accent:#ff9800;
+  }
+  body { font-family: Arial, sans-serif; background: url('https://img.freepik.com/premium-vector/world-book-day-little-kid-reading-with-book-his-hands-forest-plants-background_432516-3912.jpg?w=740') no-repeat center center fixed;
+        background-size: cover; margin: 0; padding: 0; }
+  header {
+    background: var(--green);
+    color: white;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    position: relative;
+  }
+  header h1 {
+    font-size: 20px;
+    margin: 5px 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  header a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+  }
+  header a:hover { background: rgba(255,255,255,0.2); }
+  #google_translate_element { margin-left: auto; }
+  .goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame.skiptranslate { display: none !important; }
+  .goog-te-gadget { font-size: 0 !important; }
+  body { top: 0px !important; }
+
+  /* Search + Filters */
+  .search-container {
+    background: white;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .search-container input {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 24px;
+    outline: none;
+    font-size: 14px;
+  }
+  .filter-row {
+    display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+    padding: 0 10px 10px;
+  }
+  .chip {
+    background:#e8f5e9; border:1px solid #c8e6c9; color:#1b5e20;
+    padding:6px 10px; border-radius:16px; font-size:12px; cursor:pointer;
+    user-select:none;
+  }
+  .chip.active { background:#c8e6c9; }
+
+  .book-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+    gap: 20px; 
+    padding: 20px; 
+  }
+  .book-card { 
+    background: #fff; 
+    border-radius: 12px; 
+    padding: 16px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08); 
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .book-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
+  .book-top { display:flex; gap:12px; align-items:center; }
+  .book-card img { width: 72px; height: 72px; object-fit: contain; }
+  .book-card h3 { font-size: 18px; margin: 0 0 4px; }
+  .book-card p { font-size: 14px; color: #555; margin:0; }
+  .feature-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .feature { background:#f1f8e9; border:1px solid #dcedc8; color:#33691e; padding:3px 8px; border-radius:12px; font-size:11px; }
+  .actions { display:flex; gap:10px; margin-top:8px; }
+  .btn {
+    border:none; cursor:pointer; padding:10px 12px; border-radius:20px; font-weight:600; font-size:13px;
+  }
+  .btn.read { background: var(--green); color:white; }
+  .btn.download { background: var(--accent); color:white; }
+
+  footer { background: black; color: white; text-align: center; padding: 8px; margin-top: 20px; font-size: 14px; }
+  #backToTop { position: fixed; bottom: 20px; right: 20px; background: var(--green); color: white; padding: 10px 15px; border: none; border-radius: 50%; cursor: pointer; display: none; }
+  #chatButton { position: fixed; bottom: 80px; right: 20px; background: var(--accent); color: white; padding: 10px 14px; border-radius: 25px; font-size: 14px; font-weight: bold; cursor: pointer; }
+
+  #chatIframeContainer {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    overflow: hidden;
+    display: none;
+  }
+  #chatIframeContainer iframe { width: 100%; height: 100%; border: none; }
+  #chatCloseBtn { background: var(--green); color: white; border: none; padding: 5px; font-size: 16px; cursor: pointer; width: 100%; text-align: right; }
+
+  /* PDF Reader Modal */
+  .modal {
+    position:fixed; inset:0; background: rgba(0,0,0,.6);
+    display:none; align-items:center; justify-content:center; padding:16px; z-index:9999;
+  }
+  .modal-content {
+    background:#fff; width: min(1000px, 96vw); height: min(85vh, 900px);
+    border-radius: 12px; overflow:hidden; display:flex; flex-direction:column;
+  }
+  .modal-header {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 12px; background:#f6f8fa; border-bottom:1px solid #e5e7eb;
+  }
+  .modal-title { font-weight:700; font-size:14px; color:#111; }
+  .modal-actions { display:flex; gap:8px; align-items:center; }
+  .modal-close { background:#eee; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; }
+  .modal-iframe { flex:1; width:100%; border:0; }
+
+  /* Mobile adjustments */
+  @media (max-width: 600px) {
+    header { flex-direction: column; align-items: center; }
+    header h1 { position: static; transform: none; margin: 5px 0; }
+    .search-container input { max-width: 100%; }
+    #chatIframeContainer { right: 10px; width: 92vw; height: 60vh; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <a href="news.html">🏠 Home</a>
+  <h1>Farmer's Book Collection</h1>
+  <div id="google_translate_element"></div>
+</header>
+
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="Search books or features...">
+  <div class="filter-row" id="filterRow"><!-- chips injected --></div>
+</div>
+
+<div class="book-grid" id="bookGrid"><!-- cards injected --></div>
+
+<footer>
+  <p>&copy; 2025 Green Harvest. All Rights Reserved.</p>
+</footer>
+
+<button id="backToTop">↑</button>
+<div id="chatButton">💬 AI Assistant</div>
+<div id="chatIframeContainer">
+  <button id="chatCloseBtn">×</button>
+  <iframe src="chatbot.html" title="AI Assistant"></iframe>
+</div>
+
+<!-- PDF Reader Modal -->
+<div class="modal" id="readerModal" aria-hidden="true" role="dialog" aria-label="Book Reader">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Reading…</div>
+      <div class="modal-actions">
+        <button class="modal-close" id="openInNew">Open in new tab</button>
+        <button class="modal-close" id="downloadFromModal">Download</button>
+        <button class="modal-close" id="closeModal">Close</button>
+      </div>
+    </div>
+    <iframe class="modal-iframe" id="pdfFrame" title="Book PDF"></iframe>
+  </div>
+</div>
+
+<script>
+  // ----------- CONFIG: Your book catalog -----------
+  // Place real PDFs in /pdfs and update file names below.
+  const BOOKS = [
+    {
+    title: "One Straw Revolution",
+    desc: "A classic on natural farming philosophy and sustainable agriculture.",
+    cover: "https://pictures.abebooks.com/LAMDHABOOKS/md/md30093652318.jpg",
+    features: ["Philosophy", "Sustainability", "Natural Farming"],
+    pdf: "https://www.arvindguptatoys.com/arvindgupta//onestraw.pdf"
+    },
+    {
+    title: "Precision Agriculture for Smallholder Farming",
+    desc: "Technologies and methods for using precision tools in small-scale contexts.",
+    cover: "https://imgv2-1-f.scribdassets.com/img/document/683920593/original/115bfa4585/1703100977?v=1",
+    features: ["Precision", "Technology", "Smallholder"],
+    pdf: "https://www.undp.org/sites/g/files/zskgke326/files/2021-10/UNDP-Precision-Agriculture-for-Smallholder-Farmers.pdf"
+    },
+    {
+    title: "The Organic Farmer’s Business Handbook",
+    desc: "A comprehensive guide to the legal, financial, and practical sides of organic farming.",
+    cover: "https://cdn.shopify.com/s/files/1/1635/9355/files/879f64_3a4048f86ef142d3a5345f4d4637f93f_mv2_d_3024_3024_s_4_2.webp?v=1682535665",
+    features: ["Organic", "Business", "Regulations"],
+    pdf: ""
+    },
+    {
+    title: "Integrated Pest Management: Concepts, Tactics, Strategies and Case Studies",
+    desc: "Detailed look at IPM approaches and real-world applications.",
+    cover: "https://tse2.mm.bing.net/th/id/OIP.00DY2F3d7HScd7A_L-LAPQAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    features: ["IPM", "Biocontrol", "Case Studies"],
+    pdf: "https://assets.cambridge.org/97805216/99310/frontmatter/9780521699310_frontmatter.pdf"
+    },
+    {
+    title: "Precision Agriculture for Smallholder Farming",
+    desc: "Technologies and methods for using precision tools in small-scale contexts.",
+    cover: "https://www.undp.org/sites/g/files/zskgke326/files/2022-01/UNDP-Precision-Agriculture-for-Smallholder-Farmers-V2-COVER.PNG",
+    features: ["Precision", "Technology", "Smallholder"],
+    pdf: "https://www.undp.org/sites/g/files/zskgke326/files/2022-01/UNDP-Precision-Agriculture-for-Smallholder-Farmers-V2.pdf"
+    },
+    {
+    title: "Postharvest Technology of Horticultural Crops",
+    desc: "Guidelines for handling, storing, and marketing fresh produce to reduce losses.",
+    cover: "https://m.media-amazon.com/images/I/31790ZMsNEL.jpg",
+    features: ["Post-Harvest", "Storage", "Quality"],
+    pdf: "https://api.pageplace.de/preview/DT0400.9781003832492_A47367822/preview-9781003832492_A47367822.pdf"
+    },
+    {
+    title: "Soil Fertility and Fertilizers",
+    desc: "Principles and practices for maintaining soil health and nutrient management.",
+    cover: "https://s3proxy.cdn-zlib.sk/covers400/collections/genesis/73a099416bc2c1b34fa99cbf38dbdf3fc005d432830b493f64d0720957e86779.jpg",
+    features: ["Soil", "Fertilizer", "Nutrients"],
+    pdf: "https://agritech.tnau.ac.in/ta/Agriculture/pdf/Fertility.pdf"
+    },
+    {
+    title: "The Livestock Revolution",
+    desc: "Challenges and opportunities for the livestock sector in developing countries.",
+    cover: "https://nwf-bucket.s3.me-south-1.amazonaws.com/images/ae/abookstore/covers/normal/30/30922.jpg",
+    features: ["Livestock", "Sustainability", "Policy"],
+    pdf: "http://steps-centre.org/wp-content/uploads/Livestock_RevolutionWP.pdf"
+    },
+    {
+    title: "Farm Business Management",
+    desc: "Best practices for financial planning and management on modern farms.",
+    cover: "https://cdn-icons-png.flaticon.com/512/29/29302.png",
+    features: ["Business", "Finance", "Planning"],
+    pdf: "pdfs/farm-business-management.pdf"
+    },
+     {
+    title: "Climate-Smart Agriculture",
+    desc: "Strategies to adapt and mitigate climate change impacts in agriculture.",
+    cover: "https://cdn-icons-png.flaticon.com/512/29/29302.png",
+    features: ["Climate", "Adaptation", "Sustainability"],
+    pdf: "pdfs/climate-smart-agriculture.pdf"
+    },
+    {
+    title: "Agroforestry Systems in India",
+    desc: "Integration of trees and crops for sustainable farming systems.",
+    cover: "https://cdn-icons-png.flaticon.com/512/29/29302.png",
+    features: ["Agroforestry", "Trees", "Sustainability"],
+    pdf: "pdfs/agroforestry-systems.pdf"
+    },
+    {
+    title: "Modern Dairy Technology",
+    desc: "Advances in dairy farming, processing, and marketing.",
+    cover: "https://cdn-icons-png.flaticon.com/512/29/29302.png",
+    features: ["Dairy", "Processing", "Technology"],
+    pdf: "pdfs/modern-dairy-technology.pdf"
+    },
+    {
+    title: "Water Management in Agriculture",
+    desc: "Efficient use of water through irrigation techniques and conservation.",
+    cover: "https://cdn-icons-png.flaticon.com/512/29/29302.png",
+    features: ["Water", "Irrigation", "Conservation"],
+    pdf: "pdfs/water-management-agriculture.pdf"
+    },
+    {
+    title: "Organic Farming for Sustainable Agriculture",
+    desc: "Best practices for transitioning to and maintaining organic farms.",
+    cover: "https://cdn-icons-png.flaticon.com/512/29/29302.png",
+    features: ["Organic", "Sustainability", "Best Practices"],
+    pdf: "pdfs/organic-farming-sustainable.pdf"
+    },
+    {
+    title: "Crop Production in Tropical Climates",
+    desc: "Techniques and crop choices suited for tropical farming regions.",
+    cover: "https://cdn-icons-png.flaticon.com/512/29/29302.png",
+    features: ["Crops", "Tropical", "Techniques"],
+    pdf: "pdfs/crop-production-tropics.pdf"
+  },
+  {
+    title: "Sustainable Agriculture and Food Security",
+    desc: "How sustainable farming contributes to food security worldwide.",
+    cover: "https://cdn-icons-png.flaticon.com/512/29/29302.png",
+    features: ["Sustainability", "Food Security", "Policy"],
+    pdf: "pdfs/sustainable-agriculture-food-security.pdf"
+  }
+  ];
+
+  // Derive feature set for filter chips
+  const ALL_FEATURES = Array.from(new Set(BOOKS.flatMap(b => b.features))).sort();
+
+  // ----------- DOM elements -----------
+  const grid = document.getElementById('bookGrid');
+  const searchInput = document.getElementById('searchInput');
+  const filterRow = document.getElementById('filterRow');
+
+  // Modal refs
+  const modal = document.getElementById('readerModal');
+  const pdfFrame = document.getElementById('pdfFrame');
+  const modalTitle = document.getElementById('modalTitle');
+  const closeModalBtn = document.getElementById('closeModal');
+  const openInNewBtn = document.getElementById('openInNew');
+  const downloadFromModalBtn = document.getElementById('downloadFromModal');
+
+  let activeFeatureFilters = new Set();
+  let currentPdfUrl = null;
+  let currentTitle = null;
+
+  // ----------- Renderers -----------
+  function renderFilters() {
+    filterRow.innerHTML = '';
+    ALL_FEATURES.forEach(f => {
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.textContent = f;
+      chip.onclick = () => {
+        if (activeFeatureFilters.has(f)) { activeFeatureFilters.delete(f); chip.classList.remove('active'); }
+        else { activeFeatureFilters.add(f); chip.classList.add('active'); }
+        renderBooks();
+      };
+      filterRow.appendChild(chip);
+    });
+  }
+
+  function makeCard(book) {
+    const card = document.createElement('div');
+    card.className = 'book-card';
+
+    card.innerHTML = `
+      <div class="book-top">
+        <img src="${book.cover}" alt="Book cover">
+        <div>
+          <h3>${book.title}</h3>
+          <p>${book.desc}</p>
+          <div class="feature-list">
+            ${book.features.map(f => `<span class="feature">${f}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn read" data-action="read">📖 Read</button>
+        <button class="btn download" data-action="download">⬇️ Download</button>
+      </div>
+    `;
+
+    // Button handlers
+    card.querySelector('[data-action="read"]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openReader(book.pdf, book.title);
+    });
+    card.querySelector('[data-action="download"]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      downloadPdf(book.pdf, book.title);
+    });
+
+    // Optional: click anywhere on card to read
+    card.addEventListener('click', () => openReader(book.pdf, book.title));
+
+    return card;
+  }
+
+  function renderBooks() {
+    const q = (searchInput.value || '').toLowerCase().trim();
+    grid.innerHTML = '';
+
+    const filtered = BOOKS.filter(b => {
+      const textMatch = !q || b.title.toLowerCase().includes(q) || b.desc.toLowerCase().includes(q) || b.features.some(f => f.toLowerCase().includes(q));
+      const featureMatch = activeFeatureFilters.size === 0 || [...activeFeatureFilters].every(f => b.features.includes(f));
+      return textMatch && featureMatch;
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<p style="text-align:center; grid-column:1/-1; color:#666; margin:20px 0;">No books found. Try a different search or filter.</p>`;
+      return;
+    }
+
+    filtered.forEach(b => grid.appendChild(makeCard(b)));
+  }
+
+  // ----------- Reader + Download -----------
+  function openReader(url, title) {
+    currentPdfUrl = url;
+    currentTitle = title;
+
+    // Embed PDF – most browsers will display inline. 
+    // The fragment removes toolbars for a cleaner look in some viewers.
+    pdfFrame.src = `${url}#toolbar=0&navpanes=0&scrollbar=1`;
+    modalTitle.textContent = title;
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeReader() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    pdfFrame.src = 'about:blank';
+    document.body.style.overflow = '';
+  }
+
+  function downloadPdf(url, title) {
+    const a = document.createElement('a');
+    a.href = url;
+    // Safe filename
+    const safe = (title || 'book').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    a.download = `${safe}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  // Modal controls
+  closeModalBtn.addEventListener('click', closeReader);
+  openInNewBtn.addEventListener('click', () => { if(currentPdfUrl) window.open(currentPdfUrl, '_blank'); });
+  downloadFromModalBtn.addEventListener('click', () => { if(currentPdfUrl) downloadPdf(currentPdfUrl, currentTitle); });
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeReader(); });
+  // Close on Esc
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'flex') closeReader(); });
+
+  // ----------- Existing utilities -----------
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      { pageLanguage: 'en', includedLanguages: 'hi,bn,ta,te,ml,kn,mr,gu,pa,ur,or,as,sa,sd,ks,ne,si,bo,doi' },
+      'google_translate_element'
+    );
+  }
+  window.onscroll = function() {
+    document.getElementById('backToTop').style.display = window.scrollY > 300 ? 'block' : 'none';
+  };
+  document.getElementById('backToTop').onclick = function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  document.getElementById('chatButton').onclick = function() {
+    const chatBox = document.getElementById('chatIframeContainer');
+    chatBox.style.display = chatBox.style.display === 'block' ? 'none' : 'block';
+  };
+  document.getElementById('chatCloseBtn').onclick = function() {
+    document.getElementById('chatIframeContainer').style.display = 'none';
+  };
+
+  // ----------- Init -----------
+  renderFilters();
+  renderBooks();
+  searchInput.addEventListener('input', renderBooks);
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
