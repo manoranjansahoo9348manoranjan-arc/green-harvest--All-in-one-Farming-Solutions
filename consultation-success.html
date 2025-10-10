@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consultation Success - Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f4f9f4;
+        color: #333;
+        text-align: center;
+      }
+      header {
+        background: #2e7d32;
+        color: #fff;
+        padding: 25px 15px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 2em;
+      }
+      .container {
+        max-width: 700px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .success-icon {
+        font-size: 60px;
+        color: #2e7d32;
+        margin-bottom: 20px;
+      }
+      h2 {
+        color: #2e7d32;
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 1.1em;
+        color: #555;
+        margin-bottom: 15px;
+      }
+      .expert-name {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #333;
+      }
+      .btn {
+        display: inline-block;
+        margin: 10px;
+        padding: 12px 20px;
+        background: #2e7d32;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: 0.3s;
+      }
+      .btn:hover {
+        background: #256527;
+      }
+      .contact-options {
+        margin-top: 25px;
+      }
+      /* Countdown timer */
+      .countdown {
+        font-size: 1.3em;
+        color: #d32f2f;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+      footer {
+        color: white;
+        text-align: center;
+        padding: 18px;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Consultation Request Submitted</h1>
+    </header>
+
+    <div class="container">
+      <div class="success-icon">✅</div>
+      <h2>Thank You!</h2>
+      <p>Your consultation request has been successfully submitted.</p>
+      <p>You have booked a session with:</p>
+
+      <!-- Expert photo -->
+      <img
+        id="expertPhoto"
+        src=""
+        alt="Expert Photo"
+        style="
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          margin: 15px auto;
+          display: block;
+        "
+      />
+
+      <p class="expert-name" id="expertName">Loading...</p>
+      <p>Our team will contact you within 24 hours to confirm the details.</p>
+
+      <!-- Countdown -->
+      <div id="countdown" class="countdown"></div>
+
+      <!-- Contact Options -->
+      <div class="contact-options" id="contactOptions"></div>
+
+      <a href="expert consultation.html" class="btn"
+        >Book Another Consultation</a
+      >
+    </div>
+    <footer>
+      <p>&copy; 2025 Green Harvest. All rights reserved.</p>
+    </footer>
+    <script>
+      // Expert contact info mapping
+      const expertContacts = {
+        "Dr. Ramesh Kumar - Crop Specialist": {
+          email: "ramesh.kumar@greenharvest.com",
+          whatsapp: "+919668673210",
+        },
+        "Dr. Anjali Verma - Soil & Organic Farming": {
+          email: "anjali.verma@greenharvest.com",
+          whatsapp: "+919668673210",
+        },
+        "Mr. Suresh Patil - Pest Management": {
+          email: "suresh.patil@greenharvest.com",
+          whatsapp: "+919668673210",
+        },
+        "Dr. Meera Joshi - Irrigation & Water Management": {
+          email: "meera.joshi@greenharvest.com",
+          whatsapp: "+919668673210",
+        },
+        "Prof. Arvind Nair - Agricultural Economics": {
+          email: "arvind.nair@greenharvest.com",
+          whatsapp: "+919668673210",
+        },
+        "Dr. Kavita Sharma - Horticulture & Floriculture": {
+          email: "kavita.sharma@greenharvest.com",
+          whatsapp: "+919700100006",
+        },
+        "Mr. Manoj Deshmukh - Farm Machinery & Mechanization": {
+          email: "manoj.deshmukh@greenharvest.com",
+          whatsapp: "+919700100007",
+        },
+        "Dr. Priya Iyer - Plant Pathology": {
+          email: "priya.iyer@greenharvest.com",
+          whatsapp: "+919700100008",
+        },
+        "Mr. Rajiv Menon - Dairy & Livestock Management": {
+          email: "rajiv.menon@greenharvest.com",
+          whatsapp: "+919700100009",
+        },
+        "Dr. Neha Gupta - Seed Technology & Crop Breeding": {
+          email: "neha.gupta@greenharvest.com",
+          whatsapp: "+919700100010",
+        },
+        "Mr. Vikram Chauhan - Agri-Business & Marketing": {
+          email: "vikram.chauhan@greenharvest.com",
+          whatsapp: "+919700100011",
+        },
+        "Dr. Sindhu Reddy - Climate-Smart Agriculture": {
+          email: "sindhu.reddy@greenharvest.com",
+          whatsapp: "+919700100012",
+        },
+        "Dr. Alok Sharma - Post-Harvest Technology": {
+          email: "alok.sharma@greenharvest.com",
+          whatsapp: "+919700100013",
+        },
+        "Prof. Farida Khan - Agricultural Biotechnology": {
+          email: "farida.khan@greenharvest.com",
+          whatsapp: "+919700100014",
+        },
+        "Mr. Deepak Verma - Organic Certification & Standards": {
+          email: "deepak.verma@greenharvest.com",
+          whatsapp: "+919700100015",
+        },
+      };
+
+      // Get values from URL
+      const params = new URLSearchParams(window.location.search);
+      const expert = params.get("expert");
+      const date = params.get("date");
+      const time = params.get("time");
+      const img = params.get("img");
+
+      if (expert) {
+        document.getElementById("expertName").textContent = expert;
+        if (img) {
+          document.getElementById("expertPhoto").src = decodeURIComponent(img);
+        }
+
+        if (expertContacts[expert]) {
+          const contact = expertContacts[expert];
+          document.getElementById("contactOptions").innerHTML = `
+          <p>You can also contact the expert directly:</p>
+          <a href="mailto:${contact.email}" class="btn">📧 Email</a>
+          <a href="https://wa.me/${contact.whatsapp.replace(
+            "+",
+            ""
+          )}" target="_blank" class="btn">💬 WhatsApp</a>
+        `;
+        }
+      }
+
+      // Countdown Timer
+      if (date && time) {
+        const appointmentTime = new Date(`${date}T${time}:00`).getTime();
+        const countdownEl = document.getElementById("countdown");
+
+        const interval = setInterval(() => {
+          const now = new Date().getTime();
+          const diff = appointmentTime - now;
+
+          if (diff <= 0) {
+            clearInterval(interval);
+            countdownEl.textContent = "✅ Your consultation time has started!";
+          } else {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor(
+              (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+            );
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            countdownEl.textContent = `⏳ Time left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+          }
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>
