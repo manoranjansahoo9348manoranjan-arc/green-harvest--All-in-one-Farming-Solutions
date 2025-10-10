@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bayer - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages: "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Tailwind CSS and Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <style>
+    .product-img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      object-position: center;
+    }
+    .goog-te-banner-frame.skiptranslate,
+    .goog-logo-link,
+    .goog-te-gadget span {
+      display: none !important;
+    }
+    body {
+      top: 0 !important;
+    }
+    #google_translate_element select {
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .card-hover:hover {
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+  <!-- Header -->
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <img src="https://www.bayer.com/sites/default/files/styles/1_91_1_aspect_ratio/public/2023-08/bayer-cross-01.jpg?h=6ab03119&itok=_mXULQgP" alt="Bayer Logo" class="h-14 w-14 object-contain" />
+    <h1 class="text-2xl font-bold text-green-700">Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search Bayer Products..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+
+  <!-- Product List -->
+  <main class="p-6">
+    <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Bayer Products</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+  </main>
+
+  <!-- Product Modal -->
+  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white w-full max-w-lg p-6 rounded-lg relative shadow-lg overflow-auto max-h-[90vh]">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl font-bold">&times;</button>
+      <h2 id="modalTitle" class="text-xl font-semibold text-green-700 mb-2"></h2>
+      <img id="modalImage" src="" alt="" class="w-40 h-40 object-contain mb-4 mx-auto" />
+      <ul class="text-sm text-gray-700 space-y-1">
+        <li><strong>Description:</strong> <span id="modalDesc"></span></li>
+        <li><strong>Brand:</strong> <span id="modalBrand"></span></li>
+        <li><strong>Dosage:</strong> <span id="modalDosage"></span></li>
+        <li><strong>Expiry Date:</strong> <span id="modalExpiry"></span></li>
+        <li><strong>How to Apply:</strong> <span id="modalUsage"></span></li>
+        <li><strong>Components:</strong> <span id="modalComponents"></span></li>
+        <li><strong>Classification:</strong> <span id="modalClassification"></span></li>
+        <li><strong>Toxicity:</strong> <span id="modalToxicity"></span></li>
+        <li><strong>Technical Content:</strong> <span id="modalTechnical"></span></li>
+        <li><strong>Additional Info:</strong> <span id="modalAdditional"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const growthPromoters = [
+      {
+        name: "Planofix",
+        desc: "NAA (Alpha Napthyl Acetic Acid) - 40ml",
+        price: 70,
+        brand: "Bayer",
+        img: "https://chowdhuryfertilizer.in/images/product-images/16113183001932544506.png",
+        dosage: "1 ml per liter of water",
+        expiry: "Dec 2026",
+        usage: "Spray on flowering plants for fruit retention.",
+        components: "Alpha Naphthyl Acetic Acid",
+        classification: "Plant Growth Regulator",
+        toxicity: "Low toxicity; avoid direct skin contact",
+        technical: "Contains NAA 4.5% w/w",
+        additional: "Use during early fruiting for better results"
+      },
+      {
+      name: "Bayfolan",
+      desc: "Plant Tonic & Micronutrient Mixture - 250ml",
+      price: 190,
+      brand: "Bayer",
+      img: "https://lzd-img-global.slatic.net/g/p/062d498d8ccf07bf536fc48956deac22.jpg_720x720q80.jpg",
+      dosage: "5 ml per liter of water",
+      expiry: "Jan 2027",
+      usage: "Apply during active growth stages for healthy plant development.",
+      components: "Micronutrient mixture including Fe, Zn, Mn, Cu",
+      classification: "Plant Tonic & Micronutrient Supplement",
+      toxicity: "Non-toxic when used as directed",
+      technical: "Chelated micronutrients with essential trace elements",
+      additional: "Boosts plant vigor and improves nutrient uptake"
+    },
+    {
+    name: "Cropstar",
+    desc: "Plant Growth Regulator - 500ml",
+    price: 240,
+    brand: "Bayer",
+    img: "https://http2.mlstatic.com/D_NQ_NP_2X_999711-MLB28171362946_092018-F.jpg",
+    dosage: "3 ml per liter of water",
+    expiry: "Nov 2026",
+    usage: "Spray during vegetative and flowering stages",
+    components: "Plant growth hormones and micronutrients",
+    classification: "Plant Growth Regulator",
+    toxicity: "Low; avoid ingestion or inhalation",
+    technical: "Contains plant growth promoting compounds",
+    additional: "Improves yield and uniform flowering"
+  },
+  {
+    name: "Nativo",
+    desc: "Dual Action Fungicide with Growth Benefits - 100g",
+    price: 310,
+    brand: "Bayer",
+    img: "https://www.cropscience.bayer.in/wp-content/uploads/2024/05/nativo-slide-2.png",
+    dosage: "1 g per liter of water",
+    expiry: "Dec 2026",
+    usage: "Apply at early stages of fungal infection",
+    components: "Tebuconazole and Trifloxystrobin",
+    classification: "Systemic and contact fungicide",
+    toxicity: "Moderate; wear gloves while mixing",
+    technical: "Tebuconazole 50% + Trifloxystrobin 25% WG",
+    additional: "Promotes greening and plant vigor"
+  },
+  {
+    name: "Velum Prime",
+    desc: "Biological Nematicide + Root Health Enhancer - 1L",
+    price: 690,
+    brand: "Bayer",
+    img: "https://www.cropscience.bayer.in/wp-content/uploads/2024/05/velum-slide-2.png",
+    dosage: "3 ml per liter of water",
+    expiry: "Jan 2027",
+    usage: "Drench around root zone at planting",
+    components: "Fluopyram",
+    classification: "Nematicide",
+    toxicity: "Low; keep away from children",
+    technical: "Fluopyram 34.48% SC",
+    additional: "Improves root development and disease resistance"
+  },
+  {
+    name: "Emesto Prime",
+    desc: "Seed Treatment for Healthy Growth - 100ml",
+    price: 260,
+    brand: "Bayer",
+    img: "https://th.bing.com/th/id/R.f3e1d3ec52afc19d5f4a927eae860850?rik=AfZfczCd%2bVSrsQ&riu=http%3a%2f%2f5.imimg.com%2fdata5%2fSELLER%2fDefault%2f2024%2f9%2f452928165%2fBS%2fVK%2fJZ%2f32781442%2fbayer-emesto-prime-fungicide-1000x1000.jpg&ehk=nfi0TsWqY8ASvRkXTOM6eCyN4hl9lPRun5zjr3RdlKY%3d&risl=&pid=ImgRaw&r=0",
+    dosage: "2 ml per kg of seed",
+    expiry: "Oct 2026",
+    usage: "Mix thoroughly with seeds before sowing",
+    components: "Penflufen",
+    classification: "Seed Treatment Fungicide",
+    toxicity: "Low; wear gloves while handling",
+    technical: "Penflufen 240 FS",
+    additional: "Prevents seed-borne and early root diseases"
+  },
+  {
+    name: "Confidor",
+    desc: "Imidacloprid 17.8% SL Insecticide - 100ml",
+    price: 220,
+    brand: "Bayer",
+    img: "https://www.cropscience.bayer.in/wp-content/uploads/2024/04/confidor-slide-2.png",
+    dosage: "0.3 ml per liter of water",
+    expiry: "Aug 2026",
+    usage: "Apply on crops affected by sucking pests",
+    components: "Imidacloprid",
+    classification: "Systemic Insecticide",
+    toxicity: "Moderate; avoid direct skin contact",
+    technical: "Imidacloprid 17.8% SL",
+    additional: "Long-lasting protection against pests like aphids and whiteflies"
+  },
+  {
+    name: "Laudis",
+    desc: "Herbicide for Maize Crop - 135ml",
+    price: 510,
+    brand: "Bayer",
+    img: "https://assests.cropscience.bayer.in/wp-content/uploads/2024/05/01134019/Laudis-features.png",
+    dosage: "135 ml per acre",
+    expiry: "Jul 2027",
+    usage: "Spray post-emergence on maize fields",
+    components: "Tembotrione",
+    classification: "Selective Herbicide",
+    toxicity: "Low; use mask and gloves",
+    technical: "Tembotrione 34.4% SC",
+    additional: "Controls broadleaf and grassy weeds effectively"
+  },
+  {
+    name: "Antracol",
+    desc: "Contact Fungicide with Zinc - 500g",
+    price: 250,
+    brand: "Bayer",
+    img: "https://kisankavikas.com/wp-content/uploads/2024/07/Antracol-_1.webp",
+    dosage: "2.5 g per liter of water",
+    expiry: "Sep 2026",
+    usage: "Spray on leaves during fungal outbreaks",
+    components: "Propineb with Zinc",
+    classification: "Contact Fungicide",
+    toxicity: "Low; rinse hands after use",
+    technical: "Propineb 70% WP",
+    additional: "Improves crop quality with added Zinc nutrition"
+  },
+  {
+    name: "Decis",
+    desc: "Deltamethrin 2.8% EC Insecticide - 100ml",
+    price: 150,
+    brand: "Bayer",
+    img: "https://www.agriplexindia.com/cdn/shop/products/Decis2-_1.png?v=1675665494",
+    dosage: "1 ml per liter of water",
+    expiry: "Mar 2027",
+    usage: "Apply on foliage during insect outbreaks",
+    components: "Deltamethrin",
+    classification: "Synthetic Pyrethroid Insecticide",
+    toxicity: "Moderate; avoid inhalation",
+    technical: "Deltamethrin 2.8% EC",
+    additional: "Quick knockdown effect on chewing pests"
+  },
+  {
+    name: "Movento Energy",
+    desc: "Dual Action Insecticide for Sucking Pests - 100ml",
+    price: 420,
+    brand: "Bayer",
+    img: "https://www.cropscience.bayer.in/wp-content/uploads/2024/04/movento-energy-slide-2.png",
+    dosage: "2 ml per liter of water",
+    expiry: "Oct 2026",
+    usage: "Spray on crops during early pest emergence",
+    components: "Spirotetramat and Imidacloprid",
+    classification: "Systemic Insecticide",
+    toxicity: "Moderate; wear gloves and mask during application",
+    technical: "Spirotetramat 11.01% w/w + Imidacloprid 11.01% w/w SC",
+    additional: "Translaminar action; protects new growth from pests"
+  },
+  {
+    name: "Luna Experience",
+    desc: "Broad Spectrum Fungicide - 50ml",
+    price: 350,
+    brand: "Bayer",
+    img: "https://www.cropscience.bayer.in/wp-content/uploads/2024/05/luna-experience-slide-2.png",
+    dosage: "1 ml per liter of water",
+    expiry: "Sep 2026",
+    usage: "Apply during early signs of fungal disease on fruits and vegetables",
+    components: "Fluopyram and Tebuconazole",
+    classification: "Systemic Fungicide",
+    toxicity: "Low; avoid eye contact",
+    technical: "Fluopyram 26.7% w/w + Tebuconazole 26.9% w/w SC",
+    additional: "Provides long-lasting protection and improves fruit quality"
+  },
+  {
+    name: "Solomon",
+    desc: "Combination Insecticide for Cotton & Vegetables - 100ml",
+    price: 390,
+    brand: "Bayer",
+    img: "https://tse2.mm.bing.net/th/id/OIP.DcUeN2wyJaGXfT5rUd3IlQHaHZ?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    dosage: "1 ml per liter of water",
+    expiry: "Jan 2027",
+    usage: "Apply on crops to control chewing and sucking pests",
+    components: "Beta-Cyfluthrin and Imidacloprid",
+    classification: "Combination Insecticide",
+    toxicity: "Moderate; wash hands after use",
+    technical: "Beta-Cyfluthrin 8.49% + Imidacloprid 19.81% w/w",
+    additional: "Quick knockdown and long-lasting residual control"
+  },
+  {
+    name: "Fame",
+    desc: "Broad-Spectrum Insecticide for Vegetables - 100ml",
+    price: 340,
+    brand: "Bayer",
+    img: "https://5.imimg.com/data5/SELLER/Default/2023/12/372287141/FO/ZX/GC/59373149/bayer-fame-flubendiamide-480sc-39-35-w-w-50-ml-500x500.png",
+    dosage: "1 ml per liter of water",
+    expiry: "Nov 2026",
+    usage: "Spray on vegetable crops to control fruit borers and caterpillars",
+    components: "Flubendiamide",
+    classification: "Diamide Insecticide",
+    toxicity: "Low; minimal effect on beneficial insects",
+    technical: "Flubendiamide 39.35% SC",
+    additional: "Offers long-lasting protection and rain-fastness"
+  },
+  {
+    name: "Aliette",
+    desc: "Systemic Fungicide for Fruit & Vegetables - 500g",
+    price: 380,
+    brand: "Bayer",
+    img: "https://5.imimg.com/data5/SELLER/Default/2022/11/YA/DN/WS/88101488/dill-seed-extract-drops-500x500.jpg",
+    dosage: "2 g per liter of water",
+    expiry: "Dec 2026",
+    usage: "Spray during early signs of downy mildew, damping off, and root rot",
+    components: "Fosetyl-Al",
+    classification: "Systemic Fungicide",
+    toxicity: "Low; use mask during mixing",
+    technical: "Fosetyl-Al 80% WP",
+    additional: "Prevents fungal resistance and enhances plant immunity"
+  },
+  {
+    name: "Regent sc",
+    desc: "Insecticide for Soil-Dwelling Pests - 100ml",
+    price: 260,
+    brand: "Bayer",
+    img: "https://agrosiaa.com/uploads/userdata/seller/b1d5781111d84f7b3fe45a0852e59758cd7a87e5/product_images/regent_sc_insecticide_bayer_crop_science_1.png",
+    dosage: "1 ml per liter of water or drench in soil",
+    expiry: "Jan 2027",
+    usage: "Apply near root zone for control of termites and soil insects",
+    components: "Fipronil",
+    classification: "Phenylpyrazole Insecticide",
+    toxicity: "Moderate; do not apply near fishponds",
+    technical: "Fipronil 5% SC",
+    additional: "Protects root system and boosts plant stand"
+  },
+  {
+    name: "Jump",
+    desc: "Insecticide for Leafhoppers and Thrips - 250ml",
+    price: 430,
+    brand: "Bayer",
+    img: "https://www.agriplexindia.com/cdn/shop/products/Jump-_3.png",
+    dosage: "0.8 ml per liter of water",
+    expiry: "Aug 2026",
+    usage: "Spray at early infestation of sucking pests",
+    components: "Flonicamid",
+    classification: "Selective Insecticide",
+    toxicity: "Low; safe for natural enemies",
+    technical: "Flonicamid 50% WG",
+    additional: "Stops feeding immediately and prevents virus spread"
+  },
+  {
+    name: "Sivanto prime",
+    desc: "Next-Gen Insecticide for Sucking Pests - 100ml",
+    price: 390,
+    brand: "Bayer",
+    img: "https://www.agriplexindia.com/cdn/shop/products/Sivanto1.png?v=1675924721",
+    dosage: "2 ml per liter of water",
+    expiry: "Jul 2027",
+    usage: "Spray on crops like cotton, chili, tomato, and brinjal",
+    components: "Flupyradifurone",
+    classification: "Butenolide Insecticide",
+    toxicity: "Low; bee-friendly if used correctly",
+    technical: "Flupyradifurone 21.7% SL",
+    additional: "Highly effective on whiteflies and aphids"
+  }
+
+
+
+    ];
+
+   function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition card-hover";
+
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:shadow-lg" data-img-index="${index}" />
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+
+    container.appendChild(card);
+
+    // Show modal only when image is clicked
+    card.querySelector("img").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showModal(index);
+    });
+  });
+
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+
+      const card = event.target.closest("div");
+      card.classList.add("bg-green-100", "ring", "ring-green-500");
+      setTimeout(() => {
+        card.classList.remove("bg-green-100", "ring", "ring-green-500");
+      }, 800);
+    });
+  });
+}
+
+
+    function showModal(index) {
+      const product = growthPromoters[index];
+      document.getElementById("modalTitle").textContent = product.name;
+      document.getElementById("modalImage").src = product.img;
+      document.getElementById("modalDesc").textContent = product.desc;
+      document.getElementById("modalBrand").textContent = product.brand;
+      document.getElementById("modalDosage").textContent = product.dosage || "N/A";
+      document.getElementById("modalExpiry").textContent = product.expiry || "N/A";
+      document.getElementById("modalUsage").textContent = product.usage || "N/A";
+      document.getElementById("modalComponents").textContent = product.components || "N/A";
+      document.getElementById("modalClassification").textContent = product.classification || "N/A";
+      document.getElementById("modalToxicity").textContent = product.toxicity || "N/A";
+      document.getElementById("modalTechnical").textContent = product.technical || "N/A";
+      document.getElementById("modalAdditional").textContent = product.additional || "N/A";
+
+      document.getElementById("productModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("productModal").classList.add("hidden");
+    }
+
+    function applyFilters() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const sortOption = document.getElementById("sortPrice").value;
+
+      let filtered = growthPromoters.filter(p =>
+        p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+      );
+
+      if (sortOption === "asc") filtered.sort((a, b) => a.price - b.price);
+      else if (sortOption === "desc") filtered.sort((a, b) => b.price - a.price);
+
+      renderProducts(filtered);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProducts(growthPromoters);
+      document.getElementById("searchInput").addEventListener("input", applyFilters);
+      document.getElementById("sortPrice").addEventListener("change", applyFilters);
+    });
+
+    function addToCart(product) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existing = cart.find(p => p.name === product.name);
+      if (existing) {
+        existing.quantity += product.quantity;
+      } else {
+        cart.push(product);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+</body>
+</html>
