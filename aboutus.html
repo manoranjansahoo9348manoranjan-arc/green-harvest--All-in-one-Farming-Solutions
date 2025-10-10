@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About Us - Green Harvest</title>
+  <link rel="icon" type="image/png" href="logo1.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Swiper.js for carousel -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: 'en',
+          includedLanguages: 'en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sa,kok,mai',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        'google_translate_element'
+      );
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #e6f9e6, #f0fff0);
+    }
+    .goog-logo-link,
+    .goog-te-gadget span,
+    .goog-te-gadget .goog-te-combo option[value=""] {
+      display: none !important;
+    }
+    #google_translate_element .goog-te-gadget {
+      color: transparent;
+    }
+
+    /* --- Hero Text Animation --- */
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fadeSlideUp {
+      animation: fadeSlideUp 1.2s ease-out forwards;
+    }
+    .animate-delay {
+      animation-delay: 0.4s;
+    }
+
+    /* Hide scrollbar for smooth horizontal scroll */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+
+<body class="text-gray-800">
+  <!-- Header -->
+  <!-- <header class="bg-white shadow-md p-4 flex flex-wrap justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <img src="logo33.png" alt="Logo" class="h-12 sm:h-14" />
+    </div>
+    <span class="text-green-700 text-lg sm:text-xl font-semibold text-center flex-grow mt-2 sm:mt-0">
+      🌾🌱 Welcome to Green Harvest 🌾🌱
+    </span>
+    <div class="flex items-center space-x-4 mt-2 sm:mt-0">
+      <div id="google_translate_element"></div>
+      <a href="dashboard.html" class="text-green-600 hover:underline text-sm sm:text-base">Home</a>
+      <a href="cart.html" class="text-lg sm:text-xl text-gray-600 hover:text-green-600"><i class="fas fa-shopping-cart"></i></a>
+    </div>
+  </header> -->
+  <!-- Header -->
+<header class="bg-white shadow-md p-4 flex flex-col sm:flex-row justify-between items-center">
+  <!-- Logo -->
+  <div class="flex items-center mb-2 sm:mb-0">
+    <img src="logo33.png" alt="Logo" class="h-12 sm:h-14" />
+  </div>
+
+  <!-- Title -->
+  <span class="text-green-700 text-lg sm:text-xl font-semibold text-center flex-grow mb-2 sm:mb-0">
+    🌾🌱 Welcome to Green Harvest 🌾🌱
+  </span>
+
+  <!-- Links & Translate -->
+  <div class="flex items-center space-x-4">
+    <div id="google_translate_element"></div>
+    <a href="dashboard.html" class="text-green-600 hover:underline text-sm sm:text-base">Home</a>
+    <a href="cart.html" class="text-lg sm:text-xl text-gray-600 hover:text-green-600">
+      <i class="fas fa-shopping-cart"></i>
+    </a>
+  </div>
+</header>
+
+
+  <section class="p-6 max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-4 text-green-700">About Us</h2>
+    <p class="text-lg text-center mb-8 text-black">
+      Green Harvest is your trusted partner in modern agriculture. We provide high-quality biopesticides, fertilizers, seeds, irrigation tools, and more to empower farmers with sustainable and effective farming solutions.
+    </p>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="py-12 px-4 sm:px-6 bg-white bg-opacity-90">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <!-- 🌿 Recommended Mission Image -->
+        <img src="mission.png" 
+             alt="Mission" class="rounded-2xl shadow-lg w-full object-cover">
+      </div>
+      <div>
+        <h2 class="text-3xl font-bold text-green-700 mb-4">Our Mission & Vision</h2>
+        <p class="text-gray-700 mb-4">
+          Our mission is to bridge the gap between technology and traditional farming, ensuring every farmer has access to high-quality and affordable agricultural solutions.
+        </p>
+        <p class="text-gray-700">
+          Our vision is a world where agriculture thrives sustainably — balancing productivity, environment, and prosperity for all.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section (Auto-scroll + Manual Scroll) -->
+  <section class="bg-green-50 bg-opacity-90 py-12 px-4 sm:px-6">
+    <h3 class="text-2xl font-semibold text-center text-green-700 mb-8">Meet Our Team</h3>
+
+    <div class="flex gap-6 overflow-x-auto scrollbar-hide px-4 snap-x snap-mandatory scroll-smooth" id="team-scroll">
+      <div class="flex-shrink-0 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center snap-start w-72 sm:w-80">
+        <img src="profile.png" class="mx-auto rounded-full mb-4 w-36 h-36 sm:w-44 sm:h-44 object-cover shadow" alt="Manoranjan" />
+        <h4 class="font-bold text-green-700 text-lg">Manoranjan</h4>
+        <p class="text-sm text-gray-600">Founder & CEO</p>
+      </div>
+
+      <div class="flex-shrink-0 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center snap-start w-72 sm:w-80">
+        <img src="Tushar.jpg" class="mx-auto rounded-full mb-4 w-36 h-36 sm:w-44 sm:h-44 object-cover shadow" alt="Ravi" />
+        <h4 class="font-bold text-green-700 text-lg">Tushar</h4>
+        <p class="text-sm text-gray-600">Agriculture Expert</p>
+      </div>
+
+      <div class="flex-shrink-0 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center snap-start w-72 sm:w-80">
+        <img src="aditya.jpg" class="mx-auto rounded-full mb-4 w-36 h-36 sm:w-44 sm:h-44 object-cover shadow" alt="Aditya" />
+        <h4 class="font-bold text-green-700 text-lg">Aditya</h4>
+        <p class="text-sm text-gray-600">Marketing Lead</p>
+      </div>
+
+      <div class="flex-shrink-0 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center snap-start w-72 sm:w-80">
+        <img src="deepak.jpg" class="mx-auto rounded-full mb-4 w-36 h-36 sm:w-44 sm:h-44 object-cover shadow" alt="Priya" />
+        <h4 class="font-bold text-green-700 text-lg">Deepak</h4>
+        <p class="text-sm text-gray-600">Product Designer</p>
+      </div>
+
+      <div class="flex-shrink-0 bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center snap-start w-72 sm:w-80">
+        <img src="samir.jpg" class="mx-auto rounded-full mb-4 w-36 h-36 sm:w-44 sm:h-44 object-cover shadow" alt="Vikram" />
+        <h4 class="font-bold text-green-700 text-lg">Sameer</h4>
+        <p class="text-sm text-gray-600">Supply Chain Manager</p>
+      </div>
+    </div>
+
+    <script>
+      // Auto-scroll team section
+      const teamScroll = document.getElementById('team-scroll');
+      let scrollPos = 0;
+      setInterval(() => {
+        scrollPos += 300;
+        if (scrollPos >= teamScroll.scrollWidth - teamScroll.clientWidth) {
+          scrollPos = 0;
+        }
+        teamScroll.scrollTo({ left: scrollPos, behavior: 'smooth' });
+      }, 3500);
+    </script>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="bg-white bg-opacity-90 py-10 px-4 sm:px-6">
+    <h3 class="text-2xl font-semibold text-center text-green-700 mb-6">What Our Customers Say</h3>
+    <div class="swiper max-w-3xl mx-auto">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+          <p class="italic">"Green Harvest has transformed the way we farm. The fertilizers and support are top-notch!"</p>
+          <div class="mt-2 text-sm text-right text-green-600">– Ramesh, Odisha</div>
+        </div>
+        <div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+          <p class="italic">"We switched to organic solutions from Green Harvest and saw great results in crop yield."</p>
+          <div class="mt-2 text-sm text-right text-green-600">– Sita, Maharashtra</div>
+        </div>
+        <div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"Green Harvest's products improved the health of my plants tremendously. Highly recommend!"</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Ramesh, Punjab</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"Excellent service and timely delivery. My farm has never looked better."</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Anjali, Karnataka</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"The plant growth regulators from Green Harvest really boosted my fruit yield."</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Manoj, Uttar Pradesh</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"I appreciate the detailed usage instructions. Made applying fertilizers so easy!"</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Priya, Tamil Nadu</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"Green Harvest’s organic solutions helped control pests naturally without harming my crops."</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Vikram, Maharashtra</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"I was amazed at how fast my plants recovered after using their growth enhancers."</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Kavita, Haryana</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"Great experience! Customer support guided me through product selection perfectly."</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Ajay, Gujarat</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"The fertilizers from Green Harvest increased my wheat yield significantly this season."</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Meena, Rajasthan</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"High-quality products and reliable delivery make Green Harvest my trusted partner."</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Sanjay, Madhya Pradesh</div>
+</div>
+
+<div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+  <p class="italic">"I love the variety of products available. Everything I need for my farm in one place."</p>
+  <div class="mt-2 text-sm text-right text-green-600">– Rekha, Odisha</div>
+</div>
+
+        <div class="swiper-slide bg-green-50 p-6 shadow rounded w-full">
+          <p class="italic">"Excellent service and prompt delivery. Green Harvest is our go-to supplier."</p>
+          <div class="mt-2 text-sm text-right text-green-600">– Anil, Karnataka</div>
+        </div>
+      </div>
+      <div class="swiper-pagination mt-4"></div>
+    </div>
+    <script>
+      new Swiper('.swiper', {
+        loop: true,
+        autoplay: { delay: 4000 },
+        pagination: { el: '.swiper-pagination' },
+      });
+    </script>
+  </section>
+
+  <!-- Our Story Timeline -->
+  <section class="py-12 px-4 sm:px-6 bg-green-50 bg-opacity-80">
+    <h3 class="text-2xl font-semibold text-center text-green-700 mb-6">Our Story</h3>
+    <div class="max-w-4xl mx-auto space-y-6 border-l-4 border-green-600 pl-6">
+      <div><h4 class="font-bold text-green-700">2022</h4><p>Green Harvest was founded with a vision to support Indian farmers.</p></div>
+      <div><h4 class="font-bold text-green-700">2023</h4><p>Launched our online platform with 100+ agricultural products.</p></div>
+      <div><h4 class="font-bold text-green-700">2024</h4><p>Expanded to 10 states and partnered with local cooperatives.</p></div>
+      <div><h4 class="font-bold text-green-700">2025</h4><p>Introduced AI-powered crop advisory for smarter farming decisions.</p></div>
+    </div>
+  </section>
+
+  <!-- Sustainability Commitment -->
+  <section class="py-12 px-4 sm:px-6 bg-white bg-opacity-90">
+    <h3 class="text-2xl font-semibold text-center text-green-700 mb-8">Our Sustainability Commitment</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div class="p-6 bg-green-50 rounded-xl shadow hover:shadow-lg transition text-center">
+        <i class="fas fa-seedling text-4xl text-green-700 mb-3"></i>
+        <h4 class="font-bold text-green-700 mb-2">Eco-Friendly Products</h4>
+        <p class="text-gray-700">We prioritize organic and biodegradable farming inputs for a greener planet.</p>
+      </div>
+      <div class="p-6 bg-green-50 rounded-xl shadow hover:shadow-lg transition text-center">
+        <i class="fas fa-recycle text-4xl text-green-700 mb-3"></i>
+        <h4 class="font-bold text-green-700 mb-2">Waste Reduction</h4>
+        <p class="text-gray-700">Our packaging and logistics minimize waste and carbon emissions.</p>
+      </div>
+      <div class="p-6 bg-green-50 rounded-xl shadow hover:shadow-lg transition text-center">
+        <i class="fas fa-hand-holding-water text-4xl text-green-700 mb-3"></i>
+        <h4 class="font-bold text-green-700 mb-2">Water Conservation</h4>
+        <p class="text-gray-700">We promote drip irrigation and water-efficient farming technologies.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community / Helpline Section -->
+  <section class="py-12 px-4 sm:px-6 bg-green-50 bg-opacity-80">
+    <h3 class="text-2xl font-semibold text-center text-green-700 mb-6">Join Our Community</h3>
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-gray-700 mb-6">We believe in growing together. Join our farmer community, ask questions, share experiences, or reach out for support anytime.</p>
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+        <a href="contactus.html" class="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition">Contact Support</a>
+        <div class="text-green-700 font-semibold">
+  <i class="fas fa-phone-alt mr-2"></i> Helpline: 
+  <a href="tel:+919668673210" class="text-gray-800">+91 9668673210</a>
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-600 mt-10 p-4 border-t bg-white bg-opacity-80">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+</body>
+</html>
