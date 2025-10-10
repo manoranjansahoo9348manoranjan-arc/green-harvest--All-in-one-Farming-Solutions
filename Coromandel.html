@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coromandel-Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages: "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Tailwind CSS and Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <style>
+    .product-img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      object-position: center;
+    }
+    .goog-te-banner-frame.skiptranslate,
+    .goog-logo-link,
+    .goog-te-gadget span {
+      display: none !important;
+    }
+    body {
+      top: 0 !important;
+    }
+    #google_translate_element select {
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .card-hover:hover {
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+  <!-- Header -->
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <img src="https://whatthelogo.com/storage/logos/coromandel-123888.png" alt="Coromandel Logo" class="h-14 w-14 object-contain" />
+    <h1 class="text-2xl font-bold text-green-700">Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search Coromandel Products..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+
+  <!-- Product List -->
+  <main class="p-6">
+    <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Coromandel Products</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+  </main>
+
+  <!-- Product Modal -->
+  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white w-full max-w-lg p-6 rounded-lg relative shadow-lg overflow-auto max-h-[90vh]">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl font-bold">&times;</button>
+      <h2 id="modalTitle" class="text-xl font-semibold text-green-700 mb-2"></h2>
+      <img id="modalImage" src="" alt="" class="w-40 h-40 object-contain mb-4 mx-auto" />
+      <ul class="text-sm text-gray-700 space-y-1">
+        <li><strong>Description:</strong> <span id="modalDesc"></span></li>
+        <li><strong>Brand:</strong> <span id="modalBrand"></span></li>
+        <li><strong>Dosage:</strong> <span id="modalDosage"></span></li>
+        <li><strong>Expiry Date:</strong> <span id="modalExpiry"></span></li>
+        <li><strong>How to Apply:</strong> <span id="modalUsage"></span></li>
+        <li><strong>Components:</strong> <span id="modalComponents"></span></li>
+        <li><strong>Classification:</strong> <span id="modalClassification"></span></li>
+        <li><strong>Toxicity:</strong> <span id="modalToxicity"></span></li>
+        <li><strong>Technical Content:</strong> <span id="modalTechnical"></span></li>
+        <li><strong>Additional Info:</strong> <span id="modalAdditional"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const growthPromoters = [
+    {
+    name: "GroShakti Plus",
+    desc: "Superior complex fertilizer with EnPhos Technology - 50kg",
+    price: 550,
+    brand: "Coromandel",
+    img: "https://5.imimg.com/data5/GLADMIN/VideoImage/2023/7/325894210/XI/EQ/ZO/16301773/groshakti-plus-fertiliser-500x500.jpg",
+    dosage: "As per crop recommendation",
+    expiry: "Dec 2027",
+    usage: "Used for balanced NPK nutrition in crops",
+    components: "Nitrogen, Phosphorus, Potassium with EnPhos",
+    classification: "Complex/NPK Fertilizer",
+    toxicity: "Non‑toxic",
+    technical: "NPK balanced with enhanced phosphorus availability",
+    additional: "Improves nutrient uptake and productivity"
+  },
+  {
+    name: "Gromor 28‑28‑0",
+    desc: "Water‑soluble NPK fertilizer (28:28:0) for fertigation - 25kg",
+    price: 620,
+    brand: "Coromandel",
+    img: "https://5.imimg.com/data5/SELLER/Default/2023/8/336817151/DH/SP/NH/160787191/coromandel-fertilizer-1-500x500.jpg",
+    dosage: "Applied via fertigation as per crop needs",
+    expiry: "Dec 2027",
+    usage: "For fertigation in vegetables, fruits, and high‑value crops",
+    components: "Nitrogen 28%, Phosphorus 28%",
+    classification: "Fertigation Grade Water‑Soluble Fertiliser",
+    toxicity: "Low",
+    technical: "High‑solubility NPK blend",
+    additional: "Suitable for drip and fertigation systems"
+  },
+  {
+    name: "Paramfos 16‑20‑0‑13",
+    desc: "Balanced complex fertilizer - 50kg (16% N, 20% P, 13% S)",
+    price: 480,
+    brand: "Coromandel",
+    img: "https://honeybee-static-production.s3.amazonaws.com/product-images/ecadfb7b-bda4-46e0-8d06-9cf6e64de099.png",
+    dosage: "Based on soil test recommendation",
+    expiry: "Dec 2027",
+    usage: "For coarse and fine crops needing sulphur enrichment",
+    components: "Nitrogen, Phosphorus, Sulphur",
+    classification: "NPK + S Complex Fertilizer",
+    toxicity: "Non‑toxic",
+    technical: "N‑16% + P‑20% + S‑13%",
+    additional: "Enhances yield in sulphur deficient soils"
+  },
+  {
+    name: "Godavari Ultra DAP",
+    desc: "Zinc‑fortified DAP fertilizer - 50kg",
+    price: 530,
+    brand: "Coromandel",
+    img: "https://honeybee-static-production.s3.amazonaws.com/product-images/d652f21e-29b0-4e47-bd56-3aa6c0692a9f.png",
+    dosage: "Basal dose as per crop recommendation",
+    expiry: "Dec 2027",
+    usage: "Basal application in cereals and pulses",
+    components: "Di‑Ammonium Phosphate with added Zinc",
+    classification: "Fortified DAP Fertilizer",
+    toxicity: "Low",
+    technical: "DAP + Zinc 0.5%",
+    additional: "Improves grain quality and yields"
+  },
+  {
+    name: "Gromor Sulphur",
+    desc: "Micronized sulphur fertiliser for soil and foliar use - 5kg",
+    price: 450,
+    brand: "Coromandel",
+    img: "https://4.imimg.com/data4/RA/EN/MY-19021921/gromor-sulphur-500x500.png",
+    dosage: "2–3 kg per acre (soil); 0.5% foliar spray",
+    expiry: "Dec 2027",
+    usage: "Corrects sulphur deficiency in crops",
+    components: "Elemental Sulphur",
+    classification: "Sulphur‑based Fertilizer",
+    toxicity: "Non‑toxic",
+    technical: "Micronized sulphur with high purity",
+    additional: "Helps in greener foliage and improved yields"
+  },
+  {
+    name: "AcuMist Calcium",
+    desc: "Liquid foliar spray with 11% calcium - 500ml",
+    price: 450,
+    brand: "Coromandel",
+    img: "https://agribegri.com/productimage/35238eb26604fe21eaf134700f96b5c1-05-23-23-10-57-57.webp",
+    dosage: "3–5 ml per liter of water",
+    expiry: "Dec 2027",
+    usage: "Foliar spray during flowering or where calcium deficiency is noted",
+    components: "Liquid Calcium 11%",
+    classification: "Foliar Micronutrient",
+    toxicity: "Low; crop-safe when used as directed",
+    technical: "Liquid formulation with stabilizers and sticking agents",
+    additional: "Corrects disorders like blossom end rot, bitter feet, black heart"
+  },
+  {
+    name: "FITSOL Solanaceae Grade 1",
+    desc: "Water‑soluble fertigation for tomato, chilli, brinjal - 25kg (early stage)",
+    price: 1200,
+    brand: "Coromandel",
+    img: "https://5.imimg.com/data5/SELLER/Default/2022/9/SN/TN/NM/12614862/fitsol-solanaceae-grades-1-2-500x500.PNG",
+    dosage: "100 kg/acre via drip (10 DAT to 60 DAT)",
+    expiry: "Dec 2027",
+    usage: "Fertigation in early fruit set stage of solanaceous crops",
+    components: "N 21 : P 12 : K 16 : S 2 + Mg, Zn, B, Fe, Mn, Cu",
+    classification: "Crop‑Specific Fertigation Grade",
+    toxicity: "Low; water‑soluble and safe when handled properly",
+    technical: "Complete form with trace nutrients and pH control",
+    additional: "Improves fruit size, quality and shelf life"
+  },
+  {
+    name: "FITSOL Banana Grade 1",
+    desc: "Water‑soluble fertigation for banana - 25kg (early stage)",
+    price: 1300,
+    brand: "Coromandel",
+    img: "https://tse4.mm.bing.net/th/id/OIP.4EMrFVSPzBFtBBxllJ_THwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    dosage: "25 kg/acre (root development stage)",
+    expiry: "Dec 2027",
+    usage: "For root and vegetative growth stages in banana",
+    components: "N 13 : P 12 : K 26 + S, Mg, Zn, B, Fe, Mn, Cu",
+    classification: "Crop‑Specific Fertigation Grade",
+    toxicity: "Low",
+    technical: "Balanced multinutrient formulation",
+    additional: "Improves bunch size, uniform maturity"
+  },
+  {
+    name: "FITSOL Sugarcane Grade 1",
+    desc: "Water‑soluble fertigation for sugarcane - 25kg (tillering stage)",
+    price: 1250,
+    brand: "Coromandel",
+    img: "https://5.imimg.com/data5/SELLER/Default/2022/7/SQ/DA/KG/29953047/fitsol-sugarcane-grades-1-2-1000x1000.png",
+    dosage: "75 kg/acre (36‑100 DAP)",
+    expiry: "Dec 2027",
+    usage: "Fertigation during tillering stage",
+    components: "N 10 : P 28 : K 16 : MgO 3 : S 2 + Zn, B, Fe, Mn, Cu",
+    classification: "Crop‑Specific Fertigation Grade",
+    toxicity: "Low",
+    technical: "Stage‑specific multinutrient blend",
+    additional: "Improves cane thickness, Brix%, and tiller count"
+  },
+  
+  {
+    name: "Bosmax",
+    desc: "Bosmax Sulphur‑Boron Fertilizer – 10 kg",
+    price: 520,
+    brand: "Coromandel",
+    img: "https://5.imimg.com/data5/BL/RB/AJ/SELLER-16301773/coromandel-bosmax-1000x1000.png", 
+    dosage: "10 kg per acre (land prep)",
+    expiry: "Dec 2027",
+    usage: "Apply during soil preparation to correct S & B deficiency",
+    components: "Elemental Sulphur 80%, Boron 1.2%",
+    classification: "Secondary + Micronutrient Fertilizer",
+    toxicity: "Low; handle with basic precautions",
+    technical: "Slow-release sulphur and boron pellet blend",
+    additional: "Improves chlorophyll synthesis and early plant vigor"
+  },
+  {
+    name: "Grosmart",
+    desc: "Micronized Sulphur Fertilizer – 25 kg",
+    price: 460,
+    brand: "Coromandel",
+    img: "https://th.bing.com/th/id/R.62dc57d77021ab9507237141078b77e6?rik=RQKhAOhqtHZuPA&riu=http%3a%2f%2f5.imimg.com%2fdata5%2fSELLER%2fDefault%2f2022%2f2%2fIO%2fXP%2fGF%2f16301773%2f2-500x500.png&ehk=%2fmlZrSeP9YWfbXoZQxOVODkHKrpKTb3A8wvCzvan%2bNs%3d&risl=&pid=ImgRaw&r=0",
+    dosage: "fine spray or soil application as per crop",
+    expiry: "Dec 2027",
+    usage: "To enhance soil sulphur availability and correct deficiencies",
+    components: "Micronized elemental sulphur",
+    classification: "Sulphur-based Fertilizer",
+    toxicity: "Low; eco‑friendly",
+    technical: "Micronized sulphur particles for early oxidation",
+    additional: "Boosts soil pH and promotes nutrient uptake"
+  },
+  {
+    name: "Gromor nano Urea",
+    desc: "Polymer‑encapsulated nano‑urea RH – 500ml",
+    price: 230,
+    brand: "Coromandel",
+    img: "https://5.imimg.com/data5/SELLER/Default/2025/3/493107344/NF/IG/TS/240438836/gromor-nano-urea-1000x1000.jpg",
+    dosage: "Foliar spray: as per agro‑norm",
+    expiry: "Dec 2027",
+    usage: "Foliar application for nitrogen supplementation",
+    components: "Encapsulated urea nanoparticles",
+    classification: "Nano‑fertilizer (Nitrogen)",
+    toxicity: "Low; safe for crops and environment",
+    technical: "Urea <1000 nm in polymer matrix",
+    additional: "Enhances nitrogen-use efficiency and greener leaves"
+  },
+  {
+    name: "Gromor nano DAP",
+    desc: "Polymer‑encapsulated nano DAP – 1lt",
+    price: 600,
+    brand: "Coromandel",
+    img: "https://tse3.mm.bing.net/th/id/OIP.f3_iwFp6HQcY6Leu4bpv4wHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    dosage: "Foliar or soil application as per crop stage",
+    expiry: "Dec 2027",
+    usage: "To boost phosphorus uptake and early crop growth",
+    components: "Encapsulated Diammonium Phosphate nanoparticles",
+    classification: "Nano‑fertilizer (P‑based)",
+    toxicity: "Low; minimal residue",
+    technical: "DAP nano‑formulation for controlled release",
+    additional: "Improves root development and early vigor"
+  },
+  {
+    name: "GroShakti",
+    desc: "Balanced NPK Fertilizer – 50 kg (14‑35‑14)",
+    price: 530,
+    brand: "Coromandel",
+    img: "https://5.imimg.com/data5/SELLER/Default/2022/2/KR/KF/DD/16301773/groshakti-1--500x500.png",
+    dosage: "As per crop guidelines",
+    expiry: "Dec 2027",
+    usage: "Ideal for balanced nutrition across major cereals & pulses",
+    components: "N:14%, P:35%, K:14%",
+    classification: "Complex Fertilizer (NPK)",
+    toxicity: "Non‑toxic",
+    technical: "Enhanced EnPhos Technology for better P‑availability",
+    additional: "Widely used for yield enhancement in field crops"
+  }
+
+
+
+
+    ];
+
+   function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition card-hover";
+
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:shadow-lg" data-img-index="${index}" />
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+
+    container.appendChild(card);
+
+    // Show modal only when image is clicked
+    card.querySelector("img").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showModal(index);
+    });
+  });
+
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+
+      const card = event.target.closest("div");
+      card.classList.add("bg-green-100", "ring", "ring-green-500");
+      setTimeout(() => {
+        card.classList.remove("bg-green-100", "ring", "ring-green-500");
+      }, 800);
+    });
+  });
+}
+
+
+    function showModal(index) {
+      const product = growthPromoters[index];
+      document.getElementById("modalTitle").textContent = product.name;
+      document.getElementById("modalImage").src = product.img;
+      document.getElementById("modalDesc").textContent = product.desc;
+      document.getElementById("modalBrand").textContent = product.brand;
+      document.getElementById("modalDosage").textContent = product.dosage || "N/A";
+      document.getElementById("modalExpiry").textContent = product.expiry || "N/A";
+      document.getElementById("modalUsage").textContent = product.usage || "N/A";
+      document.getElementById("modalComponents").textContent = product.components || "N/A";
+      document.getElementById("modalClassification").textContent = product.classification || "N/A";
+      document.getElementById("modalToxicity").textContent = product.toxicity || "N/A";
+      document.getElementById("modalTechnical").textContent = product.technical || "N/A";
+      document.getElementById("modalAdditional").textContent = product.additional || "N/A";
+
+      document.getElementById("productModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("productModal").classList.add("hidden");
+    }
+
+    function applyFilters() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const sortOption = document.getElementById("sortPrice").value;
+
+      let filtered = growthPromoters.filter(p =>
+        p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+      );
+
+      if (sortOption === "asc") filtered.sort((a, b) => a.price - b.price);
+      else if (sortOption === "desc") filtered.sort((a, b) => b.price - a.price);
+
+      renderProducts(filtered);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProducts(growthPromoters);
+      document.getElementById("searchInput").addEventListener("input", applyFilters);
+      document.getElementById("sortPrice").addEventListener("change", applyFilters);
+    });
+
+    function addToCart(product) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existing = cart.find(p => p.name === product.name);
+      if (existing) {
+        existing.quantity += product.quantity;
+      } else {
+        cart.push(product);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+</body>
+</html>
