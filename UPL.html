@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>upl-Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages: "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Tailwind CSS and Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <style>
+    .product-img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      object-position: center;
+    }
+    .goog-te-banner-frame.skiptranslate,
+    .goog-logo-link,
+    .goog-te-gadget span {
+      display: none !important;
+    }
+    body {
+      top: 0 !important;
+    }
+    #google_translate_element select {
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .card-hover:hover {
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+  <!-- Header -->
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <img src="https://www.underconsideration.com/brandnew/archives/upl_openag_logo_before_after.jpg" alt="UPL Logo" class="h-14 w-14 object-contain" />
+    <h1 class="text-2xl font-bold text-green-700">Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search UPL Products..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+
+  <!-- Product List -->
+  <main class="p-6">
+    <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top UPL Products</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+  </main>
+
+  <!-- Product Modal -->
+  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white w-full max-w-lg p-6 rounded-lg relative shadow-lg overflow-auto max-h-[90vh]">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl font-bold">&times;</button>
+      <h2 id="modalTitle" class="text-xl font-semibold text-green-700 mb-2"></h2>
+      <img id="modalImage" src="" alt="" class="w-40 h-40 object-contain mb-4 mx-auto" />
+      <ul class="text-sm text-gray-700 space-y-1">
+        <li><strong>Description:</strong> <span id="modalDesc"></span></li>
+        <li><strong>Brand:</strong> <span id="modalBrand"></span></li>
+        <li><strong>Dosage:</strong> <span id="modalDosage"></span></li>
+        <li><strong>Expiry Date:</strong> <span id="modalExpiry"></span></li>
+        <li><strong>How to Apply:</strong> <span id="modalUsage"></span></li>
+        <li><strong>Components:</strong> <span id="modalComponents"></span></li>
+        <li><strong>Classification:</strong> <span id="modalClassification"></span></li>
+        <li><strong>Toxicity:</strong> <span id="modalToxicity"></span></li>
+        <li><strong>Technical Content:</strong> <span id="modalTechnical"></span></li>
+        <li><strong>Additional Info:</strong> <span id="modalAdditional"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const growthPromoters = [
+    {
+    name: "Saaf",
+    desc: "Broad Spectrum Fungicide - 500g",
+    price: 270,
+    brand: "UPL",
+    img: "https://www.agribegri.com/images/products/1685960670_saaf.jpg",
+    dosage: "1.5–2 g per liter of water",
+    expiry: "Dec 2026",
+    usage: "Spray on infected crops at early disease stage",
+    components: "Carbendazim + Mancozeb",
+    classification: "Systemic & Contact Fungicide",
+    toxicity: "Moderate; avoid inhalation and eye contact",
+    technical: "Carbendazim 12% + Mancozeb 63% WP",
+    additional: "Prevents fungal resistance and provides long-lasting control"
+  },
+  {
+    name: "Sweep Power",
+    desc: "Post-Emergence Herbicide - 1L",
+    price: 730,
+    brand: "UPL",
+    img: "https://www.kisanshop.in/image/cache/catalog/products/SWEEP-POWER-1-L-800x800.jpg",
+    dosage: "10 ml per liter of water",
+    expiry: "Nov 2027",
+    usage: "Spray on broadleaf and grassy weeds",
+    components: "Glufosinate ammonium",
+    classification: "Non-selective Herbicide",
+    toxicity: "Moderate; use protective clothing",
+    technical: "Glufosinate Ammonium 13.5% SL",
+    additional: "Fast-acting, effective within 2-4 days"
+  },
+  {
+    name: "Phoskill",
+    desc: "Insecticide for Stem Borer & Leaf Folder - 1L",
+    price: 620,
+    brand: "UPL",
+    img: "https://agribegri.com/images/product/20220919112151.jpg",
+    dosage: "2–2.5 ml per liter",
+    expiry: "Oct 2026",
+    usage: "Spray during early infestation stages",
+    components: "Profénofos",
+    classification: "Organophosphate Insecticide",
+    toxicity: "High; handle with caution",
+    technical: "Profénofos 50% EC",
+    additional: "Quick knockdown and longer residual activity"
+  },
+  {
+    name: "Argon",
+    desc: "Seed Treatment Fungicide - 250ml",
+    price: 290,
+    brand: "UPL",
+    img: "https://cdn.shopify.com/s/files/1/0573/4010/9292/products/argon250ml.png",
+    dosage: "2 ml per kg of seed",
+    expiry: "Jan 2027",
+    usage: "Mix thoroughly with seeds before sowing",
+    components: "Carbendazim + Thiram",
+    classification: "Seed Treatment Fungicide",
+    toxicity: "Low; wear gloves during application",
+    technical: "Carbendazim 25% + Thiram 25% DS",
+    additional: "Protects against seed and early root diseases"
+  },
+  {
+    name: "Eros",
+    desc: "Sucking Pest Control Insecticide - 100ml",
+    price: 180,
+    brand: "UPL",
+    img: "https://www.kisanshop.in/image/cache/catalog/products/eros-800x800.jpg",
+    dosage: "0.5–1 ml per liter",
+    expiry: "Aug 2027",
+    usage: "Spray on crops affected by whiteflies and aphids",
+    components: "Diafenthiuron",
+    classification: "Contact and Stomach Insecticide",
+    toxicity: "Moderate; avoid direct exposure",
+    technical: "Diafenthiuron 50% WP",
+    additional: "Effective on mites, thrips, and aphids"
+  },
+  {
+    name: "SAAF Gold",
+    desc: "Dual Mode Fungicide - 250g",
+    price: 180,
+    brand: "UPL",
+    img: "https://agribegri.com/images/product/20220919095900.jpg",
+    dosage: "2 g per liter of water",
+    expiry: "Mar 2027",
+    usage: "Use during early fungal attack",
+    components: "Carbendazim + Mancozeb",
+    classification: "Systemic & Contact Fungicide",
+    toxicity: "Moderate; avoid skin contact",
+    technical: "Carbendazim 12% + Mancozeb 63% WP",
+    additional: "Controls a broad spectrum of fungal diseases"
+  },
+  {
+    name: "Ulala",
+    desc: "Sucking Pest Insecticide - 100ml",
+    price: 290,
+    brand: "UPL",
+    img: "https://cdn.shopify.com/s/files/1/0594/4909/5334/products/ulala_480x480.png",
+    dosage: "0.75 g per liter of water",
+    expiry: "Jun 2027",
+    usage: "Apply on crops affected by whiteflies and jassids",
+    components: "Flonicamid",
+    classification: "Systemic Insecticide",
+    toxicity: "Low; use gloves while spraying",
+    technical: "Flonicamid 50% WG",
+    additional: "Fast action, long residual control, safe to beneficial insects"
+  },
+  {
+    name: "Dost Super",
+    desc: "Herbicide for Paddy Fields - 1L",
+    price: 460,
+    brand: "UPL",
+    img: "https://www.kisanshop.in/image/cache/catalog/products/dostsuper1ltr-800x800.jpg",
+    dosage: "800 ml per acre",
+    expiry: "Apr 2027",
+    usage: "Post-emergence weed control in paddy",
+    components: "Pretilachlor + Safener",
+    classification: "Selective Herbicide",
+    toxicity: "Moderate; wear mask during application",
+    technical: "Pretilachlor 50% + Safener 0.5% EC",
+    additional: "Effective against broadleaf and sedge weeds"
+  },
+  {
+    name: "Tricel",
+    desc: "Bio-Nematicide for Root Health - 1L",
+    price: 750,
+    brand: "UPL",
+    img: "https://www.agriplexindia.com/cdn/shop/products/tricel_1024x1024.jpg?v=1630058594",
+    dosage: "5 ml per liter of water",
+    expiry: "Dec 2026",
+    usage: "Drench near root zone",
+    components: "Trichoderma viride",
+    classification: "Biological Fungicide/Nematicide",
+    toxicity: "Low; safe for environment",
+    technical: "Trichoderma viride 1% WP",
+    additional: "Improves soil health and disease suppression"
+  },
+  {
+    name: "Lancer Gold",
+    desc: "Dual Herbicide for Paddy - 400g",
+    price: 330,
+    brand: "UPL",
+    img: "https://agribegri.com/images/products/lancer-gold-1.jpg",
+    dosage: "400 g per acre",
+    expiry: "Sep 2027",
+    usage: "Apply 2-3 days after transplanting paddy",
+    components: "Bensulfuron + Pretilachlor",
+    classification: "Post-emergence Herbicide",
+    toxicity: "Moderate; avoid contact with skin",
+    technical: "Bensulfuron methyl 0.6% + Pretilachlor 6% GR",
+    additional: "Controls both broadleaf and grassy weeds"
+  },
+  {
+    name: "Shenzi",
+    desc: "Broad Spectrum Insecticide - 100ml",
+    price: 320,
+    brand: "UPL",
+    img: "https://agribegri.com/images/products/shenzi-1.jpg",
+    dosage: "0.5 ml per liter of water",
+    expiry: "Jul 2027",
+    usage: "Effective against aphids, jassids, and whiteflies",
+    components: "Acetamiprid",
+    classification: "Systemic Insecticide",
+    toxicity: "Low; minimal impact on beneficial insects",
+    technical: "Acetamiprid 20% SP",
+    additional: "Quick knockdown and long-lasting control"
+  },
+  {
+    name: "Sweep Power",
+    desc: "Systemic Herbicide for Broadleaf Weeds - 1L",
+    price: 550,
+    brand: "UPL",
+    img: "https://agribegri.com/images/products/sweep-power-1.jpg",
+    dosage: "300-400 ml per acre",
+    expiry: "Oct 2027",
+    usage: "Spray uniformly in active weed growth stage",
+    components: "Metsulfuron-methyl + Chlorimuron-ethyl",
+    classification: "Selective Herbicide",
+    toxicity: "Moderate; use protective gear",
+    technical: "Metsulfuron-methyl 10% + Chlorimuron-ethyl 10% WP",
+    additional: "Ideal for sugarcane and soybean"
+  },
+  {
+    name: "Curzate",
+    desc: "Fungicide for Late Blight in Potatoes - 500g",
+    price: 420,
+    brand: "UPL",
+    img: "https://agribegri.com/images/products/curzate-1.jpg",
+    dosage: "2.5 g per liter of water",
+    expiry: "Aug 2026",
+    usage: "Use at first sign of late blight symptoms",
+    components: "Cymoxanil + Mancozeb",
+    classification: "Systemic + Contact Fungicide",
+    toxicity: "Moderate; avoid inhalation",
+    technical: "Cymoxanil 8% + Mancozeb 64% WP",
+    additional: "Strong curative and protective action"
+  },
+  {
+    name: "Eros",
+    desc: "Insecticide for Sucking Pests - 100ml",
+    price: 265,
+    brand: "UPL",
+    img: "https://agribegri.com/images/products/eros-1.jpg",
+    dosage: "1 ml per liter of water",
+    expiry: "May 2026",
+    usage: "Apply during early pest infestation",
+    components: "Thiamethoxam",
+    classification: "Systemic Insecticide",
+    toxicity: "Low; safe with recommended use",
+    technical: "Thiamethoxam 25% WG",
+    additional: "Excellent translaminar activity"
+  },
+  {
+    name: "Blue Copper",
+    desc: "Broad-Spectrum Fungicide - 500g",
+    price: 370,
+    brand: "UPL",
+    img: "https://agribegri.com/images/products/blue-copper-1.jpg",
+    dosage: "2.5 g per liter of water",
+    expiry: "Jan 2027",
+    usage: "Use during early fungal disease development",
+    components: "Copper Oxychloride",
+    classification: "Contact Fungicide",
+    toxicity: "Moderate; wash hands after use",
+    technical: "Copper Oxychloride 50% WP",
+    additional: "Prevents spore germination and infection"
+  }
+
+
+
+
+    ];
+
+   function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition card-hover";
+
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:shadow-lg" data-img-index="${index}" />
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+
+    container.appendChild(card);
+
+    // Show modal only when image is clicked
+    card.querySelector("img").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showModal(index);
+    });
+  });
+
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+
+      const card = event.target.closest("div");
+      card.classList.add("bg-green-100", "ring", "ring-green-500");
+      setTimeout(() => {
+        card.classList.remove("bg-green-100", "ring", "ring-green-500");
+      }, 800);
+    });
+  });
+}
+
+
+    function showModal(index) {
+      const product = growthPromoters[index];
+      document.getElementById("modalTitle").textContent = product.name;
+      document.getElementById("modalImage").src = product.img;
+      document.getElementById("modalDesc").textContent = product.desc;
+      document.getElementById("modalBrand").textContent = product.brand;
+      document.getElementById("modalDosage").textContent = product.dosage || "N/A";
+      document.getElementById("modalExpiry").textContent = product.expiry || "N/A";
+      document.getElementById("modalUsage").textContent = product.usage || "N/A";
+      document.getElementById("modalComponents").textContent = product.components || "N/A";
+      document.getElementById("modalClassification").textContent = product.classification || "N/A";
+      document.getElementById("modalToxicity").textContent = product.toxicity || "N/A";
+      document.getElementById("modalTechnical").textContent = product.technical || "N/A";
+      document.getElementById("modalAdditional").textContent = product.additional || "N/A";
+
+      document.getElementById("productModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("productModal").classList.add("hidden");
+    }
+
+    function applyFilters() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const sortOption = document.getElementById("sortPrice").value;
+
+      let filtered = growthPromoters.filter(p =>
+        p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+      );
+
+      if (sortOption === "asc") filtered.sort((a, b) => a.price - b.price);
+      else if (sortOption === "desc") filtered.sort((a, b) => b.price - a.price);
+
+      renderProducts(filtered);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProducts(growthPromoters);
+      document.getElementById("searchInput").addEventListener("input", applyFilters);
+      document.getElementById("sortPrice").addEventListener("change", applyFilters);
+    });
+
+    function addToCart(product) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existing = cart.find(p => p.name === product.name);
+      if (existing) {
+        existing.quantity += product.quantity;
+      } else {
+        cart.push(product);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+</body>
+</html>
