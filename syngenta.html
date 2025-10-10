@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Syngenta - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages: "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Tailwind CSS and Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <style>
+    .product-img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      object-position: center;
+    }
+    .goog-te-banner-frame.skiptranslate,
+    .goog-logo-link,
+    .goog-te-gadget span {
+      display: none !important;
+    }
+    body {
+      top: 0 !important;
+    }
+    #google_translate_element select {
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .card-hover:hover {
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+  <!-- Header -->
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <img src="https://1000logos.net/wp-content/uploads/2020/08/Syngenta-Logo-640x400.png" alt="Syngenta Logo" class="h-14 w-14 object-contain" />
+    <h1 class="text-2xl font-bold text-green-700">Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search Syngenta Products..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+
+  <!-- Product List -->
+  <main class="p-6">
+    <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Syngenta Products</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+  </main>
+
+  <!-- Product Modal -->
+  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white w-full max-w-lg p-6 rounded-lg relative shadow-lg overflow-auto max-h-[90vh]">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl font-bold">&times;</button>
+      <h2 id="modalTitle" class="text-xl font-semibold text-green-700 mb-2"></h2>
+      <img id="modalImage" src="" alt="" class="w-40 h-40 object-contain mb-4 mx-auto" />
+      <ul class="text-sm text-gray-700 space-y-1">
+        <li><strong>Description:</strong> <span id="modalDesc"></span></li>
+        <li><strong>Brand:</strong> <span id="modalBrand"></span></li>
+        <li><strong>Dosage:</strong> <span id="modalDosage"></span></li>
+        <li><strong>Expiry Date:</strong> <span id="modalExpiry"></span></li>
+        <li><strong>How to Apply:</strong> <span id="modalUsage"></span></li>
+        <li><strong>Components:</strong> <span id="modalComponents"></span></li>
+        <li><strong>Classification:</strong> <span id="modalClassification"></span></li>
+        <li><strong>Toxicity:</strong> <span id="modalToxicity"></span></li>
+        <li><strong>Technical Content:</strong> <span id="modalTechnical"></span></li>
+        <li><strong>Additional Info:</strong> <span id="modalAdditional"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const growthPromoters = [
+       {
+    name: "Amistar Top",
+    desc: "Dual Action Fungicide for Vegetables and Fruits - 1L",
+    price: 1180,
+    brand: "Syngenta",
+    img: "https://www.agriplexindia.com/cdn/shop/products/AmistarTop-27.png?v=1678096225",
+    dosage: "1 ml per liter of water",
+    expiry: "Jan 2027",
+    usage: "Spray during early disease infection or as a preventive",
+    components: "Azoxystrobin and Difenoconazole",
+    classification: "Systemic Fungicide",
+    toxicity: "Moderate; avoid direct skin contact",
+    technical: "Azoxystrobin 18.2% + Difenoconazole 11.4% SC",
+    additional: "Controls leaf spots, blights, and powdery mildew"
+  },
+  {
+    name: "Actara",
+    desc: "Systemic Insecticide for Sucking Pests - 100g",
+    price: 420,
+    brand: "Syngenta",
+    img: "https://www.agriplexindia.com/cdn/shop/products/Actara_1_3d87ca27-0bd8-445a-95fa-87297b0a6787.png?v=1678530409",
+    dosage: "0.4 g per liter of water",
+    expiry: "Dec 2026",
+    usage: "Apply on crops affected by aphids, jassids, and whiteflies",
+    components: "Thiamethoxam",
+    classification: "Neonicotinoid Insecticide",
+    toxicity: "Low; safe when used properly",
+    technical: "Thiamethoxam 25% WG",
+    additional: "Quick absorption and long-lasting control"
+  },
+  {
+    name: "Gramoxone",
+    desc: "Non-Selective Contact Herbicide - 1L",
+    price: 540,
+    brand: "Syngenta",
+    img: "https://tse2.mm.bing.net/th/id/OIP.flnjNrd2WPoZsG45QiMuowHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    dosage: "5 ml per liter of water",
+    expiry: "Feb 2027",
+    usage: "Spray on weeds in non-crop areas or between crop rows",
+    components: "Paraquat Dichloride",
+    classification: "Contact Herbicide",
+    toxicity: "High; use protective clothing and mask",
+    technical: "Paraquat Dichloride 24% SL",
+    additional: "Kills green tissue on contact, acts fast"
+  },
+  {
+    name: "Score",
+    desc: "Triazole Fungicide for Fruit and Vegetable Crops - 100ml",
+    price: 350,
+    brand: "Syngenta",
+    img: "https://5.imimg.com/data5/SELLER/Default/2023/10/351906483/CA/FJ/JK/124067625/100ml-score-syngenta-fungicide-500x500.png",
+    dosage: "1 ml per liter of water",
+    expiry: "Oct 2026",
+    usage: "Apply during early fungal attack like leaf spots or mildew",
+    components: "Difenoconazole",
+    classification: "Systemic Fungicide",
+    toxicity: "Low; follow standard PPE usage",
+    technical: "Difenoconazole 25% EC",
+    additional: "Excellent residual activity and wide crop coverage"
+  },
+  {
+    name: "Curacron",
+    desc: "Broad-Spectrum Insecticide - 500ml",
+    price: 380,
+    brand: "Syngenta",
+    img: "https://krushikendra.com/image/cache/catalog/Sygenta/CURACRON-500x500-500x500.jpg",
+    dosage: "2 ml per liter of water",
+    expiry: "Jul 2026",
+    usage: "Spray on crops like cotton, paddy, and vegetables",
+    components: "Profenofos",
+    classification: "Organophosphate Insecticide",
+    toxicity: "High; avoid inhalation and wear gloves",
+    technical: "Profenofos 50% EC",
+    additional: "Effective on bollworms, aphids, and thrips"
+  },
+  {
+    name: "Revus",
+    desc: "Fungicide for Late Blight in Vegetables - 200ml",
+    price: 620,
+    brand: "Syngenta",
+    img: "https://www.agriplexindia.com/cdn/shop/products/syngenta-27.png?v=1678278423",
+    dosage: "1.5 ml per liter of water",
+    expiry: "Nov 2026",
+    usage: "Spray during early blight development in potato and tomato",
+    components: "Mandipropamid",
+    classification: "Systemic Fungicide",
+    toxicity: "Low; use gloves and avoid direct contact",
+    technical: "Mandipropamid 23.4% SC",
+    additional: "Provides long-lasting protection and rainfastness"
+  },
+  {
+    name: "Pegasus",
+    desc: "Insecticide for Whiteflies and Aphids - 250g",
+    price: 760,
+    brand: "Syngenta",
+    img: "https://agriplexindia.com/cdn/shop/products/Pegasus_1.png?v=1678698641",
+    dosage: "1 g per liter of water",
+    expiry: "Aug 2027",
+    usage: "Apply on vegetables, cotton, and pulses during early infestation",
+    components: "Diafenthiuron",
+    classification: "Contact & Stomach Insecticide",
+    toxicity: "Moderate; avoid spraying during peak sun hours",
+    technical: "Diafenthiuron 50% WP",
+    additional: "Effective against resistant sucking pests"
+  },
+  {
+    name: "Virtako",
+    desc: "Broad-Spectrum Insecticide for Soil and Foliar Application - 1kg",
+    price: 1650,
+    brand: "Syngenta",
+    img: "https://tse3.mm.bing.net/th/id/OIP.rB2J0dd4rOVHWgjxdQUPRAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    dosage: "0.5 to 1 g per liter of water",
+    expiry: "Sep 2027",
+    usage: "Use in early crop stages for lepidopteran pest control",
+    components: "Thiamethoxam + Chlorantraniliprole",
+    classification: "Systemic Insecticide",
+    toxicity: "Low; keep out of reach of children",
+    technical: "Thiamethoxam 20% + Chlorantraniliprole 20% WG",
+    additional: "Controls stem borers and leaf folders effectively"
+  },
+  {
+    name: "Voliam Flexi",
+    desc: "Dual Action Insecticide for Vegetables and Cotton - 100ml",
+    price: 540,
+    brand: "Syngenta",
+    img: "https://www.agriplexindia.com/cdn/shop/products/VoliumFlexi_2.png?v=1678448395",
+    dosage: "0.5 ml per liter of water",
+    expiry: "May 2027",
+    usage: "Spray at early larval stage for best results",
+    components: "Thiamethoxam and Chlorantraniliprole",
+    classification: "Systemic and Translaminar Insecticide",
+    toxicity: "Moderate; wear protective clothing",
+    technical: "Thiamethoxam 20% + Chlorantraniliprole 20% WG",
+    additional: "Fast knockdown and long residual control"
+  },
+  {
+    name: "Alika",
+    desc: "Insecticide for Aphids, Jassids & Thrips - 100ml",
+    price: 420,
+    brand: "Syngenta",
+    img: "https://www.agriplexindia.com/cdn/shop/products/Alika_3.png?v=1678094219",
+    dosage: "0.5 ml per liter of water",
+    expiry: "Dec 2026",
+    usage: "Use on cotton and vegetables in early infestation stages",
+    components: "Lambda-cyhalothrin and Thiamethoxam",
+    classification: "Systemic and Contact Insecticide",
+    toxicity: "Low; avoid spraying during rain",
+    technical: "Thiamethoxam 12.6% + Lambda-cyhalothrin 9.5% ZC",
+    additional: "Dual mode of action ensures fast kill and lasting protection"
+  },
+  {
+    name: "Chess",
+    desc: "Insecticide for Whitefly Control - 150g",
+    price: 580,
+    brand: "Syngenta",
+    img: "https://tse2.mm.bing.net/th/id/OIP.NGPHZHuMioRwBCi8Acs-bQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    dosage: "1 g per liter of water",
+    expiry: "Dec 2026",
+    usage: "Spray on cotton and vegetables during pest emergence",
+    components: "Pymetrozine",
+    classification: "Feeding Inhibitor Insecticide",
+    toxicity: "Low; wash hands after use",
+    technical: "Pymetrozine 50% WG",
+    additional: "Stops whiteflies from feeding instantly"
+  },
+  
+
+
+
+    ];
+
+   function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition card-hover";
+
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:shadow-lg" data-img-index="${index}" />
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+
+    container.appendChild(card);
+
+    // Show modal only when image is clicked
+    card.querySelector("img").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showModal(index);
+    });
+  });
+
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+
+      const card = event.target.closest("div");
+      card.classList.add("bg-green-100", "ring", "ring-green-500");
+      setTimeout(() => {
+        card.classList.remove("bg-green-100", "ring", "ring-green-500");
+      }, 800);
+    });
+  });
+}
+
+
+    function showModal(index) {
+      const product = growthPromoters[index];
+      document.getElementById("modalTitle").textContent = product.name;
+      document.getElementById("modalImage").src = product.img;
+      document.getElementById("modalDesc").textContent = product.desc;
+      document.getElementById("modalBrand").textContent = product.brand;
+      document.getElementById("modalDosage").textContent = product.dosage || "N/A";
+      document.getElementById("modalExpiry").textContent = product.expiry || "N/A";
+      document.getElementById("modalUsage").textContent = product.usage || "N/A";
+      document.getElementById("modalComponents").textContent = product.components || "N/A";
+      document.getElementById("modalClassification").textContent = product.classification || "N/A";
+      document.getElementById("modalToxicity").textContent = product.toxicity || "N/A";
+      document.getElementById("modalTechnical").textContent = product.technical || "N/A";
+      document.getElementById("modalAdditional").textContent = product.additional || "N/A";
+
+      document.getElementById("productModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("productModal").classList.add("hidden");
+    }
+
+    function applyFilters() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const sortOption = document.getElementById("sortPrice").value;
+
+      let filtered = growthPromoters.filter(p =>
+        p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+      );
+
+      if (sortOption === "asc") filtered.sort((a, b) => a.price - b.price);
+      else if (sortOption === "desc") filtered.sort((a, b) => b.price - a.price);
+
+      renderProducts(filtered);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProducts(growthPromoters);
+      document.getElementById("searchInput").addEventListener("input", applyFilters);
+      document.getElementById("sortPrice").addEventListener("change", applyFilters);
+    });
+
+    function addToCart(product) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existing = cart.find(p => p.name === product.name);
+      if (existing) {
+        existing.quantity += product.quantity;
+      } else {
+        cart.push(product);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+</body>
+</html>
