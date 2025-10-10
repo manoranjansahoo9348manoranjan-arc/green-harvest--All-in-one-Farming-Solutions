@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PI Industries-Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages: "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Tailwind CSS and Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <style>
+    .product-img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      object-position: center;
+    }
+    .goog-te-banner-frame.skiptranslate,
+    .goog-logo-link,
+    .goog-te-gadget span {
+      display: none !important;
+    }
+    body {
+      top: 0 !important;
+    }
+    #google_translate_element select {
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .card-hover:hover {
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+  <!-- Header -->
+  <header class="p-4 shadow-md flex justify-between items-center">
+    <img src="https://logowik.com/content/uploads/images/pi-industries5248.jpg" alt="PI Industries Logo" class="h-14 w-14 object-contain" />
+    <h1 class="text-2xl font-bold text-green-700">Green Harvest</h1>
+    <div class="flex items-center space-x-4">
+      <div id="google_translate_element"></div>
+      <a href="service.html" class="text-sm text-blue-600 hover:underline">Go to Home</a>
+      <div class="relative">
+        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="p-4 flex flex-wrap justify-center gap-4">
+    <input id="searchInput" type="text" placeholder="Search PI Industries Products..." class="border p-2 rounded w-64" />
+    <select id="sortPrice" class="border p-2 rounded">
+      <option value="">Sort by Price</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+
+  <!-- Product List -->
+  <main class="p-6">
+    <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top PI Industries Products</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+  </main>
+
+  <!-- Product Modal -->
+  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white w-full max-w-lg p-6 rounded-lg relative shadow-lg overflow-auto max-h-[90vh]">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl font-bold">&times;</button>
+      <h2 id="modalTitle" class="text-xl font-semibold text-green-700 mb-2"></h2>
+      <img id="modalImage" src="" alt="" class="w-40 h-40 object-contain mb-4 mx-auto" />
+      <ul class="text-sm text-gray-700 space-y-1">
+        <li><strong>Description:</strong> <span id="modalDesc"></span></li>
+        <li><strong>Brand:</strong> <span id="modalBrand"></span></li>
+        <li><strong>Dosage:</strong> <span id="modalDosage"></span></li>
+        <li><strong>Expiry Date:</strong> <span id="modalExpiry"></span></li>
+        <li><strong>How to Apply:</strong> <span id="modalUsage"></span></li>
+        <li><strong>Components:</strong> <span id="modalComponents"></span></li>
+        <li><strong>Classification:</strong> <span id="modalClassification"></span></li>
+        <li><strong>Toxicity:</strong> <span id="modalToxicity"></span></li>
+        <li><strong>Technical Content:</strong> <span id="modalTechnical"></span></li>
+        <li><strong>Additional Info:</strong> <span id="modalAdditional"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const growthPromoters = [
+    {
+    name: "Brofreya",
+    desc: "Revolutionary insecticide for chilli, brinjal, okra – 100ml",
+    price: 3650,
+    brand: "PI Industries",
+    img: "https://agriplexindia.com/cdn/shop/files/3_90277481-f818-4289-96a9-b05847b516d2.png?v=1743241286",
+    dosage: "0.5–1 ml per liter",
+    expiry: "Dec 2027",
+    usage: "Controls Lepidoptera & sucking pests in solanaceous crops",
+    components: "Broflanilide 20%",
+    classification: "New‑chemistry Insecticide",
+    toxicity: "Moderate; wear gloves and mask",
+    technical: "Broflanilide 20% SC",
+    additional: "IRAC Group 30; helps manage resistance"
+  },
+  {
+    name: "Keefun",
+    desc: "Tolfenpyrad‑based insecticide against DBM & sucking pests – 250ml",
+    price: 679,
+    brand: "PI Industries",
+    img: "https://agriplexindia.com/cdn/shop/products/Keefun_2.png?crop=center&height=940&v=1743241906&width=940",
+    dosage: "0.8–1 ml per liter",
+    expiry: "Nov 2027",
+    usage: "Spray against thrips, jassids, aphids, DBM in vegetables",
+    components: "Tolfenpyrad 15% EC",
+    classification: "Novel Pyrazole Insecticide",
+    toxicity: "Moderate; avoid skin contact",
+    technical: "Tolfenpyrad 15% EC",
+    additional: "Prevents egg laying and reduces feeding"
+  },
+  {
+    name: "Osheen",
+    desc: "Dinotefuran systemic insecticide for hopper control – 250g",
+    price: 1200,
+    brand: "PI Industries",
+    img: "https://khetionline.in/wp-content/uploads/2021/01/Osheen-1-812x812.jpg",
+    dosage: "1 g per liter",
+    expiry: "Dec 2027",
+    usage: "Used in rice for brown & white-backed hopper control",
+    components: "Dinotefuran 20% SG",
+    classification: "Neonicotinoid Insecticide",
+    toxicity: "Moderate; use PPE",
+    technical: "Dinotefuran 20% SG",
+    additional: "Effective translaminar & systemic action"
+  },
+  {
+    name: "Vibrant",
+    desc: "Granular insecticide for stem borer in rice – 1 kg",
+    price: 328,
+    brand: "PI Industries",
+    img: "https://agriplexindia.com/cdn/shop/products/PI-01.png?crop=center&height=940&v=1743241909&width=940",
+    dosage: "Broadcast 12.5 kg/ha",
+    expiry: "Dec 2027",
+    usage: "Apply 15–25 DAT in transplanted rice for stem borer control",
+    components: "Thiocyclam Hydrogen Oxalate 4% GR",
+    classification: "Granular Insecticide",
+    toxicity: "Moderate; wear mask & gloves",
+    technical: "Thiocyclam H‑Oxalate 4% GR",
+    additional: "Protects tillers and enhances plant vigor"  
+  },
+  {
+    name: "Fosmịte",
+    desc: "Contact organophosphate for mite & thrips control – 500ml",
+    price: 569,
+    brand: "PI Industries",
+    img: "https://agriplexindia.com/cdn/shop/products/Fosmite_3.png?crop=center&height=940&v=1743241907&width=940",
+    dosage: "1–2 ml per liter",
+    expiry: "Dec 2027",
+    usage: "Spray on foliage during outbreak of mites, thrips, scales",
+    components: "Ethion 50% EC",
+    classification: "Contact & Stomach Insecticide/Acaricide",
+    toxicity: "Moderate; avoid inhalation",
+    technical: "Ethion 50% EC",
+    additional: "Reliable control against multiple pests"  
+  },
+   {
+    name: "Nominee Gold",
+    desc: "Advanced pre-emergence herbicide for paddy –  100ml",
+    price: 500,
+    brand: "PI Industries",
+    img: "https://agriplexindia.com/cdn/shop/products/Nominee-Gold_2.png?crop=center&height=940&v=1743241904&width=940", 
+    dosage: "200-250 ml per hectare",
+    expiry: "Dec 2027",
+    usage: "Apply immediately post-transplantation before flooding",
+    components: "Pretilachlor + Safener",
+    classification: "Selective Herbicide",
+    toxicity: "Moderate; avoid direct skin contact",
+    technical: "Pretilachlor 500 g/kg + Safener 5 g/kg GR",
+    additional: "Ensures long-lasting weed control in rice fields"
+  },
+  {
+    name: "Simbaa",
+    desc: "Acaricide for mite control in cotton – 100 ml",
+    price: 650,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/02/simbaa-980x980.png", 
+    dosage: "0.4–0.6 ml per liter",
+    expiry: "Dec 2027",
+    usage: "Spray on underside of leaves during early infestation",
+    components: "Abamectin 1.9% + Sulfonamide 22% EC",
+    classification: "Contact Acaricide",
+    toxicity: "Moderate; use gloves and eye protection",
+    technical: "Abamectin 1.9% + Sulfonamide 22% EC",
+    additional: "Highly effective against red spider mites"
+  },
+  {
+    name: "PB‑Knot",
+    desc: "Pheromone dispenser for brassica pests – Pack of 10",
+    price: 350,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/02/pb-knot-980x980.png", 
+    dosage: "10 dispensers per acre",
+    expiry: "Dec 2028",
+    usage: "Hang within crop canopy at cabbage/chilli field edges",
+    components: "Sex pheromone (synthetic)",
+    classification: "Behavioral Pest Control",
+    toxicity: "None to non-target organisms",
+    technical: "Slow-release pheromone dispenser",
+    additional: "Reduces moth population via mating disruption"
+  },
+  {
+    name: "Clutch",
+    desc: "Combination fungicide (Pyraclostrobin + Metiram) – 600 g",
+    price: 1350,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/03/clutch-480x480.png", 
+    dosage: "45 g per pump or 600 g per acre",
+    expiry: "Dec 2027",
+    usage: "Spray to control early and late blight in tomato, potato, grapes",
+    components: "Pyraclostrobin 5% + Metiram 55% WG",
+    classification: "Contact + Systemic Fungicide",
+    toxicity: "Moderate; avoid inhalation",
+    technical: "Mixes easily and rainfast",
+    additional: "Limits resistance due to dual mode of action"
+  },
+  {
+    name: "Defensa",
+    desc: "Systemic fungicide for downy mildew – 500 g",
+    price: 550,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/03/defensa-980x980.png",
+    dosage: "2 g per liter of water",
+    expiry: "Dec 2027",
+    usage: "Apply on grapes, vegetables, and other susceptible crops",
+    components: "Benalaxyl‑M 4% + Mancozeb 65% WP",
+    classification: "Systemic + Contact Fungicide",
+    toxicity: "Moderate; use gloves",
+    technical: "Dual mode of action",
+    additional: "Effective preventive and curative action on mildew"
+  },
+  {
+    name: "Header",
+    desc: "Rice blast fungicide (Pyraclostrobin 10% CS) – 200 g",
+    price: 450,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/03/header.png",
+    dosage: "1 g per liter of water",
+    expiry: "Dec 2027",
+    usage: "Spray on paddy at early blast symptoms",
+    components: "Pyraclostrobin 10% CS",
+    classification: "Systemic Fungicide",
+    toxicity: "Low; avoid skin contact",
+    technical: "Controlled‑release capsule suspension",
+    additional: "Improves leaf health and grain quality"
+  },
+  {
+    name: "Kitazin",
+    desc: "Broad spectrum fungicide – 500 ml",
+    price: 395,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/03/kitazen.png",
+    dosage: "1–1.5 ml per liter",
+    expiry: "Dec 2027",
+    usage: "Control blast, sheath blight, fruit rot in rice & vegetables",
+    components: "Iprobenfos 48% EC",
+    classification: "Systemic Fungicide",
+    toxicity: "Moderate; avoid inhalation",
+    technical: "Powerful curative and protective action",
+    additional: "Works well in anti‑resistance programs"
+  },
+  {
+    name: "Visma",
+    desc: "Innovative fungicide (Pyraclostrobin + Boscalid) – 500 g",
+    price: 680,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/03/visma.png",
+    dosage: "2 g per liter",
+    expiry: "Dec 2027",
+    usage: "Spray for powdery & downy mildew control in fruit crops",
+    components: "Pyraclostrobin 12.8% + Boscalid 25.2% WG",
+    classification: "Systemic Fungicide",
+    toxicity: "Moderate; wear protective gear",
+    technical: "Dual-site action reduces resistance risk",
+    additional: "Offers plant health benefits and long residual action"
+  },
+  {
+    name: "Carina",
+    desc: "Broad-spectrum insecticide & acaricide – 1 L",
+    price: 620,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/02/carina.png",
+    dosage: "1–2 ml per liter",
+    expiry: "Dec 2027",
+    usage: "Spray on crops against bollworms, mites, hoppers",
+    components: "Profenofos-based organophosphate",
+    classification: "Contact & Systemic Insecticide",
+    toxicity: "Moderate; avoid drift",
+    technical: "Highly effective ≥98% bio-efficacy",
+    additional: "Broad-spectrum and quick knock-down action"
+  },
+  {
+    name: "Colfos",
+    desc: "Contact & systemic insecticide (Ethion 40% + Cypermethrin 5% EC) – 250 ml",
+    price: 480,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/02/colfos.png", 
+    dosage: "0.5 ml per liter or 100 ml per acre",
+    expiry: "Dec 2027",
+    usage: "Controls bollworms and lepidopteran pests on cotton and vegetables",
+    components: "Ethion 40% + Cypermethrin 5% EC",
+    classification: "Contact & Stomach Insecticide",
+    toxicity: "Moderate; wear PPE",
+    technical: "Ethion 40% + Cypermethrin 5% EC",
+    additional: "Fast knockdown; dual action mode effective on lepidopteran pests"  
+  },
+  {
+    name: "Roket",
+    desc: "Broad-spectrum insecticide (Profenophos 40% + Cypermethrin 4% EC) – 500 ml",
+    price: 560,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/02/roket.png",
+    dosage: "1 ml per liter or 500 ml per acre",
+    expiry: "Dec 2027",
+    usage: "Use on cotton, paddy, vegetables to control chewing & sucking pests",
+    components: "Profenophos 40% + Cypermethrin 4% EC",
+    classification: "Contact & Systemic Insecticide",
+    toxicity: "Moderate; avoid drift",
+    technical: "Combination insecticide with fast action",
+    additional: "Synergistic action gives quick knockdown and residual control"  
+  },
+  {
+    name: "Maxima",
+    desc: "Systemic insecticide (Thiamethoxam 25% WG) – 100 g",
+    price: 350,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/02/maxima.png",
+    dosage: "0.5 g per liter or 100 g per acre",
+    expiry: "Dec 2027",
+    usage: "Target sucking pests like aphids, whiteflies across crops",
+    components: "Thiamethoxam 25% WG",
+    classification: "Neonicotinoid Systemic Insecticide",
+    toxicity: "Low; safe when used as per label",
+    technical: "Systemic action with high plant mobility",
+    additional: "Protects entire plant canopy for extended duration"  
+  },
+  {
+    name: "Biovita X",
+    desc: "Seaweed extract granular bio-stimulant (Ascophyllum nodosum) – 1 kg",
+    price: 450,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/03/biovita-granules-nased-on-seaweed.png",
+    dosage: "20–40 kg per hectare",
+    expiry: "Dec 2027",
+    usage: "Apply to soil or mix with drip irrigation for improved vigor",
+    components: "Ascophyllum nodosum extract",
+    classification: "Bio-stimulant (Seaweed-based)",
+    toxicity: "Non‑toxic; eco‑safe",
+    technical: "Concentrated granules of seaweed extract",
+    additional: "Enhances nutrient uptake, root growth & stress tolerance"  
+  },
+  {
+    name: "Awkira",
+    desc: "Pre-emergence herbicide (Pyroxasulfone 85% WG) – 200 g",
+    price: 1935,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/02/awkira-1.png",
+    dosage: "5–7 g per acre",
+    expiry: "Dec 2027",
+    usage: "Use in rice for effective weed control post-transplant",
+    components: "Pyroxasulfone 85% WG",
+    classification: "Selective Pre-emergence Herbicide",
+    toxicity: "Low; minimal residue",
+    technical: "Long-duration residual herbicide",
+    additional: "Controls grassy weeds efficiently during early crop stages"  
+  },
+  {
+    name: "Sanipeb",
+    desc: "Contact fungicide (Propineb 70% WP) – 500 g",
+    price: 520,
+    brand: "PI Industries",
+    img: "https://www.piindustries.com/wp-content/uploads/2025/03/sanipeb.png",
+    dosage: "300–500 g per hectare",
+    expiry: "Dec 2027",
+    usage: "Foliage spray to manage early fungal outbreaks in fruits & vegetables",
+    components: "Propineb 70% WP with Zinc",
+    classification: "Contact Fungicide",
+    toxicity: "Moderate; rinse hands after use",
+    technical: "Adhesive double action formula with zinc",
+    additional: "Useful in anti-resistance rotation programs"  
+  }
+  
+
+
+
+
+    ];
+
+   function renderProducts(products) {
+  const container = document.querySelector(".grid");
+  container.innerHTML = "";
+
+  products.forEach((product, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition card-hover";
+
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:shadow-lg" data-img-index="${index}" />
+      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
+      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
+      <label class="mt-2 text-sm">Qty (max 20)</label>
+      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
+      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
+      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
+    `;
+
+    container.appendChild(card);
+
+    // Show modal only when image is clicked
+    card.querySelector("img").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showModal(index);
+    });
+  });
+
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      const index = event.target.getAttribute("data-index");
+      const qty = parseInt(document.getElementById(`qty-${index}`).value);
+      const product = { ...growthPromoters[index], quantity: qty };
+      addToCart(product);
+
+      const card = event.target.closest("div");
+      card.classList.add("bg-green-100", "ring", "ring-green-500");
+      setTimeout(() => {
+        card.classList.remove("bg-green-100", "ring", "ring-green-500");
+      }, 800);
+    });
+  });
+}
+
+
+    function showModal(index) {
+      const product = growthPromoters[index];
+      document.getElementById("modalTitle").textContent = product.name;
+      document.getElementById("modalImage").src = product.img;
+      document.getElementById("modalDesc").textContent = product.desc;
+      document.getElementById("modalBrand").textContent = product.brand;
+      document.getElementById("modalDosage").textContent = product.dosage || "N/A";
+      document.getElementById("modalExpiry").textContent = product.expiry || "N/A";
+      document.getElementById("modalUsage").textContent = product.usage || "N/A";
+      document.getElementById("modalComponents").textContent = product.components || "N/A";
+      document.getElementById("modalClassification").textContent = product.classification || "N/A";
+      document.getElementById("modalToxicity").textContent = product.toxicity || "N/A";
+      document.getElementById("modalTechnical").textContent = product.technical || "N/A";
+      document.getElementById("modalAdditional").textContent = product.additional || "N/A";
+
+      document.getElementById("productModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("productModal").classList.add("hidden");
+    }
+
+    function applyFilters() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const sortOption = document.getElementById("sortPrice").value;
+
+      let filtered = growthPromoters.filter(p =>
+        p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
+      );
+
+      if (sortOption === "asc") filtered.sort((a, b) => a.price - b.price);
+      else if (sortOption === "desc") filtered.sort((a, b) => b.price - a.price);
+
+      renderProducts(filtered);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProducts(growthPromoters);
+      document.getElementById("searchInput").addEventListener("input", applyFilters);
+      document.getElementById("sortPrice").addEventListener("change", applyFilters);
+    });
+
+    function addToCart(product) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existing = cart.find(p => p.name === product.name);
+      if (existing) {
+        existing.quantity += product.quantity;
+      } else {
+        cart.push(product);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+    &copy; 2025 Green Harvest. All rights reserved.
+  </footer>
+</body>
+</html>
