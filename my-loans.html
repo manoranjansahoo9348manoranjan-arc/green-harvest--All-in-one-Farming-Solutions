@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Loan Applications - Green Harvest</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+  /* Hide extra text */
+  .goog-te-gadget {
+    font-size: 0 !important;
+    height: 20px !important;
+    overflow: hidden !important;
+  }
+  .goog-te-gadget img {
+    display: none !important; /* hide Google icon */
+  }
+  #google_translate_element select {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+    height: 20px !important;
+    line-height: 18px !important;
+    border-radius: 3px;
+    border: none !important;
+    background: #ffffff;
+    color: #333;
+  }
+</style>
+</head>
+<body class="bg-green-50 font-sans">
+
+  <!-- Header -->
+  <header class="bg-green-700 text-white p-4 flex justify-between items-center">
+    <a href="loanpage.html" class="bg-white text-green-700 px-3 py-1 rounded shadow hover:bg-gray-200">⬅ Go Back</a>
+    <span class="text-lg font-bold">📑 My Loan Applications</span>
+    <div id="google_translate_element"></div>
+  </header>
+
+  <!-- Loan Applications -->
+  <section class="max-w-5xl mx-auto p-6 bg-white rounded-xl shadow-md mt-6">
+    <h2 class="text-xl font-bold text-green-800 mb-4">Your Submitted Applications</h2>
+    <div id="loanList" class="space-y-4"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-green-700 text-white text-center p-4 mt-6">
+    © 2025 Green Harvest. Empowering Farmers with Growth & Support 🌱
+  </footer>
+
+  <script>
+    // ✅ Your logo link
+    const logoUrl = "logo1.png";
+
+    // Mask Govt ID (only show first 2 and last 2 digits)
+    function maskID(id) {
+      if (!id || id.length < 4) return id;
+      return id.slice(0, 2) + "*".repeat(id.length - 4) + id.slice(-2);
+    }
+
+    // Display Loan Applications
+    function displayApplications() {
+      let applications = JSON.parse(localStorage.getItem("loanApplications")) || [];
+      let loanList = document.getElementById("loanList");
+      loanList.innerHTML = "";
+
+      if (applications.length === 0) {
+        loanList.innerHTML = "<p class='text-red-600'>❌ No loan applications found.</p>";
+        return;
+      }
+
+      // Show most recent first
+      applications.reverse().forEach((app, index) => {
+        let maskedID = maskID(app.govtIDNumber || "");
+        loanList.innerHTML += `
+          <div class="p-4 border border-green-300 rounded-lg bg-green-50 shadow">
+            <p><strong>Name:</strong> ${app.name}</p>
+            <p><strong>Email:</strong> ${app.email || "N/A"}</p>
+            <p><strong>Phone:</strong> ${app.phone || "N/A"}</p>
+            <p><strong>Govt ID:</strong> ${app.govtID} (${maskedID || "N/A"})</p>
+            <p><strong>Loan Amount:</strong> ₹${app.amount}</p>
+            <p><strong>Purpose:</strong> ${app.purpose}</p>
+            <p><strong>Repayment:</strong> ${app.repayment} months</p>
+            <p class="text-blue-600 font-semibold">Status: Pending Review</p>
+            
+            <!-- Action Buttons -->
+            <div class="mt-3 flex space-x-3">
+              <button onclick="downloadInvoice(${index})" class="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800">📥 Download Invoice</button>
+              <button onclick="removeApplication(${applications.length - 1 - index})" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">🗑 Remove</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Remove Loan Application
+    function removeApplication(index) {
+      let applications = JSON.parse(localStorage.getItem("loanApplications")) || [];
+      applications.splice(index, 1);
+      localStorage.setItem("loanApplications", JSON.stringify(applications));
+      displayApplications();
+    }
+
+    // Download Styled PDF Invoice with Logo + Page Number
+    function downloadInvoice(index) {
+      let applications = JSON.parse(localStorage.getItem("loanApplications")) || [];
+      let app = applications.reverse()[index]; // recent-first order
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      let img = new Image();
+      img.src = logoUrl;
+      img.onload = function () {
+        // ✅ Header logo
+        doc.addImage(img, "PNG", 15, 10, 25, 25);
+
+        // Header text
+        doc.setFontSize(18);
+        doc.setTextColor(0, 128, 0);
+        doc.text("Green Harvest", 105, 20, { align: "center" });
+
+        doc.setFontSize(14);
+        doc.setTextColor(40, 40, 40);
+        doc.text("Loan Invoice", 105, 30, { align: "center" });
+
+        doc.line(20, 35, 190, 35);
+
+        // Body
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+
+        let y = 50;
+        doc.text(`Name: ${app.name}`, 20, y); y += 10;
+        doc.text(`Email: ${app.email || "N/A"}`, 20, y); y += 10;
+        doc.text(`Phone: ${app.phone || "N/A"}`, 20, y); y += 10;
+        doc.text(`Govt ID: ${app.govtID} (${maskID(app.govtIDNumber) || "N/A"})`, 20, y); y += 10;
+        doc.text(`Loan Amount: ₹${app.amount}`, 20, y); y += 10;
+        doc.text(`Purpose: ${app.purpose}`, 20, y); y += 10;
+        doc.text(`Repayment: ${app.repayment} months`, 20, y); y += 10;
+
+        doc.line(20, y + 5, 190, y + 5);
+
+        // Footer
+        doc.setFontSize(11);
+        doc.setTextColor(100, 100, 100);
+        doc.text("Welcome to Green Harvest – Empowering Farmers with Growth & Support 🌱", 105, y + 20, { align: "center" });
+
+        // ✅ Page Number
+        let pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFontSize(10);
+          doc.setTextColor(100);
+          doc.text(`Page ${i} of ${pageCount}`, 105, 290, { align: "center" });
+        }
+
+        // Save
+        doc.save(`Loan_Invoice_${app.name.replace(/\s+/g, "_")}.pdf`);
+      };
+    }
+
+    // Google Translate
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,kn,ta,te,ml,bn,gu,mr,pa,or,ur,as,ks,sd',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+
+    displayApplications();
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
