@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Harvest - Expert Consultation</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f4f9f4;
+      color: #333;
+    }
+    header {
+      background: #2e7d32;
+      color: #fff;
+      text-align: center;
+      padding: 30px 15px;
+    }
+    header h1 { margin: 0; font-size: 2.2em; }
+    .container { max-width: 1100px; margin: 30px auto; padding: 20px; }
+    .intro { text-align: center; margin-bottom: 30px; }
+    .intro p { font-size: 1.1em; color: #555; }
+
+    /* Carousel Wrapper */
+    .carousel-wrapper {
+      position: relative;
+      margin-bottom: 40px;
+    }
+    .experts {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 20px;
+      padding: 10px 0;
+    }
+    .experts::-webkit-scrollbar { display: none; }
+
+    /* Arrows */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      z-index: 10;
+      transition: 0.3s;
+    }
+    .arrow:hover { background: #256527; }
+    .arrow.left { left: -15px; }
+    .arrow.right { right: -15px; }
+
+    /* Cards */
+    .card {
+      min-width: 280px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: 0.3s;
+      flex-shrink: 0;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+    .card img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; }
+    .card h3 { margin: 10px 0 5px; color: #2e7d32; }
+    .card p { font-size: 0.95em; color: #666; }
+    .rating { color: #ff9800; margin: 8px 0; }
+    .experience { font-size: 0.9em; color: #444; font-weight: bold; }
+    .btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 18px;
+      background: #2e7d32;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    .btn:hover { background: #256527; }
+
+    /* Form */
+    .form-section {
+      margin-top: 40px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .form-section h2 { color: #2e7d32; margin-bottom: 15px; text-align: center; }
+    form label { display: block; margin-top: 12px; font-weight: bold; }
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    form button {
+      margin-top: 20px;
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    form button:hover { background: #256527; }
+    .note { text-align: center; font-size: 0.9em; color: #555; margin-top: 15px; }
+    footer { background:#2e7d32; color:white; text-align:center; padding:18px; margin-top:40px; }
+     /* Hide extra text */
+  .goog-te-gadget {
+    font-size: 0 !important;
+    height: 20px !important;
+    overflow: hidden !important;
+  }
+  .goog-te-gadget img {
+    display: none !important; /* hide Google icon */
+  }
+  #google_translate_element select {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+    height: 20px !important;
+    line-height: 18px !important;
+    border-radius: 3px;
+    border: none !important;
+    background: #ffffff;
+    color: #333;
+  }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Expert Consultation</h1>
+    <p>Connect with agriculture experts for personalized guidance</p>
+    <div id="google_translate_element" class="ml-2"></div>
+  </header>
+
+  <div class="container">
+    <div class="intro">
+      <p>Our panel of experts is here to help farmers with crop management, pest solutions, modern techniques, and government schemes. Book a consultation today and get the right advice at the right time.</p>
+    </div>
+
+    <!-- Expert Profiles Carousel -->
+    <div class="carousel-wrapper">
+      <button class="arrow left" onclick="scrollLeft()">&#10094;</button>
+      <div class="experts" id="expertsCarousel">
+        <!-- Your existing cards stay the same -->
+        <div class="card">
+          <img src="https://thispersonnotexist.org/downloadimage/Ac3RhdGljL21hbi9zZWVkMzk0MjYuanBlZw==" alt="Expert">
+          <h3>Dr. Ramesh Kumar</h3>
+          <p>Crop Specialist (Paddy & Wheat)</p>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+          <div class="experience">15+ years experience</div>
+          <a href="#consult-form" class="btn">Book Consultation</a>
+        </div>
+        <div class="card">
+          <img src="https://thispersonnotexist.org/downloadimage/Ac3RhdGljL3dvbWFuL3NlZWQyMDMxMi5qcGVn" alt="Expert">
+          <h3>Dr. Anjali Verma</h3>
+          <p>Organic Farming & Soil Health Expert</p>
+          <div class="rating">⭐⭐⭐⭐</div>
+          <div class="experience">10+ years experience</div>
+          <a href="#consult-form" class="btn">Book Consultation</a>
+        </div>
+        <div class="card">
+          <img src="https://thispersonnotexist.org/downloadimage/Ac3RhdGljL21hbi9zZWVkNDU5NjkuanBlZw==" alt="Expert">
+          <h3>Mr. Suresh Patil</h3>
+          <p>Pest & Disease Management</p>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+          <div class="experience">12+ years experience</div>
+          <a href="#consult-form" class="btn">Book Consultation</a>
+        </div>
+        <div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Dr. Meera Joshi</h3>
+  <p>Irrigation & Water Management</p>
+  <div class="rating">⭐⭐⭐⭐</div>
+  <div class="experience">9+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+<div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Prof. Arvind Nair</h3>
+  <p>Agricultural Economics</p>
+  <div class="rating">⭐⭐⭐⭐⭐</div>
+  <div class="experience">18+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://thispersonnotexist.org/downloadimage/Ac3RhdGljL3dvbWFuL3NlZWQ0MjU3OC5qcGVn" alt="Expert">
+  <h3>Dr. Kavita Sharma</h3>
+  <p>Horticulture & Floriculture</p>
+  <div class="rating">⭐⭐⭐⭐</div>
+  <div class="experience">11+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Mr. Manoj Deshmukh</h3>
+  <p>Farm Machinery & Mechanization</p>
+  <div class="rating">⭐⭐⭐⭐⭐</div>
+  <div class="experience">14+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://thispersonnotexist.org/downloadimage/Ac3RhdGljL3dvbWFuL3NlZWQ2MDI2LmpwZWc=" alt="Expert">
+  <h3>Dr. Priya Iyer</h3>
+  <p>Plant Pathology</p>
+  <div class="rating">⭐⭐⭐⭐</div>
+  <div class="experience">8+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Mr. Rajiv Menon</h3>
+  <p>Dairy & Livestock Management</p>
+  <div class="rating">⭐⭐⭐⭐⭐</div>
+  <div class="experience">20+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://thispersonnotexist.org/downloadimage/Ac3RhdGljL3dvbWFuL3NlZWQyNTM3Ni5qcGVn" alt="Expert">
+  <h3>Dr. Neha Gupta</h3>
+  <p>Seed Technology & Crop Breeding</p>
+  <div class="rating">⭐⭐⭐⭐</div>
+  <div class="experience">9+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Mr. Vikram Chauhan</h3>
+  <p>Agri-Business & Marketing</p>
+  <div class="rating">⭐⭐⭐⭐⭐</div>
+  <div class="experience">13+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Dr. Sindhu Reddy</h3>
+  <p>Climate-Smart Agriculture</p>
+  <div class="rating">⭐⭐⭐⭐</div>
+  <div class="experience">7+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Dr. Alok Sharma</h3>
+  <p>Post-Harvest Technology</p>
+  <div class="rating">⭐⭐⭐⭐⭐</div>
+  <div class="experience">16+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+<div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Prof. Farida Khan</h3>
+  <p>Agricultural Biotechnology</p>
+  <div class="rating">⭐⭐⭐⭐</div>
+  <div class="experience">12+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+<div class="card">
+  <img src="https://via.placeholder.com/100" alt="Expert">
+  <h3>Mr. Deepak Verma</h3>
+  <p>Organic Certification & Standards</p>
+  <div class="rating">⭐⭐⭐⭐⭐</div>
+  <div class="experience">10+ years experience</div>
+  <a href="#consult-form" class="btn">Book Consultation</a>
+</div>
+
+        
+      </div>
+      <button class="arrow right" onclick="scrollRight()">&#10095;</button>
+    </div>
+
+    <!-- Booking Form -->
+    <div id="consult-form" class="form-section">
+  <h2>Book a Consultation</h2>
+  <form id="consult-form-element">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required>
+
+    <label for="phone">Phone Number</label>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <span style="font-size: 18px;">🇮🇳 +91</span>
+      <input type="tel" id="phone" name="phone" 
+             pattern="[0-9]{10}" 
+             maxlength="10" 
+             required 
+             style="flex:1; padding:6px; border:1px solid #ccc; border-radius:6px;">
+    </div>
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email">
+
+    <label for="expert">Choose Expert</label>
+    <select id="expert" required>
+      <option value="">-- Select Expert --</option>
+      <option value="ramesh">Dr. Ramesh Kumar - Crop Specialist</option>
+      <option value="anjali">Dr. Anjali Verma - Soil & Organic Farming</option>
+      <option value="suresh">Mr. Suresh Patil - Pest Management</option>
+      <option value="meera">Dr. Meera Joshi - Irrigation & Water Management</option>
+      <option value="arvind">Prof. Arvind Nair - Agricultural Economics</option>
+      <option value="kavita">Dr. Kavita Sharma - Horticulture & Floriculture</option>
+      <option value="manoj">Mr. Manoj Deshmukh - Farm Machinery & Mechanization</option>
+      <option value="priya">Dr. Priya Iyer - Plant Pathology</option>
+      <option value="rajiv">Mr. Rajiv Menon - Dairy & Livestock Management</option>
+      <option value="neha">Dr. Neha Gupta - Seed Technology & Crop Breeding</option>
+      <option value="vikram">Mr. Vikram Chauhan - Agri-Business & Marketing</option>
+      <option value="sindhu">Dr. Sindhu Reddy - Climate-Smart Agriculture</option>
+      <option value="alok">Dr. Alok Sharma - Post-Harvest Technology</option>
+      <option value="farida">Prof. Farida Khan - Agricultural Biotechnology</option>
+      <option value="deepak">Mr. Deepak Verma - Organic Certification & Standards</option>
+    </select>
+
+    <label for="mode">Consultation Mode</label>
+    <select id="mode" required>
+      <option value="">-- Select Mode --</option>
+      <option value="call">Phone Call</option>
+      <option value="video">Video Call</option>
+      <option value="visit">In-Person Visit</option>
+    </select>
+
+    <label for="date">Preferred Date</label>
+    <input type="date" id="date" required>
+
+    <label for="time">Preferred Time</label>
+    <input type="time" id="time" required>
+
+    <label for="file">Upload File (Optional)</label>
+    <input type="file" id="file" accept=".jpg,.png,.pdf">
+
+    <label for="details">Your Query</label>
+    <textarea id="details" rows="4" required></textarea>
+
+    <button type="submit">Submit Request</button>
+  </form>
+  <p class="note">Our team will reach out within 24 hours to confirm your consultation.</p>
+</div>
+<footer>
+    <p>&copy; 2025 Green Harvest. All rights reserved.</p>
+  </footer>
+
+<script>
+const carousel = document.getElementById('expertsCarousel');
+function scrollLeft() {
+  carousel.scrollBy({ left: -300, behavior: 'smooth' });
+}
+function scrollRight() {
+  carousel.scrollBy({ left: 300, behavior: 'smooth' });
+}
+
+// Handle form submit
+document.getElementById("consult-form-element").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const expertSelect = document.getElementById("expert");
+  const expertName = expertSelect.options[expertSelect.selectedIndex].text;
+
+  // Match expert card image (find by name)
+  const cards = document.querySelectorAll(".card h3");
+  let expertImg = "";
+  cards.forEach(card => {
+    if (card.textContent.trim() === expertName.split(" - ")[0].trim()) {
+      expertImg = card.parentElement.querySelector("img").src;
+    }
+  });
+
+  // Redirect to success page
+  window.location.href =
+    "consultation-success.html?expert=" + encodeURIComponent(expertName) +
+    "&date=" + document.getElementById("date").value +
+    "&time=" + document.getElementById("time").value +
+    "&img=" + encodeURIComponent(expertImg);
+
+  // ✅ Clear the form after submission
+  this.reset();
+});
+  </script>
+  <script>
+  // Google Translate
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,bn,te,ta,ml,gu,kn,mr,or,pb,as,sd,ne,pa,kn', // 15 Indian languages
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
