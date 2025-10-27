@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Farmer Mandi Portal</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body { font-family: "Segoe UI", sans-serif; margin:0; padding:0; background:#e6ffe6; }
+    header { background: #228B22; color: white; text-align:center; padding:15px; }
+    section { padding:20px; max-width:800px; margin:auto; display:none; }
+    section.active { display:block; }
+    input, textarea, button { width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; box-sizing:border-box; }
+    button { background:#228B22; color:white; border:none; cursor:pointer; }
+    button:hover { background:#2e8b57; }
+    #map { height:400px; width:100%; margin-top:10px; border-radius:12px; }
+    #nearestMandi { margin-top:10px; font-weight:bold; color:green; }
+    .summary { background:#e9ffe9; padding:15px; border-radius:8px; margin-top:10px; }
+    .two-col { display:flex; gap:12px; }
+    .two-col > * { flex:1; }
+    @media (max-width:640px){ .two-col{ flex-direction:column; } }
+    /* Autocomplete dropdown */
+    .autocomplete-items {
+      position: absolute; background: white; border: 1px solid #ccc; z-index: 99;
+      width: calc(100% - 20px); max-height:150px; overflow-y:auto;
+    }
+    .autocomplete-items div {
+      padding: 8px; cursor: pointer;
+    }
+    .autocomplete-items div:hover {
+      background: #d1f7d1;
+    }
+    footer { 
+      text-align: center; 
+      padding: 12px; 
+      color: #555; 
+      background: #e8f5e9;
+    }
+  </style>
+  <style>
+  /* Hide extra text */
+  .goog-te-gadget {
+    font-size: 0 !important;
+    height: 20px !important;
+    overflow: hidden !important;
+  }
+  .goog-te-gadget img {
+    display: none !important; /* hide Google icon */
+  }
+  #google_translate_element select {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+    height: 20px !important;
+    line-height: 18px !important;
+    border-radius: 3px;
+    border: none !important;
+    background: #ffffff;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌾 Farmer Mandi Portal</h1>
+  <div id="google_translate_element" class="ml-2"></div>
+</header>
+
+<!-- Step 1: Sell Details & Location -->
+<section id="sellSection" class="active">
+  <h3>📝 Enter Product Details & Location</h3>
+
+  <div class="two-col">
+    <input type="text" id="farmerName" placeholder="Farmer Name">
+    <input type="text" id="farmerVillage" placeholder="Village / Locality">
+  </div>
+
+  <div class="two-col">
+    <input type="text" id="contact" placeholder="Contact Number" maxlength="10" 
+  pattern="\d{10}" 
+  title="Please enter exactly 10 digits" 
+  required>
+    <input type="text" id="product" placeholder="Product Name">
+  </div>
+
+  <div class="two-col">
+    <input type="number" id="quantity" placeholder="Quantity (kg)">
+    <input type="number" id="price" placeholder="Price per kg (₹)">
+  </div>
+
+  <textarea id="notes" placeholder="Additional Notes (optional)" rows="2"></textarea>
+
+  <!-- Autocomplete container -->
+  <div style="position:relative;">
+    <input type="text" id="locationName" placeholder="Enter your location (Village, Town or Mandi)">
+    <div id="autocomplete-list" class="autocomplete-items"></div>
+  </div>
+
+  <div class="two-col">
+    <button type="button" onclick="useCurrentLocation()">Use Current Location</button>
+    <button type="button" onclick="findNearestMandi()">Find Nearest Mandi</button>
+  </div>
+
+  <div id="map"></div>
+  <div id="nearestMandi"></div>
+  <button onclick="goToConfirmation()">Next: Confirm</button>
+</section>
+
+<!-- Step 2: Confirmation -->
+<section id="confirmationSection">
+  <h3>✅ Confirm Your Sale</h3>
+  <div class="summary" id="saleSummary"></div>
+  <div class="two-col">
+    <button onclick="finalizeSale()">Confirm Sale</button>
+    <button onclick="backToEdit()">Edit</button>
+  </div>
+</section>
+
+<!-- Step 3: Success -->
+<section id="successSection">
+  <h3 style="color:green;">🎉 Sale Confirmed Successfully!</h3>
+  <p>Thank you — your sale details have been recorded. You can go back to submit another sale.</p>
+  <button onclick="resetAll()">Create new sale</button>
+</section>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+/* ----- Data ----- */
+const mandis = [
+  { name: "Bhubaneswar Mandi", lat: 20.2961, lng: 85.8245 },
+  { name: "Cuttack Mandi", lat: 20.4625, lng: 85.8828 },
+  { name: "Berhampur Mandi", lat: 19.3135, lng: 84.7915 },
+  { name: "Rourkela Mandi", lat: 22.2604, lng: 84.8536 },
+  { name: "Balasore Mandi", lat: 21.4977401, lng: 86.8902931 },
+  { name: "Sambalpur Mandi", lat: 21.4669, lng: 83.9812 },
+  { name: "Jeypore Mandi", lat: 18.8563, lng: 82.5716 },
+  { name: "Rayagada Mandi", lat: 19.1765, lng: 83.4163 },
+  { name: "Phulbani Mandi", lat: 20.4809, lng: 84.2335 },
+  { name: "Koraput Mandi", lat: 18.8120, lng: 82.7100 },
+  { name: "Angul Mandi", lat: 20.8443, lng: 85.1511 },
+  { name: "Baripada Mandi", lat: 21.9335, lng: 86.7510 },
+  { name: "Balangir Mandi", lat: 20.7042, lng: 83.4903 },
+  { name: "Jharsuguda Mandi", lat: 21.8554, lng: 84.0061 },
+  { name: "Kendujhar Mandi", lat: 21.6280, lng: 85.5817 },
+  { name: "Nayagarh Mandi", lat: 20.1286, lng: 85.0966 },
+  { name: "Kalahandi (Bhawanipatna) Mandi", lat: 19.9075, lng: 83.1666 },
+  { name: "Nuapada Mandi", lat: 20.8302, lng: 82.6213 },
+  { name: "Malkangiri Mandi", lat: 18.3636, lng: 81.9016 },
+  { name: "Sonepur (Subarnapur) Mandi", lat: 20.8333, lng: 83.9167 },
+  { name: "Boudh Mandi", lat: 20.8410, lng: 84.3311 },
+  { name: "Dhenkanal Mandi", lat: 20.6700, lng: 85.6000 },
+  { name: "Deogarh Mandi", lat: 21.5383, lng: 84.7333 },
+  { name: "Gajapati (Paralakhemundi) Mandi", lat: 18.7808, lng: 84.0900 },
+  { name: "Ganjam (Chhatrapur) Mandi", lat: 19.3544, lng: 84.9833 },
+  { name: "Kandhamal (Phiringia) Mandi", lat: 20.2333, lng: 84.1500 },
+  { name: "Nabarangpur Mandi", lat: 19.2300, lng: 82.5500 },
+  { name: "Jaleswar Mandi", lat: 21.797468, lng: 87.228359 },
+  { name: "Nilagiri Mandi", lat: 21.55251, lng: 86.75222 },
+  { name: "Balugaon Mandi", lat: 19.739063, lng: 85.210262 },
+  { name: "Jatni Mandi", lat: 20.09438, lng: 85.41448 },
+  { name: "Nimapara Mandi", lat: 20.063378, lng: 86.011184 },
+  { name: "Sakhigopal Mandi", lat: 19.9464, lng: 85.8138 },
+  { name: "Banki Mandi", lat: 20.36347, lng: 85.52665 },
+  { name: "Kendupatna Mandi", lat: 20.48073, lng: 85.845732 },
+  { name: "Narasinghpur Mandi", lat: 20.5173954, lng: 85.6306396 },
+  { name: "Rahama Mandi", lat: 20.302054, lng: 86.405609 },
+{ name: "Jagatsinghpur Mandi", lat: 20.259327, lng: 86.164182 },
+{ name: "Kendrapara Mandi", lat: 20.512359, lng: 86.365699 },
+{ name: "Bhadrak Mandi", lat: 21.067466, lng: 86.513747 },
+{ name: "Chandbali Mandi", lat: 20.774009, lng: 86.743677 },
+{ name: "Jajpur Mandi", lat: 20.849485, lng: 86.323095 },
+
+];
+
+let map, markers = {}, userLocation = { lat:null, lng:null }, userMarker = null;
+let nearestMandi = null, nearestDist = null;
+let farmerData = {};
+
+/* ----- Map init ----- */
+function initMap(){
+  map = L.map('map').setView([20.5937, 78.9629], 5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  mandis.forEach(m => {
+    markers[m.name] = L.marker([m.lat, m.lng]).addTo(map).bindPopup(`<b>${m.name}</b>`);
+  });
+}
+initMap();
+
+/* ----- Haversine distance (km) ----- */
+function distance(lat1, lon1, lat2, lon2){
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI/180;
+  const dLon = (lon2 - lon1) * Math.PI/180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+/* ----- Use current location ----- */
+function useCurrentLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(async pos => {
+      userLocation.lat = pos.coords.latitude;
+      userLocation.lng = pos.coords.longitude;
+      map.setView([userLocation.lat, userLocation.lng], 10);
+
+      if(userMarker){
+        userMarker.setLatLng([userLocation.lat, userLocation.lng]);
+      } else {
+        userMarker = L.marker([userLocation.lat, userLocation.lng], { title: "Your location" }).addTo(map).bindPopup('Your Location').openPopup();
+      }
+
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${userLocation.lat}&lon=${userLocation.lng}`);
+        const data = await response.json();
+        document.getElementById("locationName").value = data.display_name || `Lat: ${userLocation.lat.toFixed(4)}, Lng: ${userLocation.lng.toFixed(4)}`;
+      } catch {
+        document.getElementById("locationName").value = `Lat: ${userLocation.lat.toFixed(4)}, Lng: ${userLocation.lng.toFixed(4)}`;
+      }
+    });
+  } else {
+    alert("Geolocation not supported in this browser.");
+  }
+}
+
+/* ----- Find nearest mandi or select typed mandi ----- */
+async function findNearestMandi(){
+  let input = document.getElementById("locationName").value.trim();
+  if(!input){ alert("Enter a location, coordinates or mandi name."); return; }
+
+  const lowerInput = input.toLowerCase();
+  const matchedMandi = mandis.find(m => m.name.toLowerCase().includes(lowerInput));
+
+  if(matchedMandi){
+    nearestMandi = matchedMandi.name;
+    userLocation = { lat: matchedMandi.lat, lng: matchedMandi.lng };
+    map.setView([matchedMandi.lat, matchedMandi.lng], 12);
+    markers[matchedMandi.name].openPopup();
+    nearestDist = 0;
+    document.getElementById("nearestMandi").innerText = `Selected Mandi: ${matchedMandi.name} — Distance: 0 km`;
+    return;
+  }
+
+  // If coordinates typed
+  const coordMatch = input.match(/(-?\d+(\.\d+)?)[,\s]+(-?\d+(\.\d+)?)/);
+  if(coordMatch){
+    userLocation.lat = parseFloat(coordMatch[1]);
+    userLocation.lng = parseFloat(coordMatch[3]);
+  } else {
+    // Use geocoding
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(input)}&limit=1`);
+      const data = await res.json();
+      if(data.length > 0){
+        userLocation.lat = parseFloat(data[0].lat);
+        userLocation.lng = parseFloat(data[0].lon);
+      } else { alert("Location not found."); return; }
+    } catch { alert("Error fetching location data."); return; }
+  }
+
+  // compute nearest
+  let nearest = null, minDist = Infinity;
+  mandis.forEach(m => {
+    const d = distance(userLocation.lat, userLocation.lng, m.lat, m.lng);
+    if(d < minDist){ minDist = d; nearest = m; }
+  });
+
+  if(nearest){
+    nearestMandi = nearest.name;
+    nearestDist = minDist;
+    map.setView([nearest.lat, nearest.lng], 10);
+    markers[nearest.name].openPopup();
+    document.getElementById("nearestMandi").innerText = `Nearest Mandi: ${nearest.name} — Distance: ${minDist.toFixed(1)} km`;
+  }
+}
+
+/* ----- Autocomplete suggestion ----- */
+const inputBox = document.getElementById("locationName");
+const listBox = document.getElementById("autocomplete-list");
+
+inputBox.addEventListener("input", function(){
+  const val = this.value.toLowerCase();
+  listBox.innerHTML = "";
+  if(!val) return;
+  mandis.filter(m => m.name.toLowerCase().includes(val)).forEach(m => {
+    const div = document.createElement("div");
+    div.textContent = m.name;
+    div.onclick = () => {
+      inputBox.value = m.name;
+      listBox.innerHTML = "";
+    };
+    listBox.appendChild(div);
+  });
+});
+
+/* ----- navigate to confirmation ----- */
+function goToConfirmation(){
+  const name = document.getElementById("farmerName").value.trim();
+  const village = document.getElementById("farmerVillage").value.trim();
+  const contact = document.getElementById("contact").value.trim();
+  const product = document.getElementById("product").value.trim();
+  const quantity = document.getElementById("quantity").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const notes = document.getElementById("notes").value.trim();
+  const locationName = document.getElementById("locationName").value.trim();
+
+  if(!name || !village || !contact || !product || !quantity || !price || !locationName || !nearestMandi){
+    alert("Please fill all fields and find nearest mandi first!");
+    return;
+  }
+
+  farmerData = { name, village, contact, product, quantity, price, notes, locationName, nearestMandi, nearestDist };
+
+  document.getElementById("saleSummary").innerHTML = `
+    <strong>Farmer Name:</strong> ${name}<br>
+    <strong>Village:</strong> ${village}<br>
+    <strong>Contact:</strong> ${contact}<br>
+    <strong>Product:</strong> ${product}<br>
+    <strong>Quantity:</strong> ${quantity} kg<br>
+    <strong>Price:</strong> ₹${Number(price).toLocaleString('en-IN')} per kg<br>
+    <strong>Estimated Total:</strong> ₹${(Number(quantity) * Number(price)).toLocaleString('en-IN')}<br>
+    <strong>Notes:</strong> ${notes || "None"}<br>
+    <strong>Location:</strong> ${locationName}<br>
+    <strong>Nearest Mandi:</strong> ${nearestMandi}<br>
+    <strong>Distance:</strong> ${nearestDist !== null ? nearestDist.toFixed(1) + " km" : "N/A"}
+  `;
+
+  document.getElementById("sellSection").classList.remove("active");
+  document.getElementById("confirmationSection").classList.add("active");
+}
+
+/* ----- finalize sale ----- */
+function finalizeSale(){
+  const sales = JSON.parse(localStorage.getItem("mandiSales") || "[]");
+  sales.push({ ...farmerData, date: new Date().toISOString() });
+  localStorage.setItem("mandiSales", JSON.stringify(sales));
+
+  document.getElementById("confirmationSection").classList.remove("active");
+  document.getElementById("successSection").classList.add("active");
+}
+
+/* ----- go back and edit ----- */
+function backToEdit(){
+  document.getElementById("confirmationSection").classList.remove("active");
+  document.getElementById("sellSection").classList.add("active");
+}
+
+/* ----- reset for new sale ----- */
+function resetAll(){
+  document.getElementById("sellSection").classList.add("active");
+  document.getElementById("confirmationSection").classList.remove("active");
+  document.getElementById("successSection").classList.remove("active");
+  document.getElementById("sellSection").querySelectorAll("input,textarea").forEach(el => el.value = "");
+  document.getElementById("nearestMandi").innerText = "";
+  nearestMandi = null; nearestDist = null;
+}
+</script>
+<script>
+  // Google Translate
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,bn,te,ta,ml,gu,kn,mr,or,pb,as,sd,ne,pa,kn', // 15 Indian languages
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<footer>
+    © 2025 Green Harvest
+  </footer>
+</body>
+</html>
