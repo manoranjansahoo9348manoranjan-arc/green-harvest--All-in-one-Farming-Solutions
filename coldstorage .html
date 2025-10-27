@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cold Storage Locator</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    header { background: #228B22; color: white; text-align:center; padding:15px; }
+    :root{
+      --accent:#2f9d66; /* green */
+      --accent-dark:#2b7f52;
+      --muted:#f6fbf8;
+      --card-bg:#ffffffee;
+      --text:#3b3b3b;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg, #f6fbf8 0%, #eaf7ef 100%);font-family:Segoe UI, Roboto, Arial, sans-serif;color:var(--text)}
+    .app{display:grid;grid-template-columns:560px 1fr;gap:24px;padding:28px;align-items:start}
+
+    /* Left map column */
+    .map-card{background:transparent;border-radius:14px;padding:18px}
+    #map{height:720px;border-radius:12px;box-shadow:0 6px 18px rgba(45,69,48,0.08);border:6px solid rgba(255,255,255,0.6)}
+    .find-box{margin-top:14px}
+
+    /* Right info column */
+    .info-panel{background:transparent}
+    .stats-row{display:flex;gap:16px;margin-bottom:18px}
+    .stat-card{flex:1;background:var(--card-bg);padding:18px;border-radius:10px;box-shadow:0 6px 16px rgba(20,60,30,0.04);text-align:center}
+    .stat-card h3{margin:0;font-size:28px;color:var(--accent-dark)}
+    .tabs{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+    .tab{padding:10px 18px;border-radius:8px;background:linear-gradient(180deg,#fff,#f6f6f6);cursor:pointer;border:2px solid rgba(0,0,0,0.03);user-select:none}
+    .tab.active{background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:white}
+
+    .detail-card{background:var(--card-bg);padding:18px;border-radius:10px;box-shadow:0 6px 16px rgba(20,60,30,0.04)}
+    .detail-grid{display:grid;grid-template-columns:1fr 260px;gap:16px}
+    .detail-left{padding-right:8px}
+    .detail-left h4{margin-top:0;color:var(--accent-dark)}
+    .mini-map{height:140px;border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,0.06)}
+
+    .cold-list{margin-top:10px}
+    .cold-item{padding:10px;border-radius:8px;background:#fff;margin-bottom:8px;border-left:4px solid var(--accent);cursor:pointer}
+    .cold-item:hover{box-shadow:0 6px 18px rgba(20,60,30,0.04)}
+    .small{font-size:13px;color:#666}
+
+    .search-row{display:flex;gap:8px;margin-top:10px;align-items:center}
+    @media(max-width:1000px){.app{grid-template-columns:1fr;}.map-card #map{height:420px}.detail-grid{grid-template-columns:1fr}.stats-row{flex-direction:row;overflow:auto}}
+    footer { 
+      text-align: center; 
+      padding: 12px; 
+      color: #555; 
+      background: #e8f5e9;
+    }
+  </style>
+  <style>
+  /* Hide extra text */
+  .goog-te-gadget {
+    font-size: 0 !important;
+    height: 20px !important;
+    overflow: hidden !important;
+  }
+  .goog-te-gadget img {
+    display: none !important; /* hide Google icon */
+  }
+  #google_translate_element select {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+    height: 20px !important;
+    line-height: 18px !important;
+    border-radius: 3px;
+    border: none !important;
+    background: #ffffff;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+  <header>
+  <h1>Cold Storages</h1>
+  <div id="google_translate_element" class="ml-2"></div>
+</header>
+  <div class="app container-fluid">
+    <!-- LEFT: MAP -->
+    <div class="map-card">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+        <div style="width:14px;height:14px;background:var(--accent);border-radius:3px"></div>
+        <h3 style="margin:0;color:var(--accent-dark)">Locate Cold Storage</h3>
+      </div>
+
+      <div id="map"></div>
+
+      <div class="find-box mt-3">
+        <label class="small">Find your nearest Cold Storage</label>
+        <select id="districtSelect" class="form-select mt-2" aria-label="Select district">
+          <option value="">Select District</option>
+        </select>
+
+        <!-- NEW: user can type a city to find nearest cold storage across all districts -->
+        <div class="search-row">
+          <input id="cityInput" class="form-control" placeholder="Enter city name (e.g. Bhubaneswar)" />
+          <button id="findNearestBtn" class="btn" style="background:var(--accent);color:white;border:none">Find nearest</button>
+        </div>
+
+        <div id="nearestResult" class="small" style="margin-top:8px;color:#2b7f52"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: DETAILS -->
+    <div class="info-panel">
+      <div class="stats-row">
+        <div class="stat-card"><h3 id="stat-total">—</h3><div class="small">Total Cold Storages</div></div>
+        <div class="stat-card"><h3 id="stat-type1">—</h3><div class="small">Public</div></div>
+        <div class="stat-card"><h3 id="stat-type2">—</h3><div class="small">Private</div></div>
+        <div class="stat-card"><h3 id="stat-capacity">—</h3><div class="small">Total Capacity (MT)</div></div>
+      </div>
+
+      <div class="tabs" id="districtTabs"></div>
+
+      <div class="detail-card">
+        <div class="detail-grid">
+          <div class="detail-left">
+            <h4 id="d-name">Select a district on the map</h4>
+            <div class="small" id="d-tehsil"></div>
+
+            <div style="margin-top:12px">
+              <strong>Category:</strong> <span id="d-category">—</span>
+            </div>
+            <div style="margin-top:10px">
+              <strong>Address:</strong>
+              <div id="d-address" class="small">—</div>
+            </div>
+
+            <div class="cold-list" id="coldList">
+              <!-- cold storage items injected here -->
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex;gap:10px;align-items:center;justify-content:space-between">
+              <div class="small">Location (Lng, Lat)</div>
+              <div>
+                <button id="exploreBtn" class="btn btn-sm" style="background:var(--accent);color:white;border:none">Explore More</button>
+                <button id="openDirectionsBtn" class="btn btn-sm" style="background:#3b8a5a;color:white;border:none;display:none;margin-left:6px">Open route in Google Maps</button>
+              </div>
+            </div>
+            <div class="mini-map mt-2" id="miniMap"></div>
+            <div style="margin-top:8px;display:flex;gap:6px;justify-content:space-between">
+              <div class="small">Longitude <div id="coordLng" style="font-weight:600">—</div></div>
+              <div class="small">Latitude <div id="coordLat" style="font-weight:600">—</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    /////////////////////
+    // SAMPLE DATA
+    /////////////////////
+    // NOTE: stats fields are kept for reference, UI computes counts/capacity from coldStorages
+    const districts = [
+      {id:'mayurbhanj',name:'Mayurbhanj',center:[21.99,86.31],tehsils:['Baripada'],category:'High Density',address:'District Collector Office, Baripada',
+       stats:{public:2,private:3,capacity:4200},coldStorages:[
+        {name:'Baripada Cold Storage',type:'Private',capacity:1200,lat:21.93,lng:86.75,manager:'Sri Bijay Hembram',phone:'9437716645',email:'awrmobar@nic.in'},
+        {name:'Mayurbhanj Govt Cold Store',type:'Public',capacity:1500,lat:21.99,lng:86.31,manager:'Smt. X',phone:'9000000001',email:'gov@odisha.in'},
+        {name:'Karanjia Cold Room',type:'Private',capacity:1500,lat:22.07,lng:85.96,manager:'Y',phone:'9000000002',email:'karanjia@cold.in'}
+      ]},
+      {id:'balasore',name:'Balasore',center:[21.49,86.93],tehsils:['Balasore'],category:'Medium',address:'RMC, Balasore',
+       stats:{public:1,private:2,capacity:2300},coldStorages:[
+        {name:'Balasore Cold Storage',type:'Public',capacity:1000,lat:21.49,lng:86.93,manager:'A',phone:'9000000011',email:'a@b.com'},
+        {name:'Soro Cold Room',type:'Private',capacity:1300,lat:21.35,lng:86.77,manager:'B',phone:'9000000012',email:'b@c.com'}
+      ]},
+      {id:'cuttack',name:'Cuttack',center:[20.46,85.88],tehsils:['Cuttack'],category:'High',address:'Cuttack Market Office',
+       stats:{public:3,private:4,capacity:5600},coldStorages:[
+        {name:'Cuttack Central Cold',type:'Public',capacity:2000,lat:20.45,lng:85.88,manager:'C',phone:'9000000021',email:'c@d.com'},
+        {name:'Choudwar Cold Storage',type:'Private',capacity:3600,lat:20.35,lng:85.83,manager:'D',phone:'9000000022',email:'d@e.com'}
+      ]},
+
+      // 10 more (sample) entries
+      {id:'bhubaneswar',name:'Bhubaneswar',center:[20.27,85.84],tehsils:['Bhubaneswar'],category:'Urban Hub',address:'Nayapalli Market, Bhubaneswar',
+       stats:{public:2,private:5,capacity:6700},coldStorages:[
+        {name:'Bhubaneswar Mega Cold',type:'Private',capacity:2500,lat:20.27,lng:85.84,manager:'E',phone:'9000000101',email:'e@f.com'},
+        {name:'Nayapalli Cold Store',type:'Public',capacity:1200,lat:20.28,lng:85.83,manager:'E2',phone:'9000000102',email:'e2@f.com'}
+      ]},
+      {id:'sambalpur',name:'Sambalpur',center:[21.47,83.98],tehsils:['Sambalpur'],category:'Industrial',address:'Sambalpur RMC',
+       stats:{public:1,private:3,capacity:3500},coldStorages:[
+        {name:'Sambalpur Cold Storage',type:'Private',capacity:1800,lat:21.47,lng:83.98,manager:'F',phone:'9000000103',email:'f@g.com'}
+      ]},
+      {id:'rourkela',name:'Rourkela',center:[22.26,84.88],tehsils:['Rourkela'],category:'Steel City',address:'Sector-5 Market, Rourkela',
+       stats:{public:1,private:2,capacity:2800},coldStorages:[
+        {name:'Rourkela Cold Store',type:'Public',capacity:1500,lat:22.26,lng:84.88,manager:'G',phone:'9000000104',email:'g@h.com'}
+      ]},
+      {id:'kendrapara',name:'Kendrapara',center:[20.50,86.42],tehsils:['Kendrapara'],category:'Coastal',address:'Kendrapara Market',
+       stats:{public:2,private:2,capacity:3100},coldStorages:[
+        {name:'Kendrapara Cold Storage',type:'Private',capacity:1400,lat:20.50,lng:86.42,manager:'H',phone:'9000000105',email:'h@i.com'}
+      ]},
+      {id:'jajpur',name:'Jajpur',center:[20.85,86.33],tehsils:['Jajpur'],category:'Agro',address:'Jajpur RMC',
+       stats:{public:1,private:3,capacity:2600},coldStorages:[
+        {name:'Jajpur Cold Hub',type:'Private',capacity:1300,lat:20.85,lng:86.33,manager:'I',phone:'9000000106',email:'i@j.com'}
+      ]},
+      {id:'rayagada',name:'Rayagada',center:[19.17,83.42],tehsils:['Rayagada'],category:'Tribal Area',address:'Rayagada Market',
+       stats:{public:1,private:1,capacity:1500},coldStorages:[
+        {name:'Rayagada Cold Storage',type:'Public',capacity:900,lat:19.17,lng:83.42,manager:'J',phone:'9000000107',email:'j@k.com'}
+      ]},
+      {id:'koraput',name:'Koraput',center:[18.81,82.71],tehsils:['Koraput'],category:'Hill Region',address:'Koraput Market',
+       stats:{public:1,private:1,capacity:1600},coldStorages:[
+        {name:'Koraput Cold Storage',type:'Private',capacity:800,lat:18.81,lng:82.71,manager:'K',phone:'9000000108',email:'k@l.com'}
+      ]},
+      {id:'puri',name:'Puri',center:[19.81,85.83],tehsils:['Puri'],category:'Tourist Hub',address:'Puri Market Yard',
+       stats:{public:2,private:3,capacity:4200},coldStorages:[
+        {name:'Puri Cold Storage',type:'Public',capacity:1700,lat:19.81,lng:85.83,manager:'L',phone:'9000000109',email:'l@m.com'}
+      ]},
+      {id:'khordha',name:'Khordha',center:[20.19,85.62],tehsils:['Khordha'],category:'Urban',address:'Khordha RMC',
+       stats:{public:1,private:3,capacity:2900},coldStorages:[
+        {name:'Khordha Cold Storage',type:'Private',capacity:1200,lat:20.19,lng:85.62,manager:'M',phone:'9000000110',email:'m@n.com'}
+      ]},
+      {id:'ganjam',name:'Ganjam',center:[19.39,85.07],tehsils:['Berhampur'],category:'South Odisha',address:'Berhampur RMC',
+       stats:{public:2,private:2,capacity:3700},coldStorages:[
+        {name:'Berhampur Cold Hub',type:'Private',capacity:1800,lat:19.39,lng:85.07,manager:'N',phone:'9000000111',email:'n@o.com'}
+      ]}
+    ];
+
+    /////////////////////
+    // MAP INIT
+    /////////////////////
+    const map = L.map('map', {zoomControl:false}).setView([21,85.5],7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:''}).addTo(map);
+
+    // icons (use HTML strings)
+    const greenIcon = L.divIcon({
+      className:'custom-marker',
+      html: '<div style="background:var(--accent);width:18px;height:18px;border-radius:50%;box-shadow:0 3px 8px rgba(47,157,102,0.3);border:3px solid #fff"></div>',
+      iconSize:[24,24],
+      iconAnchor:[12,12]
+    });
+    const blueIcon = L.divIcon({
+      className:'custom-marker-blue',
+      html: '<div style="background:#2274a5;width:18px;height:18px;border-radius:50%;box-shadow:0 3px 8px rgba(34,116,165,0.3);border:3px solid #fff"></div>',
+      iconSize:[24,24],
+      iconAnchor:[12,12]
+    });
+    const originIcon = L.divIcon({
+      className:'origin-marker',
+      html: '<div style="background:#ff6b6b;width:18px;height:18px;border-radius:50%;box-shadow:0 3px 8px rgba(255,107,107,0.25);border:3px solid #fff"></div>',
+      iconSize:[24,24],
+      iconAnchor:[12,12]
+    });
+
+    // markers for district centers
+    const markers = {};
+    districts.forEach(d=>{
+      const m = L.marker(d.center,{icon:greenIcon}).addTo(map).bindTooltip(d.name);
+      m.on('click', ()=> selectDistrict(d.id));
+      markers[d.id] = m;
+    });
+
+    // populate select and tabs
+    const select = document.getElementById('districtSelect');
+    const tabs = document.getElementById('districtTabs');
+    districts.forEach(d=>{
+      const opt = document.createElement('option'); opt.value=d.id; opt.textContent=d.name; select.appendChild(opt);
+      const tab = document.createElement('div'); tab.className='tab'; tab.textContent=d.name; tab.dataset.id=d.id;
+      tab.addEventListener('click', ()=> selectDistrict(d.id));
+      tabs.appendChild(tab);
+    });
+    select.addEventListener('change', ()=>{ if(select.value) selectDistrict(select.value); });
+
+    // mini map
+    let miniMap = L.map('miniMap', {zoomControl:false, attributionControl:false}).setView([21,85.5],8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
+    let miniMarker = null;
+
+    // Keep reference to markers for each individual cold storage (when we render them on main map)
+    let storageMarkers = [];
+
+    // highlight marker variable
+    let highlightLayer = null;
+
+    // Haversine distance
+    function haversine(lat1, lon1, lat2, lon2){
+      const toRad = x => x * Math.PI / 180;
+      const R = 6371; // km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(lat1))*Math.cos(toRad(lat2)) * Math.sin(dLon/2)*Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    // Helper: flatten all storages with district metadata
+    function allStorages(){
+      const arr = [];
+      districts.forEach(d=>{
+        d.coldStorages.forEach(s=>{
+          arr.push(Object.assign({}, s, {districtId: d.id, districtName: d.name}));
+        });
+      });
+      return arr;
+    }
+
+    // Render cold storage markers for selected district (and remove previous)
+    function renderColdStoragesOnMap(d){
+      // remove existing storage markers
+      storageMarkers.forEach(m=> map.removeLayer(m));
+      storageMarkers = [];
+
+      d.coldStorages.forEach(s=>{
+        // popup content using template string
+        const popupHtml = `<strong>${escapeHtml(s.name)}</strong><br>${escapeHtml(s.type)} • ${escapeHtml(String(s.capacity))} MT`;
+        const m = L.marker([s.lat, s.lng], {icon:blueIcon}).addTo(map).bindPopup(popupHtml);
+        m.on('click', ()=> {
+          // update mini map and coords on click
+          miniMap.setView([s.lat, s.lng], 12);
+          if(miniMarker) miniMap.removeLayer(miniMarker);
+          miniMarker = L.marker([s.lat, s.lng]).addTo(miniMap);
+          document.getElementById('coordLng').textContent = s.lng.toFixed(6);
+          document.getElementById('coordLat').textContent = s.lat.toFixed(6);
+          // hide open directions until user searches origin
+          document.getElementById('openDirectionsBtn').style.display = 'none';
+          // open the popup
+          m.openPopup();
+        });
+        storageMarkers.push(m);
+      });
+    }
+
+    // Select a district and update the right panel — compute stats from coldStorages array
+    function selectDistrict(id){
+      const d = districts.find(x=>x.id === id); if(!d) return;
+      map.setView(d.center, 9);
+
+      // compute stats dynamically
+      const total = d.coldStorages.length;
+      const publicCount = d.coldStorages.filter(s=> s.type && s.type.toLowerCase()==='public').length;
+      const privateCount = d.coldStorages.filter(s=> s.type && s.type.toLowerCase()==='private').length;
+      const capacity = d.coldStorages.reduce((sum, s)=> sum + (Number(s.capacity)||0), 0);
+
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-type1').textContent = publicCount;
+      document.getElementById('stat-type2').textContent = privateCount;
+      document.getElementById('stat-capacity').textContent = capacity;
+
+      // update detail panel
+      document.getElementById('d-name').textContent = d.name;
+      document.getElementById('d-tehsil').textContent = d.tehsils.join(', ');
+      document.getElementById('d-category').textContent = d.category;
+      document.getElementById('d-address').textContent = d.address;
+
+      // fill cold list
+      const list = document.getElementById('coldList'); list.innerHTML = '';
+      d.coldStorages.forEach((s, idx)=>{
+        const div = document.createElement('div'); div.className='cold-item';
+        div.innerHTML = `<strong>${escapeHtml(s.name)}</strong> <div class='small'>Type: ${escapeHtml(s.type)} • Capacity: ${escapeHtml(String(s.capacity))} MT</div>
+                         <div class='small' style='margin-top:6px'>Manager: ${escapeHtml(s.manager || '—')} • ${escapeHtml(s.phone || '—')} • ${escapeHtml(s.email || '—')}</div>`;
+        div.addEventListener('click', ()=> {
+          map.setView([s.lat,s.lng], 13);
+          if(miniMarker) miniMap.removeLayer(miniMarker);
+          miniMarker = L.marker([s.lat,s.lng]).addTo(miniMap);
+          document.getElementById('coordLng').textContent = s.lng.toFixed(6);
+          document.getElementById('coordLat').textContent = s.lat.toFixed(6);
+          // hide directions until origin set
+          document.getElementById('openDirectionsBtn').style.display = 'none';
+        });
+        list.appendChild(div);
+      });
+
+      // update mini-map
+      miniMap.setView(d.center, 9);
+      if(miniMarker) miniMap.removeLayer(miniMarker);
+      miniMarker = L.marker(d.center).addTo(miniMap);
+      document.getElementById('coordLng').textContent = d.center[1].toFixed(6);
+      document.getElementById('coordLat').textContent = d.center[0].toFixed(6);
+
+      // highlight tab and select
+      setActiveTab(id);
+      select.value = id;
+
+      // render cold storage markers for this district
+      renderColdStoragesOnMap(d);
+    }
+
+    function setActiveTab(id){
+      document.querySelectorAll('.tab').forEach(t=> t.classList.toggle('active', t.dataset.id === id));
+    }
+
+    // Explore more button search on google maps for cold storages in district
+    document.getElementById('exploreBtn').addEventListener('click', ()=>{
+      const name = document.getElementById('d-name').textContent;
+      if(!name || name === 'Select a district on the map') return alert('Please select a district first');
+      const q = encodeURIComponent(name + ' cold storage');
+      window.open('https://www.google.com/maps/search/' + q, '_blank');
+    });
+
+    ////////////////////////////
+    // FIND NEAREST FEATURE
+    ////////////////////////////
+    let originMarker = null;
+    let lastOriginCoords = null;
+    let lastNearest = null; // store {storage, distanceKm}
+    const nearestResultEl = document.getElementById('nearestResult');
+    const openDirectionsBtn = document.getElementById('openDirectionsBtn');
+
+    document.getElementById('findNearestBtn').addEventListener('click', async ()=>{
+      const city = document.getElementById('cityInput').value.trim();
+      nearestResultEl.textContent = '';
+      openDirectionsBtn.style.display = 'none';
+      if(!city) { alert('Please type a city name'); return; }
+
+      // Geocode using Nominatim (OpenStreetMap) - limit=1 for first match
+      nearestResultEl.textContent = 'Searching location...';
+      try{
+        const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(city));
+        const json = await res.json();
+        if(!json || json.length === 0) {
+          nearestResultEl.textContent = 'Location not found. Try a different city name.';
+          return;
+        }
+        const top = json[0];
+        const originLat = parseFloat(top.lat);
+        const originLng = parseFloat(top.lon);
+        lastOriginCoords = {lat: originLat, lng: originLng};
+
+        // place origin marker (remove previous)
+        if(originMarker) map.removeLayer(originMarker);
+        originMarker = L.marker([originLat, originLng], {icon: originIcon}).addTo(map).bindPopup('Origin: ' + (top.display_name || city)).openPopup();
+
+        // find nearest cold storage among all storages
+        const storages = allStorages();
+        let best = null;
+        storages.forEach(s=>{
+          const dKm = haversine(originLat, originLng, s.lat, s.lng);
+          if(best === null || dKm < best.distance) best = {storage: s, distance: dKm};
+        });
+
+        if(!best) {
+          nearestResultEl.textContent = 'No cold storages available in data.';
+          return;
+        }
+        lastNearest = best;
+
+        // zoom/map highlight to found storage
+        map.setView([best.storage.lat, best.storage.lng], 12);
+
+        // remove previous highlight if any
+        if(highlightLayer) map.removeLayer(highlightLayer);
+        highlightLayer = L.circleMarker([best.storage.lat, best.storage.lng], {
+          radius:10, color:'#2b7f52', fillColor:'#2f9d66', fillOpacity:0.7, weight:2
+        }).addTo(map);
+        // remove highlight after 7s
+        setTimeout(()=>{ if(highlightLayer) { map.removeLayer(highlightLayer); highlightLayer = null; } }, 7000);
+
+        // update right panel with the district and open its details
+        selectDistrict(best.storage.districtId);
+
+        // open mini-map marker and coords for the found storage
+        if(miniMarker) miniMap.removeLayer(miniMarker);
+        miniMarker = L.marker([best.storage.lat, best.storage.lng]).addTo(miniMap);
+        document.getElementById('coordLng').textContent = best.storage.lng.toFixed(6);
+        document.getElementById('coordLat').textContent = best.storage.lat.toFixed(6);
+
+        // set nearest result text and show directions button
+        nearestResultEl.innerHTML = `Nearest cold storage to <strong>${escapeHtml(city)}</strong>: <strong>${escapeHtml(best.storage.name)}</strong> (${escapeHtml(best.storage.districtName)}) — ${best.distance.toFixed(2)} km.`;
+        openDirectionsBtn.style.display = 'inline-block';
+
+        // when directions clicked, open Google Maps directions from origin to destination
+        openDirectionsBtn.onclick = ()=>{
+          const origin = `${originLat},${originLng}`;
+          const dest = `${best.storage.lat},${best.storage.lng}`;
+          const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(dest)}&travelmode=driving`;
+          window.open(url,'_blank');
+        };
+
+      } catch(err){
+        console.error(err);
+        nearestResultEl.textContent = 'Error while searching location. Try again later.';
+      }
+    });
+
+    // small HTML-escape helper for inserting user text into HTML
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // initial selection (safe-guard if array empty)
+    if (districts && districts.length > 0) selectDistrict(districts[0].id);
+
+  </script>
+  <script>
+  // Google Translate
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,bn,te,ta,ml,gu,kn,mr,or,pb,as,sd,ne,pa,kn', // 15 Indian languages
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<footer>
+    © 2025 Green Harvest
+  </footer>
+  
+</body>
+</html>
