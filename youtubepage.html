@@ -58,6 +58,32 @@
       border: 1px solid #ccc;
       border-radius: 6px;
     }
+    #backToTop {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: none;
+      background-color: #fbff22e7;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease, transform 0.3s ease,opacity 0.3s ease;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #backToTop:hover {
+      background-color: #2ecc71;
+      transform: scale(1.1);
+    }
+    
   </style>
 </head>
 <body class="bg-gray-100">
@@ -82,6 +108,7 @@
       <!-- Video cards will be dynamically inserted here -->
     </div>
   </div>
+  <button id="backToTop" onclick="scrollToTop()">🔝</button>
 
   <!-- Footer -->
   <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
@@ -89,6 +116,17 @@
   </footer>
 
   <script>
+    const backToTopButton = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      backToTopButton.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+    
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
     const videos = [
       { title: "Organic Farming Tips", desc: "Expert guide on organic farming techniques...", url: "https://www.youtube.com/embed/cab-PNqho4I" },
       { title: "Smart Irrigation Techniques", desc: "Efficient systems that save water...", url: "https://www.youtube.com/embed/-Z9OayYItXU" },
@@ -96,7 +134,7 @@
       { title: "Sustainable Crop Rotation", desc: "Rotating crops for soil health...", url: "https://www.youtube.com/embed/pB126W6dFoo" },
       { title: "Sustainable Agriculture", desc: " Sustainable Agriculture, Organic Farming, Biofertilizer, Vermicomposting...", url: "https://www.youtube.com/embed/QxK4YbPrWXk" },
       { title: "Top 10 Most Profitable Farming in 2025", desc: " Top 10 Innovative Agriculture Business Ideas for 2025", url: "https://www.youtube.com/embed/M_A7MtxFy_Q" },
-      { title: "Best farming Business Ideas for 2025", desc: " farming Business Ideas for 2025", url: "https://www.youtube.com/embed/4CnyUwxpeI0" },
+      { title: "13 PROFITABLE Agriculture Business Ideas To Get RICH In 2025", desc: " farming Business Ideas for 2025", url: "https://www.youtube.com/embed/9A_fkhoIVL8" },
       { title: "Dairy Farming Business Idea(Hindi)", desc: "earn how to start a profitable dairy farming business, including setup, cattle selection, feed management, and revenue potential.", url: "https://www.youtube.com/embed/rzjT8cfEbrk?start=423" },
       { title: "Dairy Farming Business Idea(Odia)", desc: "8 year sucess Dairy Farm business / Daily 170 liter milk / Dairy Farming in Odisha", url: "https://www.youtube.com/embed/A7TsGt0vlIA" },
       { title: "Top 10 Modern Agriculture Tools(by tractor)", desc: "Modern Agriculture Machines ", url: "https://www.youtube.com/embed/TfiWMGrRU7w" },
@@ -112,6 +150,10 @@
       { title: "Top 10 Most Profitable vegetable Crops in India", desc: "Exotic Vegetable", url: "https://www.youtube.com/embed/3532bcaBDu0" },
       { title: "🌿 Organic vs. Conventional Farming", desc: "Benefits of Organic & Chemical-Free Farming", url: "https://www.youtube.com/embed/D7ymAbmepVQ" },
       { title: "Powerful organic insecticide and tonic in farming", desc: " Organic highpower insecticide ", url: "https://www.youtube.com/embed/uUafZ0l5phU" },
+      { title: " village business ideas 2025", desc: "Best Village Business Ideas in India 2025,Low Investment Rural Business Ideas,Profitable Small Business in Villages  ", url: "https://youtube.com/embed/NKsZ47N08sA" },
+      { title: " How to Start a Modern Dairy Farm in Odisha,ଇଂଜିନିୟରଙ୍କ ଗାଈ ଫାର୍ମ || ", desc: " this video we talked to a dairy farmer who is doing cow rearing very well in Odisha. ", url: "https://youtube.com/embed/JB8v0k6yYxI" },
+      { title: " How to become a Crorepati By Farming? 💰", desc: "Crorepati Farming 💰 | 5 Crazy Farming ", url: "https://youtube.com/embed/KoP6DpEH_go" },
+      
       
     ];
 
@@ -182,4 +224,3 @@
 
 </body>
 </html>
-
