@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Harvest - Crop Calendar</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #f4f9f4;
+      color: #333;
+    }
+
+    header {
+      background: #2e7d32;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 12px;
+      background: #1b5e20;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    header a:hover {
+      background: #4caf50;
+    }
+
+    /* Marquee Bar */
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      background: #1b5e20;
+      color: #fff;
+      padding: 10px;
+      font-size: 15px;
+      white-space: nowrap;
+      box-sizing: border-box;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 15s linear infinite;
+    }
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Filter & Search Bar */
+    .filter-bar {
+      padding: 15px;
+      text-align: center;
+    }
+    .filter-bar select, .filter-bar input {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #2e7d32;
+      margin-right: 10px;
+    }
+
+    /* Crop Calendar Table */
+    table {
+      width: 95%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    th {
+      background: #2e7d32;
+      color: #fff;
+    }
+    tr:nth-child(even) { background: #f9f9f9; }
+    tr:hover { background: #e8f5e9; cursor: pointer; }
+
+    /* Popup */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 10px;
+    }
+    .popup-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 22px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    /* Mobile */
+    @media(max-width:600px) {
+      th, td { font-size: 14px; padding: 8px; }
+      header { font-size: 18px; flex-direction: column; }
+      header a { margin-top: 5px; }
+      .popup-content { padding: 15px; }
+      .filter-bar select, .filter-bar input { width: 90%; margin: 5px 0; }
+    }
+    footer { background:#2e7d32; color:white; text-align:center; padding:8px; margin-top:40px; }
+    
+  </style>
+</head>
+<body>
+
+  <header>
+    🌾 Green Harvest - Crop Calendar
+    <div>
+      <a href="news.html">Home</a>
+      <div id="google_translate_element" style="display:inline-block; margin-left:10px;"></div>
+    </div>
+  </header>
+
+  <!-- Marquee -->
+  <div class="marquee"><span>🌱 Plan your crops by season! | 🚜 Stay updated with the Crop Calendar | 🌾 Rabi • Kharif • Zaid </span></div>
+
+  <!-- Filter and Search -->
+  <div class="filter-bar">
+    <select id="season" onchange="filterTable()">
+      <option value="all">All Seasons</option>
+      <option value="kharif">Kharif</option>
+      <option value="rabi">Rabi</option>
+      <option value="zaid">Zaid</option>
+    </select>
+    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for crops...">
+  </div>
+
+  <!-- Crop Calendar Table -->
+  <table id="cropTable">
+    <tr>
+      <th>Crop</th>
+      <th>Season</th>
+      <th>Sowing</th>
+      <th>Harvesting</th>
+    </tr>
+    <tr data-season="kharif" onclick="openPopup('rice')"><td>Rice</td><td>Kharif</td><td>June - July</td><td>October - November</td></tr>
+    <tr data-season="rabi" onclick="openPopup('wheat')"><td>Wheat</td><td>Rabi</td><td>October - November</td><td>March - April</td></tr>
+    <tr data-season="zaid" onclick="openPopup('melon')"><td>Watermelon</td><td>Zaid</td><td>March - April</td><td>May - June</td></tr>
+    <tr data-season="kharif" onclick="openPopup('cotton')"><td>Cotton</td><td>Kharif</td><td>May - June</td><td>October - December</td></tr>
+    <tr data-season="rabi" onclick="openPopup('mustard')"><td>Mustard</td><td>Rabi</td><td>October - November</td><td>February - March</td></tr>
+    <tr data-season="kharif" onclick="openPopup('maize')"><td>Maize</td><td>Kharif</td><td>June - July</td><td>September - October</td></tr>
+    <tr data-season="rabi" onclick="openPopup('barley')"><td>Barley</td><td>Rabi</td><td>October - November</td><td>February - March</td></tr>
+    <tr data-season="zaid" onclick="openPopup('cucumber')"><td>Cucumber</td><td>Zaid</td><td>March - April</td><td>May - June</td></tr>
+    <tr data-season="kharif" onclick="openPopup('sorghum')"><td>Sorghum</td><td>Kharif</td><td>June - July</td><td>September - October</td></tr>
+    <tr data-season="rabi" onclick="openPopup('chickpea')"><td>Chickpea</td><td>Rabi</td><td>October - November</td><td>March - April</td></tr>
+    <tr data-season="zaid" onclick="openPopup('tomato')"><td>Tomato</td><td>Zaid</td><td>February - March</td><td>May - June</td></tr>
+    <tr data-season="kharif" onclick="openPopup('brinjal')"><td>Brinjal</td><td>Kharif</td><td>June - July</td><td>September - October</td></tr>
+    <tr data-season="kharif" onclick="openPopup('sugarcane')"><td>Sugarcane</td><td>Kharif</td><td>February - March</td><td>December - January</td></tr>
+    <tr data-season="rabi" onclick="openPopup('groundnut')"><td>Groundnut</td><td>Rabi</td><td>October - November</td><td>February - March</td></tr>
+    <tr data-season="rabi" onclick="openPopup('potato')"><td>Potato</td><td>Rabi</td><td>October - November</td><td>March - April</td></tr>
+    <tr data-season="kharif" onclick="openPopup('bajra')"><td>Bajra</td><td>Kharif</td><td>June - July</td><td>September - October</td></tr>
+    <tr data-season="kharif" onclick="openPopup('soybean')"><td>Soybean</td><td>Kharif</td><td>June - July</td><td>September - October</td></tr>
+  <tr data-season="rabi" onclick="openPopup('lentil')"><td>Lentil</td><td>Rabi</td><td>October - November</td><td>February - March</td></tr>
+  <tr data-season="zaid" onclick="openPopup('pumpkin')"><td>Pumpkin</td><td>Zaid</td><td>March - April</td><td>June - July</td></tr>
+  <tr data-season="rabi" onclick="openPopup('pea')"><td>Pea</td><td>Rabi</td><td>October - November</td><td>February - March</td></tr>
+  <tr data-season="zaid" onclick="openPopup('bottle_gourd')"><td>Bottle Gourd</td><td>Zaid</td><td>March - April</td><td>June - July</td></tr>
+  <tr data-season="rabi" onclick="openPopup('gram')"><td>Gram</td><td>Rabi</td><td>October - November</td><td>March - April</td></tr>
+  <tr data-season="zaid" onclick="openPopup('bitter_gourd')"><td>Bitter Gourd</td><td>Zaid</td><td>March - April</td><td>June - July</td></tr>
+  </table>
+
+  <!-- Popups -->
+  <div id="popup-rice" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('rice')">&times;</span><h2>Rice</h2><p>Rice is a staple crop mainly grown during Kharif season. Needs plenty of water and warm climate.</p></div></div>
+  <div id="popup-wheat" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('wheat')">&times;</span><h2>Wheat</h2><p>Wheat is a major Rabi crop. It thrives in cool climate with moderate irrigation.</p></div></div>
+  <div id="popup-melon" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('melon')">&times;</span><h2>Watermelon</h2><p>Watermelon is a Zaid crop. It grows well in sandy soil and requires hot climate.</p></div></div>
+  <div id="popup-cotton" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('cotton')">&times;</span><h2>Cotton</h2><p>Cotton is grown in Kharif season and requires black soil and long frost-free period.</p></div></div>
+  <div id="popup-mustard" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('mustard')">&times;</span><h2>Mustard</h2><p>Mustard is a Rabi crop grown in cool climate. It is an important oilseed crop.</p></div></div>
+
+  <div id="popup-maize" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('maize')">&times;</span><h2>Maize</h2><p>Maize is mainly a Kharif crop. It requires fertile soil and warm weather.</p></div></div>
+  <div id="popup-barley" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('barley')">&times;</span><h2>Barley</h2><p>Barley is a Rabi crop. It prefers cool climate and well-drained soil.</p></div></div>
+  <div id="popup-cucumber" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('cucumber')">&times;</span><h2>Cucumber</h2><p>Cucumber grows well in Zaid season. Needs plenty of water and sunlight.</p></div></div>
+  <div id="popup-sorghum" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('sorghum')">&times;</span><h2>Sorghum</h2><p>Sorghum is a Kharif crop suitable for semi-arid regions with moderate rainfall.</p></div></div>
+  <div id="popup-chickpea" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('chickpea')">&times;</span><h2>Chickpea</h2><p>Chickpea is a Rabi pulse crop that grows in cool climate with well-drained soil.</p></div></div>
+  <div id="popup-tomato" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('tomato')">&times;</span><h2>Tomato</h2><p>Tomato is grown in Zaid season. Requires fertile soil, moderate temperature, and irrigation.</p></div></div>
+  <div id="popup-brinjal" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('brinjal')">&times;</span><h2>Brinjal</h2><p>Brinjal is a Kharif crop needing warm temperature and sandy-loamy soil.</p></div></div>
+  <div id="popup-sugarcane" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('sugarcane')">&times;</span><h2>Sugarcane</h2><p>Sugarcane is grown in Kharif season, requires long duration, water, and fertile soil.</p></div></div>
+  <div id="popup-groundnut" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('groundnut')">&times;</span><h2>Groundnut</h2><p>Groundnut is a Rabi oilseed crop. Requires well-drained sandy loam soil.</p></div></div>
+  <div id="popup-potato" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('potato')">&times;</span><h2>Potato</h2><p>Potato is a Rabi crop, grows best in cool climate and loamy soil.</p></div></div>
+  <div id="popup-bajra" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('bajra')">&times;</span><h2>Bajra</h2><p>Bajra (Pearl Millet) is a Kharif crop. Thrives in dry regions with minimal rainfall.</p></div></div>
+  <div id="popup-soybean" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('soybean')">&times;</span><h2>Soybean</h2><p>Soybean is a Kharif crop, grows best in medium black soil and warm climate.</p></div></div>
+<div id="popup-lentil" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('lentil')">&times;</span><h2>Lentil</h2><p>Lentil is a Rabi pulse crop, prefers cool temperatures and well-drained soil.</p></div></div>
+<div id="popup-pumpkin" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('pumpkin')">&times;</span><h2>Pumpkin</h2><p>Pumpkin is a Zaid crop, grows in loamy soil with good sunlight.</p></div></div>
+<div id="popup-pea" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('pea')">&times;</span><h2>Pea</h2><p>Pea is a Rabi legume crop, prefers cool climate and moderate watering.</p></div></div>
+<div id="popup-bottle_gourd" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('bottle_gourd')">&times;</span><h2>Bottle Gourd</h2><p>Bottle Gourd is a Zaid vegetable crop, grows in fertile loamy soil with regular watering.</p></div></div>
+<div id="popup-gram" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('gram')">&times;</span><h2>Gram</h2><p>Gram (Chana) is a Rabi pulse crop, requires well-drained soil and cool climate.</p></div></div>
+<div id="popup-bitter_gourd" class="popup"><div class="popup-content"><span class="close-btn" onclick="closePopup('bitter_gourd')">&times;</span><h2>Bitter Gourd</h2><p>Bitter Gourd is a Zaid vegetable crop, grows in warm, sunny conditions with fertile soil.</p></div></div>
+
+<!-- Farmer Calendar & Reminders -->
+<div class="calendar-container" style="width: 95%; margin: 20px auto; text-align:center;">
+  <h2>Farmer Calendar & Reminder</h2>
+  <p>Select a date to set a reminder for sowing/harvesting:</p>
+  <input type="date" id="reminderDate" style="padding:8px; font-size:16px; border-radius:5px; border:1px solid #2e7d32;">
+  <input type="text" id="reminderMsg" placeholder="Enter reminder message" style="padding:8px; font-size:16px; border-radius:5px; border:1px solid #2e7d32; width:60%;">
+  <button onclick="setReminder()" style="padding:10px 15px; font-size:16px; background:#2e7d32; color:#fff; border:none; border-radius:5px; cursor:pointer;">Set Reminder</button>
+  <p id="reminderStatus" style="margin-top:10px; color:green;"></p>
+</div>
+ <footer>
+    <p>&copy; 2025 Green Harvest. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function filterTable() {
+      let season = document.getElementById("season").value.toLowerCase();
+      let searchText = document.getElementById("searchInput").value.toLowerCase();
+      let rows = document.querySelectorAll("#cropTable tr[data-season]");
+      rows.forEach(row => {
+        let cropName = row.cells[0].textContent.toLowerCase();
+        let rowSeason = row.getAttribute("data-season");
+        if ((season === "all" || rowSeason === season) && (cropName.includes(searchText))) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    function openPopup(id) {
+      document.getElementById("popup-" + id).style.display = "flex";
+    }
+    function closePopup(id) {
+      document.getElementById("popup-" + id).style.display = "none";
+    }
+    window.onclick = function(e) {
+      document.querySelectorAll(".popup").forEach(popup => {
+        if (e.target === popup) popup.style.display = "none";
+      });
+    }
+
+    // Google Translate
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,kn,ml,mr,pa,gu,ta,te,bn,or,as,ks,sd,ur,ne',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script>
+  // Request notification permission
+  if ('Notification' in window) {
+    Notification.requestPermission();
+  }
+
+  function setReminder() {
+    const dateInput = document.getElementById("reminderDate").value;
+    const message = document.getElementById("reminderMsg").value.trim();
+    const status = document.getElementById("reminderStatus");
+
+    if (!dateInput || !message) {
+      status.textContent = "Please select a date and enter a message.";
+      status.style.color = "red";
+      return;
+    }
+
+    const reminderTime = new Date(dateInput).getTime();
+    const now = new Date().getTime();
+    const delay = reminderTime - now;
+
+    if (delay <= 0) {
+      status.textContent = "Please select a future date.";
+      status.style.color = "red";
+      return;
+    }
+
+    status.textContent = "Reminder set! You will be notified on " + new Date(reminderTime).toLocaleDateString();
+    status.style.color = "green";
+
+    // Schedule notification
+    setTimeout(() => {
+      if (Notification.permission === "granted") {
+        new Notification("🌾 Green Harvest Reminder", { body: message });
+      } else {
+        alert("Reminder: " + message);
+      }
+    }, delay);
+  }
+</script>
+</body>
+</html>
