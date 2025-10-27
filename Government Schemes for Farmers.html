@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Green Harvest - Government Schemes</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Roboto", sans-serif;
+      background: url("https://wallpaperbat.com/img/319677-agriculture-desktop-wallpaper.jpg")
+        no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+    header {
+      background-color: rgba(0, 100, 0, 0.8);
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    nav {
+      background: rgba(34, 139, 34, 0.9);
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #fff;
+      font-size: 16px;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+    nav a:hover {
+      background: #2ecc71;
+    }
+    #google_translate_element {
+      margin-top: 5px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 12px;
+      color: #333;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .info-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .info-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .info-card .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+    }
+    .info-card h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .info-card p {
+      font-size: 13px;
+      margin: 4px 0 0;
+    }
+    .info-card:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    /* Popup */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 10px;
+    }
+    .popup-content {
+      background: #fff;
+      color: #333;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+      box-sizing: border-box;
+    }
+    .popup h2 { color: green; }
+    .popup-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: red;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 12px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 14px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      header { font-size: 16px; padding: 10px; }
+      nav { flex-direction: column; align-items: flex-start; }
+      nav a { font-size: 14px; padding: 5px 10px; }
+      .popup-content {
+        width: 100%;
+        max-width: none;
+        border-radius: 0;
+        padding: 15px;
+      }
+      .popup-content h2 { font-size: 18px; }
+      .popup-content p, .popup-content li { font-size: 14px; }
+      .popup-close { font-size: 18px; padding: 4px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header>🌾 Government Schemes for Farmers 🌾</header>
+  
+
+  <nav>
+    <a href="news.html">Home</a>
+    <div id="google_translate_element"></div>
+    <marquee behavior="scroll" direction="left" scrollamount="5"  color:white; padding:10px; font-size:16px;>
+  🌱 Welcome to Green Harvest! | 🚜 Check out the latest Government Schemes for Farmers | 🌾 Updated in 2025
+</marquee>
+
+  </nav>
+
+  <div class="container">
+    <h2>Available Government Schemes</h2>
+    <div class="card-grid">
+      <div class="info-card" onclick="openPopup('pmkisan')">
+        <img src="https://agriculturalinformation4u.com/wp-content/uploads/2021/09/pm-kisan-1.jpg" alt="PM-Kisan" />
+        <div class="overlay">
+          <h3>PM-Kisan Samman Nidhi</h3>
+          <p>₹6,000 annually to small & marginal farmers</p>
+        </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('soilhealth')">
+        <img src="https://images.odishatv.in/uploadimage/library/16_9/16_9_5/IMAGE_1675782891.webp" alt="Soil Health" />
+        <div class="overlay">
+          <h3>Soil Health Card Scheme</h3>
+          <p>Soil test-based crop recommendations</p>
+        </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('fasalbima')">
+        <img src="https://th.bing.com/th/id/OIP.9_RHuL8f0Sv8WILcfGyBbwHaEK?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Fasal Bima" />
+        <div class="overlay">
+          <h3>Pradhan Mantri Fasal Bima Yojana</h3>
+          <p>Insurance against crop loss</p>
+        </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('kcc')">
+        <img src="https://cardinsider.com/wp-content/uploads/2024/05/Kisan-Credit-Card-Feature-1.jpg" alt="KCC" />
+        <div class="overlay">
+          <h3>Kisan Credit Card (KCC)</h3>
+          <p>Credit at subsidized interest rates</p>
+        </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('pmksy')">
+        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgMG3NR25jHV7h9rZAW2mXo_0uikfK_oWEkVshJL7cydu6QwU0T0EPYet__BeJJiS7E8ItXvco7XiQ-WqpnamfucWdhPfOAMLXZ6hRd1VCuEeg95f-MefgxAyq8zGIiVnrWadq7azPl-59m_hvpF-5-XjTcyZhb5aNrH9k_IpX5erEqo21qit12N4A7=s16000" alt="PMKSY" />
+        <div class="overlay">
+          <h3>PM Krishi Sinchayee Yojana</h3>
+          <p>Improved irrigation facilities</p>
+        </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('nmsa')">
+        <img src="https://t-news.b-cdn.net/media/jq2b3110/tractor-news-poster-portal-19.jpg?width=1280&upscale=true" alt="NMSA" />
+        <div class="overlay">
+          <h3>National Mission on Sustainable Agriculture</h3>
+          <p>Promotes sustainable farming practices</p>
+        </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('pkvy')">
+        <img src="https://1.bp.blogspot.com/-qJ34RNTSF2Y/W_vz0uWCK_I/AAAAAAAABXc/PTEVH_3pz-YXN6TSNRYi1uF2vF-FaKG7wCLcBGAs/s640/PKVY.jpg" alt="PKVY" />
+        <div class="overlay">
+          <h3>Paramparagat Krishi Vikas Yojana</h3>
+          <p>Encourages organic farming</p>
+        </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('rkvy')">
+          <img src="https://i.ytimg.com/vi/-mDcBaDnOUY/maxresdefault.jpg" alt="RKVY" />
+          <div class="overlay">
+            <h3>Rashtriya Krishi Vikas Yojana</h3>
+            <p>Promotes agricultural growth</p>
+          </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('nddp')">
+          <img src="https://education.sakshi.com/sites/default/files/images/2023/07/26/nationalprogrammefordairydevelopment-1690369606.jpg" alt="NDDP" />
+          <div class="overlay">
+            <h3>National Dairy Development Program</h3>
+            <p>Supports dairy sector and farmers</p>
+          </div>
+      </div>
+
+      <div class="info-card" onclick="openPopup('gby')">
+        <img src="https://t-news.b-cdn.net/media/oxrn0ly2/73.png?width=1280&height=720" alt="Gramin Bhandaran" />
+        <div class="overlay">
+          <h3>Gramin Bhandaran Yojana</h3>
+          <p>Warehouse construction support</p>
+        </div>
+      </div>
+
+
+
+
+
+
+    </div>
+  </div>
+
+  <!-- Popups -->
+  <div id="popup-pmkisan" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup('pmkisan')">X</button>
+      <h2>PM-Kisan Samman Nidhi</h2>
+      <p><strong>Scheme Duration:</strong> Started 2019 – Ongoing</p>
+      <h3>Eligibility Criteria</h3>
+      <ul>
+        <li>Small and marginal farmers</li>
+        <li>Ownership of cultivable land</li>
+        <li>Excludes higher-income taxpayers, govt employees</li>
+      </ul>
+      <h3>Documents Required</h3>
+      <ul>
+        <li>Aadhaar Card</li>
+        <li>Bank Passbook</li>
+        <li>Land Ownership Documents</li>
+      </ul>
+      <h3>Benefits</h3>
+      <p>₹6,000 annually in three installments directly into bank accounts.</p>
+    </div>
+  </div>
+
+  <div id="popup-soilhealth" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup('soilhealth')">X</button>
+      <h2>Soil Health Card Scheme</h2>
+      <p><strong>Scheme Duration:</strong> Launched 2015 – Ongoing</p>
+      <h3>Eligibility Criteria</h3>
+      <ul>
+        <li>All farmers</li>
+      </ul>
+      <h3>Documents Required</h3>
+      <ul>
+        <li>Aadhaar Card</li>
+        <li>Land Records</li>
+      </ul>
+      <h3>Benefits</h3>
+      <p>Farmers receive soil health cards for better crop recommendations.</p>
+    </div>
+  </div>
+
+  <div id="popup-fasalbima" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup('fasalbima')">X</button>
+      <h2>Pradhan Mantri Fasal Bima Yojana</h2>
+      <p><strong>Scheme Duration:</strong> Launched 2016 – Ongoing</p>
+      <h3>Eligibility Criteria</h3>
+      <ul>
+        <li>All farmers growing notified crops</li>
+      </ul>
+      <h3>Documents Required</h3>
+      <ul>
+        <li>Aadhaar Card</li>
+        <li>Land Ownership/Lease Documents</li>
+      </ul>
+      <h3>Benefits</h3>
+      <p>Insurance against yield losses due to natural calamities, pests & diseases.</p>
+    </div>
+  </div>
+
+  <div id="popup-kcc" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup('kcc')">X</button>
+      <h2>Kisan Credit Card (KCC)</h2>
+      <p><strong>Scheme Duration:</strong> Ongoing</p>
+      <h3>Eligibility Criteria</h3>
+      <ul>
+        <li>Farmers engaged in crop production and allied activities</li>
+      </ul>
+      <h3>Documents Required</h3>
+      <ul>
+        <li>Aadhaar Card</li>
+        <li>Land Documents</li>
+        <li>Bank Account Details</li>
+      </ul>
+      <h3>Benefits</h3>
+      <p>Short-term credit at subsidized interest rates.</p>
+    </div>
+  </div>
+
+  <div id="popup-pmksy" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup('pmksy')">X</button>
+      <h2>PM Krishi Sinchayee Yojana</h2>
+      <p><strong>Scheme Duration:</strong> Launched 2015 – Ongoing</p>
+      <h3>Eligibility Criteria</h3>
+      <ul>
+        <li>Farmers in need of irrigation support</li>
+      </ul>
+      <h3>Documents Required</h3>
+      <ul>
+        <li>Aadhaar Card</li>
+        <li>Land Ownership Documents</li>
+      </ul>
+      <h3>Benefits</h3>
+      <p>Promotes efficient water use and irrigation infrastructure.</p>
+    </div>
+  </div>
+
+  <div id="popup-nmsa" class="popup">
+  <div class="popup-content">
+    <button class="popup-close" onclick="closePopup('nmsa')">X</button>
+    <h2>National Mission on Sustainable Agriculture (NMSA)</h2>
+    <p><strong>Scheme Duration:</strong> Launched 2014 – Ongoing</p>
+    <h3>Eligibility Criteria</h3>
+    <ul>
+      <li>All farmers adopting sustainable practices</li>
+    </ul>
+    <h3>Documents Required</h3>
+    <ul>
+      <li>Aadhaar Card</li>
+      <li>Land Records</li>
+    </ul>
+    <h3>Benefits</h3>
+    <p>Promotes soil health, water-use efficiency, and climate-resilient farming.</p>
+  </div>
+</div>
+
+<div id="popup-pkvy" class="popup">
+  <div class="popup-content">
+    <button class="popup-close" onclick="closePopup('pkvy')">X</button>
+    <h2>Paramparagat Krishi Vikas Yojana (PKVY)</h2>
+    <p><strong>Scheme Duration:</strong> Launched 2015 – Ongoing</p>
+    <h3>Eligibility Criteria</h3>
+    <ul>
+      <li>Farmers interested in organic farming</li>
+    </ul>
+    <h3>Documents Required</h3>
+    <ul>
+      <li>Aadhaar Card</li>
+      <li>Land Ownership Documents</li>
+    </ul>
+    <h3>Benefits</h3>
+    <p>Financial support for organic farming clusters and certification.</p>
+  </div>
+</div>
+
+<div id="popup-rkvy" class="popup">
+  <div class="popup-content">
+    <button class="popup-close" onclick="closePopup('rkvy')">X</button>
+    <h2>Rashtriya Krishi Vikas Yojana (RKVY)</h2>
+    <p><strong>Scheme Duration:</strong> Launched 2007 – Ongoing</p>
+    <h3>Eligibility Criteria</h3>
+    <ul>
+      <li>All farmers through state government programs</li>
+    </ul>
+    <h3>Documents Required</h3>
+    <ul>
+      <li>Aadhaar Card</li>
+      <li>Land Records</li>
+    </ul>
+    <h3>Benefits</h3>
+    <p>Funds for agriculture development projects and innovations.</p>
+  </div>
+</div>
+
+<div id="popup-nddp" class="popup">
+  <div class="popup-content">
+    <button class="popup-close" onclick="closePopup('nddp')">X</button>
+    <h2>National Dairy Development Program (NDDP)</h2>
+    <p><strong>Scheme Duration:</strong> Ongoing</p>
+    <h3>Eligibility Criteria</h3>
+    <ul>
+      <li>Dairy farmers and cooperatives</li>
+    </ul>
+    <h3>Documents Required</h3>
+    <ul>
+      <li>Aadhaar Card</li>
+      <li>Livestock Ownership Proof</li>
+    </ul>
+    <h3>Benefits</h3>
+    <p>Improves milk productivity, processing, and marketing facilities.</p>
+  </div>
+</div>
+
+<div id="popup-gby" class="popup">
+  <div class="popup-content">
+    <button class="popup-close" onclick="closePopup('gby')">X</button>
+    <h2>Gramin Bhandaran Yojana (Rural Godown Scheme)</h2>
+    <p><strong>Scheme Duration:</strong> Launched 2001 – Ongoing</p>
+    <h3>Eligibility Criteria</h3>
+    <ul>
+      <li>Farmers, entrepreneurs, NGOs</li>
+    </ul>
+    <h3>Documents Required</h3>
+    <ul>
+      <li>Aadhaar Card</li>
+      <li>Land/Lease Documents</li>
+    </ul>
+    <h3>Benefits</h3>
+    <p>Financial assistance for construction of godowns and warehouses.</p>
+  </div>
+</div>
+
+
+
+
+
+
+  <footer>© 2025 Green Harvest. All rights reserved.</footer>
+
+  <script>
+    function openPopup(id) {
+      document.getElementById('popup-' + id).style.display = 'flex';
+    }
+    function closePopup(id) {
+      document.getElementById('popup-' + id).style.display = 'none';
+    }
+
+    /* Google Translate */
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,kn,ml,mr,pa,gu,ta,te,bn,or,as,ks,sd,ur,ne',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
