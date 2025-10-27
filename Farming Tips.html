@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Harvest - Farming Tips</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://static.vecteezy.com/system/resources/previews/003/417/794/large_2x/farming-landing-page-web-banner-background-vector.jpg') no-repeat center center fixed;
+        background-size: cover;
+
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #2e7d32;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      padding: 20px;
+    }
+    select, input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s;
+      cursor: pointer;
+      color: black;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      color: black;
+    }
+    .modal-content h3 {
+      margin-top: 0;
+      color: #2e7d32;
+    }
+    .close-btn {
+      background: #2e7d32;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      float: right;
+    }
+    footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <a href="news.html">Home</a>
+    <marquee behavior="scroll" direction="left" style="color: yellow; font-weight: bold; font-size: 16px;">
+🌾 Welcome to Green Harvest! Get the latest farming tips, crop care guides, and seasonal updates. 🌱
+</marquee>
+
+    <div id="google_translate_element"></div>
+  </header>
+
+  <main>
+    <h1>Farming Tips</h1>
+    <label for="cropType">Select Crop Type:</label>
+    <select id="cropType">
+      <option value="">--Select--</option>
+      <option value="fruit">Fruit</option>
+      <option value="vegetable">Vegetable</option>
+      <option value="grains">Grains</option>
+      <option value="legumes">Legumes</option>
+      <option value="oilseeds">Oilseeds</option>
+      <option value="commercial">Commercial Crops</option>
+      <option value="spicesCondiments">spicesCondiments Crops</option>
+      <option value="flowers">flower</option>
+    </select>
+
+    <input type="text" id="searchBar" placeholder="Search the crops...">
+
+    <div class="cards-container" id="cards">
+      <p>Please select a crop type or search to view farming tips.</p>
+    </div>
+  </main>
+
+  <!-- Modal for detailed info -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">Close</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+  <footer>© 2025 Green Harvest. All rights reserved.</footer>
+
+  <!-- Google Translate Script restricted to Indian Languages -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,ta,te,ml,kn,gu,mr,bn,pa,or,as,ur,sd,ne,si',
+        layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script>
+    const cropsData = {
+      fruit: [
+      { name: "Mango", image: "https://tse1.mm.bing.net/th/id/OIP.LJJ0uDYS5ZhDr2zJA-Q9sAHaFe?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - July", harvest: "March - June", nutrients: "Organic manure, Nitrogen, Potassium", technique: "Grafting, pruning, drip irrigation", weather: "Tropical, warm and dry climate", flowering: "January - March" },
+      { name: "Banana", image: "https://th.bing.com/th/id/OIP.xW2SAK_9PbhzSXaH_7TTEwHaE8?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "Throughout the year (best June - August)", harvest: "10-12 months after planting", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Tissue culture, drip irrigation", weather: "Hot and humid", flowering: "7-9 months after planting" },
+      { name: "Apple", image: "https://w0.peakpx.com/wallpaper/160/130/HD-wallpaper-apples-fruit-ripe-red-apples-fresh-fruit-apple.jpg", planting: "January - February", harvest: "August - October", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Grafting, pruning", weather: "Cool climate", flowering: "April - May" },
+      { name: "Papaya", image: "https://th.bing.com/th/id/OIP.rCMKzpY0pcxkqXRwh55RzgHaE8?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "Throughout the year", harvest: "6-12 months after planting", nutrients: "Nitrogen, Potassium", technique: "Irrigation management", weather: "Warm climate", flowering: "5-8 months after planting" },
+      { name: "Guava", image: "https://img.freepik.com/premium-photo/guava-fruit-isolated_55883-2488.jpg?w=2000", planting: "June - July", harvest: "2-4 years after planting", nutrients: "Nitrogen, Potassium", technique: "Pruning, irrigation", weather: "Tropical climate", flowering: "April - May" },
+      { name: "Orange", image: "https://tse3.mm.bing.net/th/id/OIP.CbQdp_h3afrtEdz8S4qlWwHaHa?r=0&w=500&h=500&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "July - August", harvest: "November - January", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Budding, pruning", weather: "Subtropical climate", flowering: "February - March" },
+      { name: "Pineapple", image: "https://th.bing.com/th/id/R.76c82800e80672674f93f89909679ee3?rik=WsoUpRwW5XvV5w&riu=http%3a%2f%2fwallsdesk.com%2fwp-content%2fuploads%2f2017%2f01%2fPineapple-Photos.jpg&ehk=Ngnh6jtNOWBMb1kwXtdFt5FkRNJcDFbLb%2beO%2bhAGaQU%3d&risl=1&pid=ImgRaw&r=0", planting: "June - July", harvest: "15-18 months after planting", nutrients: "Nitrogen, Potassium", technique: "Ratoon management", weather: "Warm and humid", flowering: "12 months after planting" },
+      { name: "Pomegranate", image: "https://th.bing.com/th/id/R.7e7a9f0bd3cf452e3e4d48f638b49879?rik=PY5wCYMGJV3aOw&riu=http%3a%2f%2fcals.arizona.edu%2fyavapai%2fgraphics%2fpomegranate2.jpg&ehk=i%2fNjVrLnUxgLyy4wtOeLJi6ONJcAiRWIVvBPWTg0BEo%3d&risl=&pid=ImgRaw&r=0", planting: "July - August", harvest: "6-7 months after flowering", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Irrigation, pruning", weather: "Arid to semi-arid", flowering: "March - April" },
+      { name: "Litchi", image: "https://th.bing.com/th/id/R.54a385f0a055f747227d31670dc90da7?rik=%2fpbQB6koWwOfgA&riu=http%3a%2f%2fnaturebring.com%2fwp-content%2fuploads%2f2017%2f05%2flitchi-tree-03.jpg&ehk=M4lghzNe9zoDZqPzAXm1nZjMP%2bASvlXspxEwkYlH6eY%3d&risl=&pid=ImgRaw&r=0", planting: "July - August", harvest: "May - June", nutrients: "Nitrogen, Potassium", technique: "Irrigation, pruning", weather: "Subtropical", flowering: "February - March" },
+      { name: "Grapes", image: "https://images8.alphacoders.com/288/288597.jpg", planting: "December - January", harvest: "March - May", nutrients: "Nitrogen, Potassium", technique: "Trellis system, pruning", weather: "Warm and dry", flowering: "February - March" },
+      { name: "Strawberry", image: "https://cdn.britannica.com/22/75922-050-D3982BD0/flowers-fruits-garden-strawberry-plant-species.jpg", planting: "October - November", harvest: "February - March", nutrients: "Nitrogen, Potassium", technique: "Mulching, drip irrigation", weather: "Cool climate", flowering: "January - February" },
+      { name: "Sapota (Chikoo)", image: "https://blogthebeach.best-of-st-pete-beach.com/wp-content/uploads/2009/07/02-20-09-119.JPG", planting: "June - July", harvest: "5-6 years after planting", nutrients: "Nitrogen, Potassium", technique: "Pruning, irrigation", weather: "Tropical", flowering: "April - May" },
+      { name: "Jackfruit", image: "https://static.vecteezy.com/system/resources/previews/006/881/231/large_2x/jackfruit-tree-tropical-fruit-on-tree-in-nature-free-photo.JPG", planting: "June - July", harvest: "3-4 years after planting", nutrients: "Nitrogen, Phosphorus", technique: "Pruning, mulching", weather: "Warm, humid", flowering: "December - January" },
+      { name: "Pear", image: "https://healthjade.com/wp-content/uploads/2017/10/pear.jpg", planting: "January - February", harvest: "July - September", nutrients: "Nitrogen, Potassium", technique: "Grafting, pruning", weather: "Cool temperate", flowering: "April - May" },
+      { name: "Peach", image: "https://static.vecteezy.com/system/resources/previews/022/825/541/original/peach-fruit-peach-on-transparent-background-png.png", planting: "January - February", harvest: "May - June", nutrients: "Nitrogen, Phosphorus", technique: "Pruning, irrigation", weather: "Temperate", flowering: "March - April" },
+      { name: "Plum", image: "https://harvesttotable.com/wp-content/uploads/2019/10/bigstock-Plums-Hanging-On-The-Tree-Almo-261639913-scaled.jpg", planting: "January - February", harvest: "May - June", nutrients: "Nitrogen, Potassium", technique: "Grafting, pruning", weather: "Temperate", flowering: "March - April" },
+      { name: "Custard Apple", image: "https://www.horticultureguruji.in/wp-content/uploads/2021/08/fruit-621842_1920.jpg", planting: "June - July", harvest: "3 years after planting", nutrients: "Nitrogen, Potassium", technique: "Irrigation, pruning", weather: "Warm, dry", flowering: "April - May" },
+      { name: "Fig", image: "https://www.thespruceeats.com/thmb/b_CVMspT7iRd0XpngTOSXxfgpF0=/2049x1463/filters:no_upscale():max_bytes(150000):strip_icc()/Calimyrna-Figs-579def763df78c32762c6334.jpg", planting: "June - July", harvest: "2-3 years after planting", nutrients: "Nitrogen, Potassium", technique: "Pruning, irrigation", weather: "Dry, warm climate", flowering: "April - May" },
+      { name: "Kiwi", image: "https://tse4.mm.bing.net/th/id/OIP.s9J4hXy60dy3gfRMt2E9KgAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "January - February", harvest: "November - December", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Trellis, pruning", weather: "Cool climate", flowering: "May - June" },
+      { name: "Coconut", image: "https://yardandgardenguru.com/wp-content/uploads/2022/06/coconut-on-palm-tree-768x576.jpg", planting: "June - July", harvest: "6-10 years after planting", nutrients: "Nitrogen, Potassium", technique: "Irrigation, mulching", weather: "Tropical, coastal", flowering: "Throughout the year" },
+      { name: "Almond", image: "https://cdn.britannica.com/04/194904-050-1B92812A/Raw-Food-Almond-food-Nut-Snack.jpg", planting: "December - January", harvest: "August - September", nutrients: "Nitrogen, Phosphorus", technique: "Grafting, pruning", weather: "Cool climate", flowering: "March - April" },
+      { name: "Walnut", image: "https://nutrawiki.org/wp-content/uploads/2015/06/walnuts-1.jpg", planting: "December - January", harvest: "September - October", nutrients: "Nitrogen, Potassium", technique: "Grafting, irrigation", weather: "Temperate", flowering: "April - May" },
+      { name: "Dragon Fruit", image: "https://tse3.mm.bing.net/th/id/OIP._Sfy_MGgcc6dGL6HjtNRwAAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - July", harvest: "12-15 months after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis support, irrigation", weather: "Warm, dry", flowering: "June - October" },
+      { name: "Avocado", image: "https://www.tastingtable.com/img/gallery/how-filipino-cuisine-uses-avocado-as-a-delicious-dessert/l-intro-1660939272.jpg", planting: "June - July", harvest: "5-6 years after planting", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Grafting, irrigation", weather: "Subtropical", flowering: "March - April" },
+      { name: "Jamun", image: "https://specialtyproduce.com/sppics/14317.png", planting: "June - July", harvest: "8-10 years after planting", nutrients: "Nitrogen, Potassium", technique: "Irrigation, mulching", weather: "Tropical, subtropical", flowering: "March - April" }
+      ],
+      vegetable: [
+        { name: "Onion", image: "https://img.freepik.com/premium-photo/red-onion_489827-1889.jpg", planting: "October - December", harvest: "4-5 months after planting", nutrients: "Nitrogen, Potassium", technique: "Proper irrigation, weeding", weather: "Cool season crop", flowering: "Biennial plant" },
+        { name: "Tomato", image: "https://tse4.mm.bing.net/th/id/OIP.3I6FbcMMyJ32MzvnK9051QHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - July, Oct - Nov", harvest: "70-90 days after planting", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Staking, irrigation, mulching", weather: "Warm season", flowering: "30-40 days after planting" },
+        { name: "Potato", image: "https://www.healthbenefitstimes.com/9/gallery/potato-1/Potatoes.jpg", planting: "October - December", harvest: "90-120 days after planting", nutrients: "Nitrogen, Potassium", technique: "Earthing up, irrigation", weather: "Cool season", flowering: "60-70 days after planting" },
+        { name: "Brinjal (Eggplant)", image: "https://tse3.mm.bing.net/th/id/OIP.ceZdjW0Yw8HpdRcp9QtHmgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - July, Jan - Feb", harvest: "120-150 days after planting", nutrients: "Nitrogen, Potassium", technique: "Pruning, irrigation", weather: "Warm season", flowering: "40-50 days after planting" },
+        { name: "Cabbage", image: "https://tse3.mm.bing.net/th/id/OIP.UlI0NNeQCRh57kXPiiK8TgAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "Oct - Dec", harvest: "90-120 days after planting", nutrients: "Nitrogen, Potassium", technique: "Transplanting, irrigation", weather: "Cool season", flowering: "Biennial crop" },
+        { name: "Cauliflower", image: "https://buybc.gov.bc.ca/app/uploads/sites/386/2024/03/Cauliflower_80961748.png", planting: "Sept - Nov", harvest: "90-120 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Transplanting, irrigation", weather: "Cool season", flowering: "Biennial crop" },
+        { name: "Carrot", image: "https://th.bing.com/th/id/R.87c21222875469046d481534e8a92f3f?rik=sbgZ9u1%2fX55hAA&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f2016%2f04%2fCarrot-PNG.png&ehk=%2bEuiso4HoaU%2fqPl1rBEaFpoPZjHwro5%2feDr5qjehddQ%3d&risl=&pid=ImgRaw&r=0", planting: "Oct - Dec", harvest: "90-100 days after planting", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Thinning, irrigation", weather: "Cool season", flowering: "Biennial crop" },
+        { name: "Radish", image: "https://www.lifegate.com/app/uploads/daikon1.jpg", planting: "Sept - Jan", harvest: "40-60 days after planting", nutrients: "Nitrogen, Potassium", technique: "Thinning, irrigation", weather: "Cool season", flowering: "Biennial crop" },
+        { name: "Spinach", image: "https://media.istockphoto.com/id/91622312/photo/pile-of-baby-spinach-leaves-on-white.jpg?s=612x612&w=0&k=20&c=p9TyyEcXcnsrdGfDL8ai84msLyOjjCNyR4R-Tvx74Bk=", planting: "Oct - Feb", harvest: "30-45 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Irrigation, thinning", weather: "Cool season", flowering: "Annual crop" },
+        { name: "Lettuce", image: "https://www.100daysofrealfood.com/wp-content/uploads/2023/11/vecteezy_lettuce-salad-leaf-isolated-on-white-background-with_5582269-scaled.jpg", planting: "Oct - Jan", harvest: "45-60 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Mulching, irrigation", weather: "Cool season", flowering: "Annual crop" },
+        { name: "chilli", image: "https://cdn.pixabay.com/photo/2017/07/31/08/43/chili-2556873_1280.jpg", planting: "June - July, Jan - Feb", harvest: "120-150 days after planting", nutrients: "Nitrogen, Potassium", technique: "Staking, irrigation", weather: "Warm season", flowering: "45-60 days after planting" },
+        { name: "Capsicum", image: "https://cdn.pixabay.com/photo/2024/07/08/02/17/capsicum-8879943_1280.jpg", planting: "Sept - Oct", harvest: "120-150 days after planting", nutrients: "Nitrogen, Potassium", technique: "Mulching, irrigation", weather: "Cool season", flowering: "40-50 days after planting" },
+        { name: "Peas", image: "https://iqgfoods.com/wp-content/uploads/Green-Pea-2.png", planting: "Oct - Nov", harvest: "90-100 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellising, irrigation", weather: "Cool season", flowering: "40-50 days after planting" },
+        { name: "Beans", image: "https://gardenseedsmarket.com/images/watermarked/5/detailed/61/014822-14309953_1PA.jpg", planting: "June - July, Sept - Oct", harvest: "60-80 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Trellising, irrigation", weather: "Warm season", flowering: "40-50 days after planting" },
+        { name: "Bitter Gourd", image: "https://www.trustbasket.com/cdn/shop/articles/Bittergourd.webp?v=1687165171", planting: "June - July, Jan - Feb", harvest: "55-70 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, irrigation", weather: "Warm season", flowering: "30-40 days after planting" },
+        { name: "Bitter melon", image: "https://www.foodrepublic.com/img/gallery/what-is-bitter-melon-and-how-do-you-cook-it/l-intro-1689596532.jpg", planting: "June - July, Jan - Feb", harvest: "55-70 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, irrigation", weather: "Warm season", flowering: "30-40 days after planting" },
+        { name: "Bottle guard", image: "https://www.shutterstock.com/image-photo/lagenaria-siceraria-isolated-on-white-600nw-1632307741.jpg", planting: "June - July, Jan - Feb", harvest: "70-90 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Trellis, irrigation", weather: "Warm season", flowering: "40-50 days after planting" },
+        { name: "Cucumber", image: "https://1.bp.blogspot.com/-NY6SltwgnzY/UXUQ_kZU5yI/AAAAAAAAAhs/QpTP99-nfRM/s1600/cucumbe.jpg", planting: "June - July, Jan - Feb", harvest: "60-75 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellising, irrigation", weather: "Warm season", flowering: "30-40 days after planting" },
+        { name: "Okra (Lady’s Finger)", image: "https://adeeg.com/cdn/shop/products/Adeeg-Okra.jpg?v=1599737279", planting: "Feb - March, June - July", harvest: "50-70 days after planting", nutrients: "Nitrogen, Potassium", technique: "Weeding, irrigation", weather: "Warm season", flowering: "40-50 days after planting" },
+        { name: "Pumpkin", image: "https://vegflow.in/wp-content/uploads/2018/12/Pumpkin-From-Vegflow-India.jpg", planting: "June - July, Jan - Feb", harvest: "90-120 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Mulching, irrigation", weather: "Warm season", flowering: "40-60 days after planting" },
+        { name: "Ash Gourd", image: "https://www.ayurhelp.com/wp-content/uploads/2021/05/ash-gourd-500x500-500x500-1.jpg", planting: "June - July", harvest: "90-120 days after planting", nutrients: "Nitrogen, Potassium", technique: "Irrigation, mulching", weather: "Warm season", flowering: "40-60 days after planting" },
+        { name: "Snake Gourd", image: "https://th.bing.com/th/id/R.bb5decb43d1ff35ae71bd737766dac15?rik=MNa7%2fynOcVT0wA&riu=http%3a%2f%2forganicbazar.net%2fcdn%2fshop%2fproducts%2f6-3_9a29856e-4c7c-4d1b-b55f-b32b5e17bd5b.jpg%3fv%3d1692322495&ehk=siLuYM4yqVSFoil2AV09X8gmf9Jn3PDSbgOiPgErQ4s%3d&risl=&pid=ImgRaw&r=0", planting: "June - July", harvest: "60-80 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis support", weather: "Warm season", flowering: "30-40 days after planting" },
+        { name: "Cluster Bean", image: "https://thumbs.dreamstime.com/b/indian-bean-14937692.jpg", planting: "June - July", harvest: "60-70 days after planting", nutrients: "Nitrogen, Potassium", technique: "Irrigation, weeding", weather: "Warm season", flowering: "30-40 days after planting" },
+        { name: "Drumstick (Moringa)", image: "https://www.shutterstock.com/image-photo/moringa-oleifera-isolated-on-white-600nw-1348856873.jpg", planting: "June - July", harvest: "6-8 months after planting", nutrients: "Nitrogen, Phosphorus", technique: "Pruning, irrigation", weather: "Warm season", flowering: "April - May" },
+        { name: "Turnip", image: "https://cdn0.woolworths.media/content/wowproductimages/large/199732.jpg", planting: "Oct - Dec", harvest: "60-90 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Irrigation, thinning", weather: "Cool season", flowering: "Biennial crop" },
+        { name: "Beetroot", image: "https://mato.com.np/wp-content/uploads/2022/04/beerroot.jpg", planting: "Oct - Dec", harvest: "90-100 days after planting", nutrients: "Nitrogen, Potassium", technique: "Thinning, irrigation", weather: "Cool season", flowering: "Biennial crop" },
+        { name: "Garlic", image: "https://www.bitesforfoodies.com/wp-content/uploads/2012/02/garlic3.jpg", planting: "Oct - Nov", harvest: "5-6 months after planting", nutrients: "Nitrogen, Potassium", technique: "Irrigation, mulching", weather: "Cool season", flowering: "Biennial crop" },
+        { name: "Ginger", image: "https://cdn.pixabay.com/photo/2017/01/07/14/56/ginger-1960613_1280.jpg", planting: "April - May", harvest: "7-8 months after planting", nutrients: "Nitrogen, Potassium", technique: "Mulching, irrigation", weather: "Warm, humid", flowering: "Rare under cultivation" },
+        { name: "Turmeric", image: "https://img.freepik.com/premium-photo/turmeric-isolated-white-background-high-resolution_1029679-12687.jpg", planting: "April - May", harvest: "7-9 months after planting", nutrients: "Nitrogen, Potassium", technique: "Mulching, irrigation", weather: "Warm, humid", flowering: "Annual crop" },
+        { name: "Coriander", image: "https://cdn.shopify.com/s/files/1/1380/2059/products/Coriander.jpg?v=1480318423", planting: "Oct - Nov", harvest: "40-50 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Irrigation, weeding", weather: "Cool season", flowering: "Annual crop" },
+        { name: "Mint", image: "https://www.harishfoodzone.com/jb-content/uploads/2020/11/Fresh-Mint-Leaves.jpg", planting: "Feb - March", harvest: "90 days after planting", nutrients: "Nitrogen, Potassium", technique: "Irrigation, weeding", weather: "Warm, humid", flowering: "Perennial crop" }
+        ],
+        grains: [
+        { name: "Paddy (Rice)", image: "https://icdn.ensonhaber.com/resimler/diger/kok/2020/11/18/celtik_5595.jpg", planting: "June - July", harvest: "November - December", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Transplanting, irrigation", weather: "Warm, humid", flowering: "60-70 days after transplanting" },
+        { name: "Wheat", image: "https://static7.depositphotos.com/1177973/680/i/450/depositphotos_6800318-stock-photo-wheat-isolated-on-white.jpg", planting: "October - November", harvest: "March - April", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Broadcasting, irrigation", weather: "Cool season", flowering: "February - March" },
+        { name: "Maize (Corn)", image: "https://images.delightedcooking.com/corn-cobs.jpg", planting: "June - July, Oct - Nov", harvest: "90-120 days after planting", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Row planting, irrigation", weather: "Warm climate", flowering: "45-60 days after planting" },
+        { name: "Barley", image: "https://domf5oio6qrcr.cloudfront.net/medialibrary/6159/ff717f2b-8a5b-4862-a65f-25b59e3f57b8.jpg", planting: "November - December", harvest: "March - April", nutrients: "Nitrogen, Potassium", technique: "Broadcasting, irrigation", weather: "Cool, dry climate", flowering: "February - March" },
+        { name: "Oats", image: "https://abovefood.com/wp-content/uploads/2022/05/AboveFood-Oats-scoop3.png", planting: "October - November", harvest: "February - March", nutrients: "Nitrogen, Phosphorus", technique: "Broadcasting, irrigation", weather: "Cool climate", flowering: "January - February" },
+        { name: "Millet (Bajra)", image: "https://girlmeetsfood.com/wp-content/uploads/2023/03/amaranth-in-package-960x640.jpg", planting: "June - July", harvest: "September - October", nutrients: "Nitrogen, Potassium", technique: "Row planting, weeding", weather: "Hot, dry climate", flowering: "60-70 days after planting" },
+        { name: "Sorghum (Jowar)", image: "https://www.thespruceeats.com/thmb/y1lPQxxTN2WdsV2RZKs6wzMNemE=/2151x0/filters:no_upscale():max_bytes(150000):strip_icc()/sayanjo65-a84ec4b764fd461f9ff7c0f83802b052.jpg", planting: "June - July", harvest: "October - November", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Warm, dry climate", flowering: "70-80 days after planting" },
+        { name: "Ragi (Finger Millet)", image: "https://rukminim2.flixcart.com/image/612/612/xif0q/shopsy-grain-millet/3/1/2/200-ragi-edible-seed-finger-millet-whole-grain-kelvaragu-nachni-original-imah5yf63k9czbcz.jpeg?q=70", planting: "June - July", harvest: "October - November", nutrients: "Nitrogen, Potassium", technique: "Transplanting, irrigation", weather: "Warm climate", flowering: "60-70 days after planting" },
+        { name: "Quinoa", image: "https://c8.alamy.com/comp/R87BB5/grain-of-quinoa-uncooked-raw-quinoa-as-background-healthy-vegan-food-concept-and-pattern-R87BB5.jpg", planting: "October - November", harvest: "March - April", nutrients: "Nitrogen, Phosphorus", technique: "Row planting, irrigation", weather: "Cool, dry climate", flowering: "February - March" },
+        { name: "Buckwheat", image: "https://5.imimg.com/data5/SELLER/Default/2021/9/IN/CR/NU/41845665/71e-4hznf8l-sx679-jpg-500x500.jpg", planting: "July - August", harvest: "October - November", nutrients: "Nitrogen, Phosphorus", technique: "Row planting, irrigation", weather: "Cool, temperate", flowering: "September" },
+        { name: "Rye", image: "https://www.tastingtable.com/img/gallery/study-reveals-the-potential-health-benefits-of-eating-rye/l-intro-1651001588.jpg", planting: "October - November", harvest: "May - June", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Cool, dry climate", flowering: "April - May" },
+        { name: "Foxtail Millet", image: "https://foodtolive.com/wp-content/uploads/2020/02/Millet-Grain-min.jpg", planting: "June - July", harvest: "September - October", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Warm, dry climate", flowering: "60-70 days after planting" },
+        { name: "Little Millet", image: "https://5.imimg.com/data5/SELLER/Default/2021/5/PG/AX/VY/65991083/organic-little-millet-500x500.jpg", planting: "June - July", harvest: "September - October", nutrients: "Nitrogen, Potassium", technique: "Row planting, weeding", weather: "Warm, semi-arid", flowering: "60-70 days after planting" },
+        { name: "Kodo Millet", image: "https://media.fuzia.com/assets/uploads/images/co_brand_1/article/2023/kodo-common-1682324821.jpg", planting: "June - July", harvest: "October - November", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Warm, dry climate", flowering: "70-80 days after planting" },
+        { name: "Proso Millet", image: "https://images.squarespace-cdn.com/content/v1/62a25a4f07852b146225d39a/1691081320315-6RXU0YURXNJA0AC7XQA2/IMG_3203.JPG", planting: "June - July", harvest: "September - October", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Warm, semi-arid", flowering: "60-70 days after planting" },
+        { name: "Teff", image: "https://kynipam.com/wp-content/uploads/2022/09/teff-grain-main-Edited.png", planting: "June - July", harvest: "September - October", nutrients: "Nitrogen, Phosphorus", technique: "Broadcasting, irrigation", weather: "Warm, semi-arid", flowering: "60-70 days after planting" },
+        { name: "Wild Rice", image: "https://www.hibiscushealthshop.co.nz/media/commerce_products/703/Wild-Rice-100g.jpg", planting: "June - July", harvest: "September - October", nutrients: "Nitrogen, Potassium", technique: "Flooded fields, irrigation", weather: "Wetlands", flowering: "July - August" },
+        { name: "Spelt", image: "https://post.healthline.com/wp-content/uploads/2021/08/spelt-grain-in-bowl-1200x628-facebook-1200x628.jpg", planting: "October - November", harvest: "June - July", nutrients: "Nitrogen, Phosphorus", technique: "Broadcasting, irrigation", weather: "Cool climate", flowering: "April - May" },
+        { name: "Triticale", image: "https://www.shepherdseeds.co.uk/wp-content/uploads/2019/08/Triticale-Seed.png", planting: "October - November", harvest: "April - May", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Cool, dry climate", flowering: "March - April" }
+        ],
+        legumes: [
+        { name: "Chickpea (Gram)", image: "https://th.bing.com/th/id/R.94d634e16e58af4d8303675444223a47?rik=l97mg0SiLu7OrA&riu=http%3a%2f%2fwww.onlyfoods.net%2fwp-content%2fuploads%2f2012%2f09%2fChickpea-Pictures.jpg&ehk=3rM09MxUIs6pDWepJ0PEwo9kkpPxZ7sxQsNesq6mEZ0%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1", planting: "October - November", harvest: "February - March", nutrients: "Nitrogen, Phosphorus", technique: "Row planting, weeding", weather: "Cool, dry climate", flowering: "45-60 days after sowing" },
+        { name: "Pigeon Pea (Arhar/Toor)", image: "https://www.specialtyproduce.com/sppics/11653.png", planting: "June - July", harvest: "December - January", nutrients: "Nitrogen, Potassium", technique: "Intercropping, irrigation", weather: "Warm, semi-arid", flowering: "120-150 days after planting" },
+        { name: "Lentil (Masoor)", image: "https://5.imimg.com/data5/SELLER/Default/2023/11/361037155/BJ/QD/RF/194543448/masoor-dal-1000x1000.jpg", planting: "October - November", harvest: "February - March", nutrients: "Nitrogen, Phosphorus", technique: "Row planting, irrigation", weather: "Cool, dry climate", flowering: "60-70 days after planting" },
+        { name: "Black Gram (Urad)", image: "https://st2.depositphotos.com/1077338/47542/i/450/depositphotos_475425214-stock-photo-food-background-many-raw-whole.jpg", planting: "June - July, Sept - Oct", harvest: "70-90 days after planting", nutrients: "Nitrogen, Potassium", technique: "Intercropping, irrigation", weather: "Warm, semi-arid", flowering: "40-50 days after planting" },
+        { name: "Green Gram (Moong)", image: "https://sindirasupermarket.com/wp-content/uploads/2020/07/GREEN-GRAM.jpg", planting: "June - July, March - April", harvest: "60-80 days after planting", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Warm, semi-arid", flowering: "30-40 days after planting" },
+        { name: "Soybean", image: "https://nepc.gov.ng/cms/wp-content/uploads/2020/10/nepc-soya-beans-1024x683.jpg", planting: "June - July", harvest: "September - October", nutrients: "Nitrogen, Phosphorus", technique: "Row planting, irrigation", weather: "Warm, humid", flowering: "40-60 days after planting" },
+        { name: "Cowpea (Lobia)", image: "https://seneps-plantchoice.com/wp-content/uploads/2020/04/Cowpeas.jpg", planting: "June - July", harvest: "70-90 days after planting", nutrients: "Nitrogen, Potassium", technique: "Row planting, weeding", weather: "Warm climate", flowering: "40-50 days after planting" },
+        { name: "Kidney Bean (Rajma)", image: "https://images.eatthismuch.com/img/3527_ldementhon_7fb11644-dead-4ba6-a435-a7fcc6443e15.png", planting: "June - July, Oct - Nov", harvest: "100-120 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Staking, irrigation", weather: "Cool, dry", flowering: "50-60 days after planting" },
+        { name: "Broad Bean (Fava Bean)", image: "https://www.asiaseeds.com/wp-content/uploads/2015/01/broad-bean1.jpg", planting: "October - November", harvest: "February - March", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Cool climate", flowering: "40-60 days after planting" },
+        { name: "Garden Pea", image: "https://extension.sdstate.edu/sites/default/files/2019-03/W-M12004-01-Garden-peas-harvested.jpg", planting: "October - November", harvest: "February - March", nutrients: "Nitrogen, Phosphorus", technique: "Trellis support, irrigation", weather: "Cool season", flowering: "40-50 days after planting" },
+        { name: "Horse Gram", image: "https://www.healthbenefitstimes.com/9/gallery/horse-gram/Seeds-of-Horse-gram.jpg", planting: "June - July, Sept - Oct", harvest: "90-120 days after planting", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Warm, semi-arid", flowering: "50-60 days after planting" },
+        { name: "Navy Bean", image: "https://img.freepik.com/premium-photo/healthy-navy-beans_87720-82890.jpg?w=2000", planting: "June - July", harvest: "85-100 days after planting", nutrients: "Nitrogen, Phosphorus", technique: "Row planting, irrigation", weather: "Warm, temperate", flowering: "40-50 days after planting" },
+        { name: "Adzuki Bean", image: "https://tse1.explicit.bing.net/th/id/OIP.bDZYXSW5_gM_xS3Lv1a2BAAAAA?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - July", harvest: "90-120 days after planting", nutrients: "Nitrogen, Potassium", technique: "Row planting, irrigation", weather: "Warm, temperate", flowering: "40-50 days after planting" },
+        { name: "Moth Bean", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDuKVdbZ1Pu_HWXV2lyzTGR3Q3wp0cbr1sA5YOHK_mvsDPMSI_XonQBYwcRDjQn44LR57u6YbqRKN_3XcwzjtukCZvcitslgY8mdGhRIRGWww-wopiIH2-YeTS-Xmm-f5wDjfIeD-2OCc5RyXK6GygoRQhKj8JG9dBAM_OdpYug41zdDnPh7Flop4VdQ/w1200-h630-p-k-no-nu/moth-bean-dew-bean-naripayaru-pani-payaru-tulkapayir-matki-moath-bean-Vigna-Aconitifolia-Matha-Matkya-Vanmug-Khari-Madaki-Kalu-Madike-Kalu.jpeg", planting: "July - August", harvest: "70-90 days after planting", nutrients: "Nitrogen, Potassium", technique: "Row planting, weeding", weather: "Arid, semi-arid", flowering: "30-40 days after planting" },
+        { name: "Bambara Groundnut", image: "https://colostate.pressbooks.pub/app/uploads/sites/53/2022/07/Vign_subteran_130426-35160_tdp.jpg", planting: "April - June", harvest: "90-180 days after planting", nutrients: "Nitrogen, Potassium", technique: "Row planting, mulching", weather: "Tropical, semi-arid", flowering: "60-90 days after planting" },
+        { name: "Lablab Bean (Hyacinth Bean)", image: "https://bio.news/wp-content/uploads/2023/05/Lablab_image-1024x683.jpg", planting: "June - July", harvest: "120-150 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, irrigation", weather: "Warm climate", flowering: "60-80 days after planting" },
+        { name: "Velvet Bean (Mucuna)", image: "https://www.healthifyme.com/blog/wp-content/uploads/2022/01/Velvet-Bean-1.jpg", planting: "June - July", harvest: "120-180 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, intercropping", weather: "Warm, humid", flowering: "60-90 days after planting" },
+        { name: "Winged Bean", image: "https://gardeningsg.nparks.gov.sg/images/Plants/WingedBean_JacChua%20(1).jpg", planting: "June - July", harvest: "120-150 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, irrigation", weather: "Tropical, humid", flowering: "60-80 days after planting" },
+        { name: "Yardlong Bean", image: "https://www.tastingtable.com/img/gallery/what-are-yardlong-beans-and-how-do-you-eat-them/l-intro-1671638299.jpg", planting: "June - July", harvest: "70-90 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, irrigation", weather: "Warm, humid", flowering: "40-50 days after planting" },
+        { name: "Field Bean (Dolichos)", image: "https://live.staticflickr.com/65535/50159904941_8e64712a0d_z.jpg", planting: "June - July", harvest: "120-150 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, irrigation", weather: "Warm, humid", flowering: "50-70 days after planting" },
+        { name: "Scarlet Runner Bean", image: "https://www.southernexposure.com/media/products/originals/scarlet-runner-bean-82665051d512e3897590ee63a6b91dca.jpg", planting: "March - May", harvest: "60-90 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, irrigation", weather: "Cool, temperate", flowering: "40-50 days after planting" },
+        { name: "French Bean (Common Bean)", image: "https://im.indiatimes.in/content/2024/Apr/Climbing-French-Bean-Cobra-_-Phaseolus-vulgaris-_-De-Bolster-Organic-Seeds_660f9b05ba1c9.jpg?w=725&h=725&cc=1&webp=1&q=75", planting: "June - July, Oct - Nov", harvest: "70-90 days after planting", nutrients: "Nitrogen, Potassium", technique: "Trellis, irrigation", weather: "Warm climate", flowering: "40-50 days after planting" },
+         ],
+        oilseeds: [
+        { name: "Groundnut", image: "https://img.freepik.com/premium-photo/peanuts_943166-3393.jpg", planting: "June - July", harvest: "October - November", nutrients: "Phosphorus, Potassium, Calcium", technique: "Intercropping, proper irrigation", weather: "Tropical, warm climate", flowering: "30-40 days after sowing" },
+        { name: "Mustard", image: "https://www.thespruceeats.com/thmb/KCnqKf3TqKxmye8oztADH8Ey1R4=/6144x0/filters:no_upscale():max_bytes(150000):strip_icc()/black-mustard-seeds----indian-spices-on-wooden-spoon--macro--911766480-71fd9cf103db41158be06d244f16b496.jpg", planting: "October - November", harvest: "February - March", nutrients: "Nitrogen, Sulphur, Phosphorus", technique: "Proper irrigation, pest control", weather: "Cool and dry climate", flowering: "40-60 days after sowing" },
+        { name: "Sunflower", image: "https://thf.bing.com/th/id/OIP.KOZubqmU2zTdqhCoC9IwhgHaE8?r=0&o=7&cb=thfc1rm=3&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "January - February / June - July", harvest: "80-120 days after sowing", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Line sowing, weeding", weather: "Warm climate with good sunlight", flowering: "60-70 days after sowing" },
+        { name: "Sesame", image: "https://www.herbazest.com/imgs/5/b/1/438205/sesame_seeds.jpg", planting: "June - July", harvest: "90-120 days after sowing", nutrients: "Phosphorus, Nitrogen", technique: "Row spacing, weeding", weather: "Warm tropical climate", flowering: "45-60 days after sowing" },
+        { name: "Linseed (Flax)", image: "https://cdn.pixabay.com/photo/2023/02/28/10/52/linseed-7820554_1280.jpg", planting: "October - November", harvest: "March - April", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Line sowing, crop rotation", weather: "Cool and dry climate", flowering: "50-70 days after sowing" },
+        { name: "Castor", image: "https://tse2.mm.bing.net/th/id/OIP.OuIBhq5CwPrWYAReMxCOxQHaHa?r=0&cb=thfc1&w=1024&h=1024&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - July", harvest: "4-5 months after planting", nutrients: "Nitrogen, Phosphorus", technique: "Row planting, irrigation", weather: "Semi-arid and tropical", flowering: "50-60 days after sowing" },
+        { name: "Safflower", image: "https://th.bing.com/th/id/R.67e3aa08f34e43d985231ebfec50bd51?rik=uWehX9JKkmlOzw&riu=http%3a%2f%2fvivianlawry.com%2fwordpress%2fwp-content%2fuploads%2f2019%2f06%2fsafflower.jpg&ehk=FJvunfBoIy7uj7EntoIeOdNV1ivBD1u%2bjtrOUeIHLro%3d&risl=&pid=ImgRaw&r=0", planting: "October - November", harvest: "March - April", nutrients: "Nitrogen, Sulphur, Potassium", technique: "Crop rotation, irrigation", weather: "Cool and dry climate", flowering: "70-80 days after sowing" },
+        { name: "Coconut", image: "https://th.bing.com/th/id/R.0750930fcd21e32e9651e9ec656ef0f3?rik=C9LWOAT7Z8Sm1g&riu=http%3a%2f%2fwww.plantgrower.org%2fuploads%2f6%2f5%2f5%2f4%2f65545169%2fpublished%2fcoconut-white-balsamic-condimento.jpg%3f1515168579&ehk=cDyuwLtx0dpgg4K%2b%2b3ByjLtm739zVI7uBveat%2f9HFQc%3d&risl=&pid=ImgRaw&r=0", planting: "Throughout the year (best June - July)", harvest: "6-10 years after planting", nutrients: "Potassium, Nitrogen, Magnesium", technique: "Irrigation, mulching, pruning", weather: "Humid tropical climate", flowering: "6-7 years after planting" },
+        { name: "Olive", image: "https://www.stylecraze.com/wp-content/uploads/2013/04/Olives-10-Superb-Benefits-Nutrition-Facts.jpg", planting: "February - March", harvest: "November - December", nutrients: "Potassium, Nitrogen, Phosphorus", technique: "Pruning, irrigation management", weather: "Mediterranean climate", flowering: "April - May" },
+        { name: "Niger Seed", image: "https://tse4.mm.bing.net/th/id/OIP.gbBnkHHKZEOVfK0lx4j4bwHaHa?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - July", harvest: "September - October", nutrients: "Phosphorus, Nitrogen", technique: "Broadcast sowing, weeding", weather: "Warm and humid", flowering: "40-50 days after sowing" },
+        { name: "Rapeseed", image: "https://as1.ftcdn.net/v2/jpg/02/66/84/52/1000_F_266845268_U4OI9OR2geuRiMFZdjQnqdh85KVtYpit.jpg", planting: "October - November", harvest: "March - April", nutrients: "Sulphur, Nitrogen, Phosphorus", technique: "Line sowing, proper irrigation", weather: "Cool and dry climate", flowering: "60-80 days after sowing" },
+        { name: "Jatropha", image: "https://th.bing.com/th/id/R.bb3d344967cc2886cb6b9ee79c0298ab?rik=pCV0RsbAuIMamg&riu=http%3a%2f%2fbulkagro.com%2fwp-content%2fuploads%2f2015%2f01%2fJATROPHA-CURCAS-SEEDS.jpg&ehk=ZcBHP9yLsCpdxjf9%2fihQPq89Vui6sBFmO8G4apOcZKM%3d&risl=&pid=ImgRaw&r=0", planting: "June - July", harvest: "2-3 years after planting", nutrients: "Nitrogen, Potassium", technique: "Dryland farming practices", weather: "Semi-arid regions", flowering: "5-6 months after planting" },
+        { name: "Camelina", image: "https://img.freepik.com/premium-photo/camelina-sativa-seeds-isolated-white-background-seeds-camelina-false-flax-raw-material-production-camelina-oil_157837-4717.jpg", planting: "Spring (March - April)", harvest: "June - July", nutrients: "Nitrogen, Sulphur", technique: "Crop rotation, irrigation", weather: "Cool temperate", flowering: "40-60 days after sowing" },
+        { name: "Poppy Seed", image: "https://images.creativemarket.com/0.1.0/ps/3845586/1820/1622/m1/fpnw/wm1/s1ayf2d6tb7v6vubrtehflwjvzwgxr0hg0e1aymb8qysqx6buoga21ayipwxphff-.jpg?1515948582&s=e3b524a480ec9a8bf55ce77efc8e5b73", planting: "October - November", harvest: "March - April", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Row sowing, irrigation", weather: "Cool and dry", flowering: "90-120 days after sowing" },
+        { name: "Perilla", image: "https://storables.com/wp-content/uploads/2023/12/what-are-perilla-seeds-1701843401.jpg", planting: "May - June", harvest: "September - October", nutrients: "Nitrogen, Phosphorus", technique: "Row spacing, thinning", weather: "Subtropical climate", flowering: "80-100 days after sowing" },
+        { name: "Hemp Seed", image: "https://tse3.mm.bing.net/th/id/OIP.l99Mz6u26wXhdeze9PtVGgAAAA?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "April - May", harvest: "September - October", nutrients: "Nitrogen, Potassium, Phosphorus", technique: "Row planting, crop rotation", weather: "Temperate climate", flowering: "60-80 days after sowing" },
+        { name: "Pongamia (Karanja)", image: "https://th.bing.com/th/id/R.cd6bf0421cc29bc5935b92088bc0e9e2?rik=ZciYBY9GebI5nQ&riu=http%3a%2f%2fwww.jatrophaworld.org%2fimages%2fd8.JPG%3f58&ehk=mrJkTRKaSXUn1g9xobzXi9AV7Gps%2fKbfxHQero1SK%2bE%3d&risl=&pid=ImgRaw&r=0", planting: "June - July", harvest: "4-7 years after planting", nutrients: "Organic manure, Nitrogen", technique: "Agroforestry, irrigation", weather: "Tropical and subtropical", flowering: "2-3 years after planting" },
+        { name: "Mahua", image: "https://infoabouttrees.com/wp-content/uploads/2022/10/Mahua-Seeds.jpg", planting: "June - July", harvest: "8-10 years after planting", nutrients: "Organic manure, Nitrogen", technique: "Agroforestry, irrigation", weather: "Tropical climate", flowering: "5-7 years after planting" },
+        { name: "Cottonseed", image: "https://images.fineartamerica.com/images-medium-large-5/cotton-seeds-martin-shields.jpg", planting: "April - May", harvest: "October - November", nutrients: "Nitrogen, Potassium, Phosphorus", technique: "Row spacing, irrigation", weather: "Warm tropical climate", flowering: "60-80 days after sowing" }
+        ],
+    commercial: [
+  { name: "Sugarcane", image: "https://www.agrifarming.in/wp-content/uploads/2020/10/sugarcane-5388614_1920.jpg", planting: "February - March / September - October", harvest: "10-18 months after planting", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Trench planting, irrigation, ratooning", weather: "Tropical, warm and humid", flowering: "Rarely flowers" },
+  { name: "Cotton", image: "https://www.worldatlas.com/r/w1200/upload/c4/14/a0/shutterstock-738008380.jpg", planting: "April - May", harvest: "October - January", nutrients: "Nitrogen, Potassium, Phosphorus", technique: "Row planting, pest control", weather: "Warm and dry climate", flowering: "45-60 days after sowing" },
+  { name: "Jute", image: "https://researchoutreach.org/wp-content/uploads/2021/05/shutterstock_1340391350.jpg", planting: "March - May", harvest: "July - September", nutrients: "Nitrogen, Potassium, Phosphorus", technique: "Line sowing, retting process", weather: "Hot and humid climate", flowering: "90-100 days after sowing" },
+  { name: "Tea", image: "https://www.thetutuguru.com.au/wp-content/uploads/2021/05/Hello-Hello-Plants-Camellia-sinensis-%E2%80%98Gadara-Tea-8in.jpg", planting: "Throughout the year (best April - May)", harvest: "Plucking starts after 3 years", nutrients: "Nitrogen, Potassium, Magnesium", technique: "Pruning, shade management", weather: "Humid, subtropical to tropical", flowering: "Rare, white flowers" },
+  { name: "Coffee", image: "https://s25562.pcdn.co/wp-content/uploads/2022/07/iStock-coffee-beans-and-black-coffee.jpg.optimal.jpg", planting: "June - August", harvest: "November - March", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Shade planting, irrigation", weather: "Cool, humid climate", flowering: "March - April" },
+  { name: "Rubber", image: "https://eureka-farms.com/cdn/shop/products/image_39b899d5-3cf3-4378-ba43-34b53ac6808e_550x.jpg?v=1695572286", planting: "June - July", harvest: "6-7 years after planting", nutrients: "Nitrogen, Magnesium, Phosphorus", technique: "Tapping, mulching, irrigation", weather: "Hot and humid climate", flowering: "5-6 years after planting" },
+  { name: "Pepper (Black Pepper)", image: "https://3.bp.blogspot.com/-DPscP9Uw0Os/WXXhwhE8e9I/AAAAAAAAB-Q/aHDDUrS87KwN2_WPIoa3C_8s2N_Tb4ODgCLcBGAs/s1600/8.jpg", planting: "May - June", harvest: "December - March", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Support planting, shade management", weather: "Humid, tropical climate", flowering: "2-3 years after planting" },
+  { name: "Cardamom", image: "https://tse2.mm.bing.net/th/id/OIP.JHqBGcS5xkJpdFwCF2JTzQHaGj?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - August", harvest: "3 years after planting, annually thereafter", nutrients: "Organic manure, Nitrogen, Potassium", technique: "Shade management, irrigation", weather: "Humid tropical climate", flowering: "2-3 years after planting" },
+  { name: "Arecanut", image: "https://www.agrifarming.in/wp-content/uploads/2015/10/Harvested-Arecanut.jpg", planting: "June - July", harvest: "6-7 years after planting", nutrients: "Nitrogen, Potassium, Magnesium", technique: "Irrigation, mulching", weather: "Humid tropical climate", flowering: "5-6 years after planting" },
+  { name: "Cocoa", image: "https://www.mashed.com/img/gallery/heres-why-cacao-beans-taste-different-in-every-country/l-intro-1678158914.jpg", planting: "June - July", harvest: "3-4 years after planting", nutrients: "Nitrogen, Potassium, Magnesium", technique: "Shade management, irrigation", weather: "Humid tropical climate", flowering: "3-4 years after planting" },
+  { name: "Aloe Vera", image: "https://img.staticmb.com/mbcontent/images/uploads/2023/12/How-to-grow-aloe-vera-plant-at-home.jpg", planting: "February - March / June - July", harvest: "8-10 months after planting", nutrients: "Organic manure, Nitrogen", technique: "Irrigation, weeding, organic care", weather: "Semi-arid and warm climate", flowering: "8-10 months after planting" },
+  { name: "Banana (Commercial Farming)", image: "https://static.vecteezy.com/system/resources/previews/007/669/083/large_2x/banana-tree-with-bunch-of-raw-green-bananas-and-banana-green-leaves-cultivated-banana-plantation-tropic-fruit-farm-herbal-medicine-for-treatment-diarrhea-and-gastritis-agriculture-organic-food-free-photo.jpg", planting: "June - July", harvest: "12-15 months after planting", nutrients: "Nitrogen, Potassium, Magnesium", technique: "Tissue culture, drip irrigation", weather: "Warm, humid climate", flowering: "7-9 months after planting" },
+  { name: "Medicinal Herbs (Ashwagandha)", image: "https://www.apotheke-adhoc.de/fileadmin/user_upload/redaktion/2023/KW16/Ashwagandha_AdobeStock228891168.jpeg", planting: "June - July", harvest: "150-180 days after sowing", nutrients: "Nitrogen, Phosphorus, Organic manure", technique: "Line sowing, organic farming", weather: "Tropical dry climate", flowering: "3-4 months after sowing" },
+  { name: "Vanilla", image: "https://blog.modernistpantry.com/wp-content/uploads/2020/02/shutterstock_756077872.jpg", planting: "June - July", harvest: "3-4 years after planting", nutrients: "Organic manure, Potassium", technique: "Shade management, pollination", weather: "Humid tropical climate", flowering: "2-3 years after planting" },
+  { name: "Bamboo", image: "https://th.bing.com/th/id/R.a289fde39216d2c926002db2ded3106d?rik=wv%2bK9Ge6g1R8fA&riu=http%3a%2f%2forganicbazar.net%2fcdn%2fshop%2fproducts%2fBamboo-Plant-Seeds-Dendrocalamus-Strictus-1.jpg%3fv%3d1694169439&ehk=KohnTLwOylgUz%2bYjKdds1NgkgNKSb4CUqN8UucwaKBA%3d&risl=&pid=ImgRaw&r=0", planting: "June - July", harvest: "3-4 years after planting", nutrients: "Organic manure, Nitrogen", technique: "Clump management, irrigation", weather: "Tropical and subtropical", flowering: "Varies (decades apart)" },
+  { name: "Date Palm", image: "https://tse2.mm.bing.net/th/id/OIP.pKGL8VfjMnCPFIviLtu6_AHaJQ?r=0&cb=thfc1&w=1920&h=2400&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "March - April", harvest: "4-5 years after planting", nutrients: "Organic manure, Potassium", technique: "Offshoot planting, irrigation", weather: "Arid & semi-arid", flowering: "3-4 years after planting" },
+  { 
+  name: "Betel Leaf", 
+  image: "https://cdn.shopify.com/s/files/1/1780/8157/files/other_possible_benefits_of_betel_leaf.jpg?v=1651670450", 
+  planting: "Throughout the year (best during monsoon)", 
+  harvest: "6-8 months after planting", 
+  nutrients: "Nitrogen, Phosphorus, Potassium, Organic manure", 
+  technique: "Shade net cultivation, irrigation, vine training", 
+  weather: "Warm, humid climate with partial shade", 
+  flowering: "Not significant (mainly grown for leaves)" 
+},
+{ 
+  name: "Clove", 
+  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/ClovesDried.jpg/440px-ClovesDried.jpg", 
+  planting: "June - September (monsoon season)", 
+  harvest: "6-8 years after planting, peak yield after 15-20 years", 
+  nutrients: "Nitrogen, Phosphorus, Potassium, Organic manure", 
+  technique: "Seed propagation, shade management, irrigation", 
+  weather: "Tropical, humid climate with good rainfall", 
+  flowering: "August - October" 
+}
+
+
+    ],
+    spicesCondiments: [
+  { name: "Turmeric", image: "https://img.freepik.com/premium-photo/turmeric-isolated-white-background-high-resolution_1029679-12687.jpg", planting: "April - May", harvest: "7-9 months after planting", nutrients: "Nitrogen, Potassium", technique: "Rhizome planting, mulching", weather: "Warm, humid climate", flowering: "6-7 months after planting" },
+  { name: "Ginger", image: "https://cdn.pixabay.com/photo/2017/01/07/14/56/ginger-1960613_1280.jpg", planting: "April - May", harvest: "8-10 months after planting", nutrients: "Nitrogen, Potassium", technique: "Rhizome planting, mulching", weather: "Tropical, humid climate", flowering: "Rarely flowers" },
+  { name: "Garlic", image: "https://www.bitesforfoodies.com/wp-content/uploads/2012/02/garlic3.jpg", planting: "October - November", harvest: "4-5 months after planting", nutrients: "Nitrogen, Phosphorus", technique: "Clove planting, irrigation", weather: "Cool season crop", flowering: "Rarely flowers" },
+  { name: "dry Chili", image: "https://www.startrading.in/wp-content/uploads/2021/03/dry-chilliy.jpg", planting: "June - July / January - February", harvest: "90-120 days after planting", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Seed sowing, transplanting", weather: "Warm climate", flowering: "40-60 days after planting" },
+  { name: "Black Pepper", image: "https://th.bing.com/th/id/R.47f9e9b0b4ac04a6d31b9f301b3d2137?rik=FSMUfGuReAbZ%2fA&riu=http%3a%2f%2fwww.remedyspot.com%2fwp-content%2fuploads%2f2015%2f11%2fblack-pepper-1.jpg&ehk=2CNIFpA7WG5lDcyexBkMczDaRi6OuToDvczeMkIqlCM%3d&risl=&pid=ImgRaw&r=0", planting: "May - June", harvest: "3-4 years after planting", nutrients: "Nitrogen, Phosphorus, Potassium", technique: "Vine training, shade management", weather: "Humid, tropical", flowering: "2-3 years after planting" },
+  { name: "Cardamom", image: "https://th.bing.com/th/id/OIP.JHqBGcS5xkJpdFwCF2JTzQHaGj?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "June - July", harvest: "2-3 years after planting", nutrients: "Organic manure, Potassium", technique: "Shade-loving, irrigation", weather: "Humid, tropical climate", flowering: "2-3 years after planting" },
+  { name: "Coriander", image: "https://cdn.shopify.com/s/files/1/1380/2059/products/Coriander.jpg?v=1480318423", planting: "October - November", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Phosphorus", technique: "Direct sowing, irrigation", weather: "Cool season crop", flowering: "60-70 days after sowing" },
+  { name: "Cumin", image: "https://kj1bcdn.b-cdn.net/media/82075/cumin-seeds.jpg?width=1200", planting: "November - December", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Potassium", technique: "Direct sowing, irrigation", weather: "Cool, dry climate", flowering: "2-3 months after planting" },
+  { name: "Fenugreek", image: "https://th.bing.com/th/id/OIP.DiJGv-wMUYLXwRnmlT0sFgHaHa?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "October - November", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Phosphorus", technique: "Direct sowing, irrigation", weather: "Cool climate", flowering: "40-60 days after planting" },
+  { name: "Mustard ", image: "https://tse3.mm.bing.net/th/id/OIP.hSLxvUIhTsvA12gGSzOsQQHaFj?r=0&pid=ImgDet&w=474&h=355&rs=1&o=7&rm=3", planting: "October - November", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Sulphur", technique: "Direct sowing, irrigation", weather: "Cool season crop", flowering: "50-60 days after sowing" },
+  { name: "Clove", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/ClovesDried.jpg/440px-ClovesDried.jpg", planting: "June - July", harvest: "6-8 years after planting", nutrients: "Nitrogen, Phosphorus", technique: "Tree planting, shade loving", weather: "Humid, tropical climate", flowering: "5-6 years after planting" },
+  { name: "Cinnamon", image: "https://www.tastingtable.com/img/gallery/how-cinnamon-leaves-add-the-extra-spice-youre-looking-for/l-intro-1659643052.jpg", planting: "June - July", harvest: "2-3 years after planting", nutrients: "Nitrogen, Potassium", technique: "Tree bark harvesting", weather: "Tropical, humid", flowering: "2-3 years after planting" },
+  { name: "Bay Leaf", image: "https://5.imimg.com/data5/SELLER/Default/2023/9/344906723/OF/OI/PV/52335755/25kg-bay-leaf-1000x1000.jpeg", planting: "July - August", harvest: "2-3 years after planting", nutrients: "Organic manure", technique: "Tree cultivation, pruning", weather: "Subtropical climate", flowering: "2-3 years after planting" },
+  { name: "Nutmeg", image: "https://static.tnfoodie.in/photo/84742905.cms", planting: "June - July", harvest: "7-8 years after planting", nutrients: "Nitrogen, Potassium", technique: "Tree plantation, shade loving", weather: "Humid tropical climate", flowering: "7 years after planting" },
+  { name: "Mace", image: "https://www.hattonnaturals.com/wp-content/uploads/2017/08/mace-whole.jpg", planting: "June - July", harvest: "Same as Nutmeg", nutrients: "Nitrogen, Potassium", technique: "Obtained from nutmeg fruit", weather: "Humid tropical climate", flowering: "Same as Nutmeg" },
+  { name: "Fennel", image: "https://cdn.pipingrock.com/images/product/facebook/product/fennel-seed-whole-organic-1-lb-4536-g-bag-40436.jpg?v=1621270238", planting: "October - November", harvest: "5-6 months after sowing", nutrients: "Nitrogen, Potassium", technique: "Direct sowing, irrigation", weather: "Cool climate", flowering: "3-4 months after planting" },
+  { name: "Asafoetida", image: "https://www.cultivatornatural.com/wp-content/uploads/2022/07/Ferula-asafoetida-Asafoetida-Hingu-Oleo-gum-resin-1-1280x908.jpg", planting: "November - December", harvest: "5 years after planting", nutrients: "Nitrogen, Potassium", technique: "Latex extraction from root", weather: "Cold, arid climate", flowering: "4-5 years after planting" },
+  { name: "Anise", image: "https://tse2.mm.bing.net/th/id/OIP.ew39wK0sBO-iFaVTNQsHWwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "October - November", harvest: "4-5 months after sowing", nutrients: "Nitrogen, Phosphorus", technique: "Direct sowing", weather: "Cool, dry climate", flowering: "90-120 days after sowing" },
+  { name: "Saffron", image: "https://cdn.i-scmp.com/sites/default/files/d8/images/canvas/2023/02/23/cda5f629-2675-4fe0-9720-8ac4843a225f_b0df3742.jpg", planting: "August - September", harvest: "October - November", nutrients: "Organic manure, Phosphorus", technique: "Corm planting, manual harvesting", weather: "Cold, temperate", flowering: "40-50 days after planting" },
+  { name: "Dill", image: "https://img.freepik.com/premium-photo/fresh-dill_183352-3487.jpg", planting: "October - November", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Potassium", technique: "Direct sowing, irrigation", weather: "Cool climate", flowering: "2-3 months after sowing" }
+],
+
+flowers: [
+  { name: "Rose", image: "https://c4.wallpaperflare.com/wallpaper/551/631/725/roses-red-buds-drops-wallpaper-thumb.jpg", planting: "October - November", harvest: "6 months after planting", nutrients: "Nitrogen, Potassium", technique: "Pruning, irrigation", weather: "Mild climate", flowering: "Year-round" },
+  { name: "Marigold", image: "https://th.bing.com/th/id/R.054ac25281cf1b21feb2689ee34d91a7?rik=JZsVO5yR5Q3MyQ&riu=http%3a%2f%2fgardeningwithcharlie.com%2fwp-content%2fuploads%2f2014%2f01%2fmarigold.jpg&ehk=rT4ui06kU5bqPvx372XalAvNFx2oRHjwafP1CXfczE8%3d&risl=&pid=ImgRaw&r=0", planting: "June - July / October", harvest: "2-3 months after sowing", nutrients: "Nitrogen, Phosphorus", technique: "Direct seeding, pinching", weather: "Warm climate", flowering: "60-70 days after sowing" },
+  { name: "Sunflower", image: "https://th.bing.com/th/id/R.3986eb8c7e01419a57874a5c250ec40f?rik=pXYyVe%2flYSqAJw&riu=http%3a%2f%2feskipaper.com%2fimages%2fsunflower-pictures-3.jpg&ehk=O7fp0soJO%2fm2gLsw%2fNVv9xHwFphcen8ZAuOS4HZ5Xts%3d&risl=&pid=ImgRaw&r=0", planting: "January - March", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Potassium", technique: "Direct seeding", weather: "Sunny climate", flowering: "80-100 days" },
+  { name: "Jasmine", image: "https://static.vecteezy.com/system/resources/previews/033/503/324/large_2x/white-jasmine-flower-blooming-in-the-garden-thailand-beautiful-jasmine-white-flowers-ai-generated-free-photo.jpg", planting: "June - August", harvest: "6-8 months after planting", nutrients: "Nitrogen, Potassium", technique: "Cuttings, irrigation", weather: "Tropical, subtropical", flowering: "March - September" },
+  { name: "Hibiscus", image: "https://tse2.mm.bing.net/th/id/OIP.xGSXr42owNvkNPMRQBWnGgHaFB?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "Throughout year", harvest: "6-8 months after planting", nutrients: "Nitrogen, Potassium", technique: "Cuttings, pruning", weather: "Warm, humid climate", flowering: "Year-round" },
+  { name: "Lotus", image: "https://www.petalrepublic.com/wp-content/uploads/2021/11/White-Lotus-Flower-Meaning-and-Symbolism.jpeg", planting: "March - April", harvest: "4-5 months after planting", nutrients: "Organic manure", technique: "Water pond cultivation", weather: "Warm, sunny", flowering: "Summer season" },
+  { name: "Tulip", image: "https://m.media-amazon.com/images/I/71sQOlkixLL._SL1500_.jpg", planting: "September - November", harvest: "April - May", nutrients: "Phosphorus, Potassium", technique: "Bulb planting", weather: "Cold temperate", flowering: "Spring" },
+  { name: "Daisy", image: "https://flower-meanings.com/wp-content/uploads/2019/08/White-daisies.jpg", planting: "September - November", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Potassium", technique: "Seed sowing", weather: "Cool, temperate", flowering: "Winter - Spring" },
+  { name: "Orchid", image: "https://www.sunset.com/wp-content/uploads/orchids-pc-dmitriy-sidor-getty-1200x600.jpg", planting: "Throughout year", harvest: "1-2 years after planting", nutrients: "Nitrogen, Magnesium", technique: "Tissue culture, shade house", weather: "Humid tropical", flowering: "Year-round" },
+  { name: "Lily", image: "https://tse3.mm.bing.net/th/id/OIP.KOo8JPCyTtlq6-2QiUhD8QHaEo?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "October - December", harvest: "4-5 months after planting", nutrients: "Nitrogen, Phosphorus", technique: "Bulb planting", weather: "Cool climate", flowering: "Summer" },
+  { name: "Carnation", image: "https://tse3.mm.bing.net/th/id/OIP.etkU_OSVqysbOj6vXPIJ3wHaE7?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "September - October", harvest: "5-6 months after planting", nutrients: "Nitrogen, Potassium", technique: "Cuttings, greenhouse", weather: "Cool climate", flowering: "Winter - Spring" },
+  { name: "Chrysanthemum", image: "https://www.backyardgardenlover.com/wp-content/uploads/2023/01/pink-chrysanthemum-flowers-1080x1080.jpg", planting: "June - July", harvest: "3-4 months after planting", nutrients: "Nitrogen, Phosphorus", technique: "Cuttings, pinching", weather: "Mild climate", flowering: "November - December" },
+  { name: "Gladiolus", image: "https://th.bing.com/th/id/R.d41ac2e9dffd424e9f77688fa16ded14?rik=vE2LtrvKU92Pzw&riu=http%3a%2f%2fcdn.shopify.com%2fs%2ffiles%2f1%2f1419%2f7120%2fproducts%2fGladiolus_Mix.IBULB.jpg%3fv%3d1581718558&ehk=%2fQbqkHqNZoWnwd4JMwqLFF26NkbBHTTTV2WrkZ6xrag%3d&risl=&pid=ImgRaw&r=0", planting: "September - November", harvest: "90-120 days after planting", nutrients: "Phosphorus, Potassium", technique: "Corm planting", weather: "Cool climate", flowering: "Winter - Spring" },
+  { name: "Gerbera", image: "https://plantura.garden/uk/wp-content/uploads/sites/2/2022/08/gerbera-care.jpg", planting: "Throughout year (greenhouse)", harvest: "6-8 months after planting", nutrients: "Nitrogen, Potassium", technique: "Tissue culture, irrigation", weather: "Mild climate", flowering: "Year-round" },
+  { name: "Zinnia", image: "https://i.pinimg.com/originals/f4/42/63/f442636f0a2cad22ee852f617dfecaa9.jpg", planting: "March - June", harvest: "60-70 days after sowing", nutrients: "Nitrogen, Potassium", technique: "Direct seeding", weather: "Warm, sunny", flowering: "Summer" },
+  { name: "Petunia", image: "https://cdn.diys.com/wp-content/uploads/2021/09/petunia-varieties.jpg", planting: "October - November", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Potassium", technique: "Seed sowing", weather: "Cool climate", flowering: "Winter - Spring" },
+  { name: "Pansy", image: "https://1.bp.blogspot.com/-3rt88t7lHLE/V57qwwTKnyI/AAAAAAAAFO4/QFs7K_x23_ASHY1qeBW-Qy8ZlfGUF2D0gCLcB/s1600/6.jpg", planting: "October - November", harvest: "3-4 months after sowing", nutrients: "Nitrogen, Phosphorus", technique: "Seed sowing", weather: "Cool climate", flowering: "Winter - Spring" },
+  { name: "Ixora", image: "https://www.jardineriaon.com/wp-content/uploads/2020/02/ixora-casei.jpg", planting: "Throughout year", harvest: "6-8 months after planting", nutrients: "Nitrogen, Potassium", technique: "Cuttings, irrigation", weather: "Tropical, humid", flowering: "Year-round" },
+  { name: "Anthurium", image: "https://gardenerspath.com/wp-content/uploads/2022/03/How-to-Grow-Anthuriums-Feature.jpg", planting: "Throughout year (shade house)", harvest: "1 year after planting", nutrients: "Nitrogen, Magnesium", technique: "Tissue culture, irrigation", weather: "Humid tropical", flowering: "Year-round" },
+  { name: "Bougainvillea", image: "https://3.bp.blogspot.com/-L3hNGNTURec/TdUPViX6SrI/AAAAAAAAAVc/IsQYYfi5eGQ/s1600/bougainvillea.jpg", planting: "Throughout year", harvest: "1 year after planting", nutrients: "Organic manure", technique: "Cuttings, pruning", weather: "Tropical, subtropical", flowering: "Year-round" },
+  { name: "Morning Glory", image: "https://tse1.mm.bing.net/th/id/OIP.2EMHLTo-Siu5ekqMzSAmuAHaEo?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", planting: "March - June", harvest: "2-3 months after sowing", nutrients: "Nitrogen", technique: "Direct seeding, trellis", weather: "Warm climate", flowering: "Summer" },
+  { name: "Calendula", image: "https://www.wallpaperflare.com/static/469/577/198/iii-selective-focus-photo-orange-wallpaper.jpg", planting: "September - October", harvest: "2-3 months after sowing", nutrients: "Nitrogen, Potassium", technique: "Direct seeding", weather: "Cool climate", flowering: "Winter" },
+  { name: "Verbena", image: "https://th.bing.com/th/id/R.7c183085aae22116e9512d766b026cab?rik=sQIa%2beWFtzKOtg&riu=http%3a%2f%2friversidegardencentre.com%2fuserfiles%2fproduct%2f5d25c12836dc3-verbena-homestead-purple.jpg&ehk=Dic%2bDp5aiuQbLOgX94YfH981ojpwfKgAAjzsMTg2J8Q%3d&risl=&pid=ImgRaw&r=0", planting: "October - November", harvest: "3-4 months after sowing", nutrients: "Nitrogen", technique: "Seed sowing", weather: "Cool climate", flowering: "Winter - Spring" },
+  { name: "Snapdragon", image: "https://cdn.mos.cms.futurecdn.net/WZfjqkzhUNCC8e7y6sm3oe-1200-80.jpg", planting: "October - November", harvest: "3-4 months after planting", nutrients: "Nitrogen, Potassium", technique: "Seed sowing", weather: "Cool climate", flowering: "Winter - Spring" },
+  { name: "Sweet Pea", image: "https://cdn.mos.cms.futurecdn.net/hqqzxZYbxxUnuRRAeNo2LH-1280-80.jpeg", planting: "October - November", harvest: "3-4 months after sowing", nutrients: "Phosphorus, Potassium", technique: "Trellis support", weather: "Cool climate", flowering: "Winter - Spring" },
+  { name: "Cockscomb", image: "https://m.media-amazon.com/images/I/51jtS4pZgSL.jpg", planting: "June - July", harvest: "60-70 days after sowing", nutrients: "Nitrogen, Potassium", technique: "Direct seeding", weather: "Warm climate", flowering: "Summer - Autumn" },
+  { name: "Cosmos", image: "https://images.ctfassets.net/zma7thmmcinb/5Aim2qM1usHQ2c93tDoknS/9df658c5c5d7f311d4bc4a74a91c0ba7/Cosmos-flowers-lead.jpg", planting: "March - June", harvest: "2-3 months after sowing", nutrients: "Nitrogen", technique: "Direct seeding", weather: "Warm, sunny", flowering: "Summer" },
+  { name: "Dahlia", image: "https://www.thespruce.com/thmb/NCq9ZV_nrU26kY0fn046j13CMdU=/1807x1200/filters:fill(auto,1)/157680732-56a34a573df78cf7727cba3a.jpg", planting: "September - November", harvest: "4-5 months after planting", nutrients: "Nitrogen, Phosphorus", technique: "Tubers planting", weather: "Cool climate", flowering: "Winter - Spring" },
+  { name: "Aster", image: "https://jooinn.com/images/flower-of-aster-5.jpg", planting: "September - October", harvest: "3-4 months after planting", nutrients: "Nitrogen, Potassium", technique: "Seed sowing", weather: "Cool, temperate", flowering: "Winter - Spring" },
+  { name: "Bluebell", image: "https://cdn.britannica.com/37/197837-050-5FEE29C1/Flowers-bluebell-English-hyacinth.jpg", planting: "September - November", harvest: "Spring season", nutrients: "Nitrogen, Phosphorus", technique: "Bulb planting", weather: "Cool temperate", flowering: "Spring" }
+  ]
+
+
+
+
+
+
+
+
+    };
+
+    const cropSelect = document.getElementById('cropType');
+    const cardsDiv = document.getElementById('cards');
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modal-body');
+    const searchBar = document.getElementById('searchBar');
+
+    function displayCards(data){
+      cardsDiv.innerHTML = "";
+      if(data.length > 0){
+        data.forEach(item => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          card.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <h3>${item.name}</h3>
+          `;
+          card.addEventListener('click', () => showDetails(item));
+          cardsDiv.appendChild(card);
+        });
+      } else {
+        cardsDiv.innerHTML = "<p>No crops found.</p>";
+      }
+    }
+
+    cropSelect.addEventListener('change', () => {
+      const value = cropSelect.value;
+      if(value && cropsData[value]){
+        displayCards(cropsData[value]);
+      } else {
+        cardsDiv.innerHTML = "<p>Please select a crop type to view farming tips.</p>";
+      }
+    });
+
+    searchBar.addEventListener('input', () => {
+      const query = searchBar.value.toLowerCase();
+      let results = [];
+      for(const category in cropsData){
+        results = results.concat(cropsData[category].filter(crop => crop.name.toLowerCase().includes(query)));
+      }
+      if(query){
+        displayCards(results);
+      } else {
+        cardsDiv.innerHTML = "<p>Please select a crop type or search to view farming tips.</p>";
+      }
+    });
+
+    function showDetails(item){
+      modalBody.innerHTML = `
+        <h3>${item.name}</h3>
+        <p><strong>Planting Time:</strong> ${item.planting}</p>
+        <p><strong>Flowering Time:</strong> ${item.flowering}</p>
+        <p><strong>Harvest Time:</strong> ${item.harvest}</p>
+        <p><strong>Nutrients:</strong> ${item.nutrients}</p>
+        <p><strong>High Yield Technique:</strong> ${item.technique}</p>
+        <p><strong>Suitable Weather:</strong> ${item.weather}</p>
+        
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal(){
+      modal.style.display = "none";
+    }
+  </script>
+</body>
+</html>
