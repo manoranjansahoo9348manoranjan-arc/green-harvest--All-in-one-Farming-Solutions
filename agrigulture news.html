@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crop News Auto-Updater</title>
+  <link rel="icon" type="image" href="logo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      background: #f9fff9; 
+      color: #333; 
+      margin: 0; 
+      padding: 0;
+    }
+
+    /* Header */
+    header.page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2e7d32;
+      color: white;
+      padding: 12px 16px;
+      font-size: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Google Translate in header */
+    .goog-te-gadget {
+      font-size: 0 !important;
+      height: 24px !important;
+      overflow: hidden !important;
+    }
+    .goog-te-gadget img {
+      display: none !important;
+    }
+    #google_translate_element select {
+      padding: 0 4px !important;
+      font-size: 13px !important;
+      height: 28px !important;
+      line-height: 18px !important;
+      border-radius: 4px;
+      border: none !important;
+      background: #ffffff;
+      color: #333;
+    }
+
+    /* News container */
+    .news-container { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+      gap: 20px; 
+      padding: 20px; 
+      justify-items: center;
+    }
+
+    .news-card { 
+      background: #fff; 
+      border-radius: 10px; 
+      padding: 15px; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 320px;
+      min-height: 450px;
+      box-sizing: border-box;
+    }
+
+    .news-card img { 
+      width: 100%; 
+      height: 180px; 
+      object-fit: cover;
+      border-radius: 6px; 
+      margin-bottom: 10px;
+    }
+
+    .news-card h2 { 
+      font-size: 1.1em; 
+      color: #2e7d32; 
+      margin: 10px 0; 
+      flex-grow: 0;
+    }
+
+    .news-card p { 
+      font-size: 0.95em; 
+      line-height: 1.4; 
+      flex-grow: 1;
+      margin-bottom: 10px;
+    }
+
+    .btn { 
+      text-decoration: none; 
+      background: #2e7d32; 
+      color: white; 
+      padding: 8px 12px; 
+      border-radius: 6px; 
+      display: inline-block; 
+      text-align: center;
+    }
+
+    footer { 
+      text-align: center; 
+      padding: 12px; 
+      color: #555; 
+      background: #e8f5e9;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+      .news-card {
+        max-width: 100%;
+        min-height: auto;
+      }
+      header.page-header {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header with Google Translate -->
+  <header class="page-header">
+    <div>🌱 Agriculture News</div>
+    <div id="google_translate_element"></div>
+  </header>
+
+  <!-- Main News Content -->
+  <main>
+    <div id="news" class="news-container">
+      <p>Loading news...</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Green Harvest
+  </footer>
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,bn,te,ta,mr,gu,kn,ml,or,pb,as,ne,sd,pa,ur',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- News Fetch Script -->
+  <script>
+    const apiKey = 'pub_ef055896b0b4472488dc9d07e2104697';
+    const endpoint = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=crop OR agriculture&language=en`;
+
+    async function fetchAgricultureNews() {
+      try {
+        const resp = await fetch(endpoint);
+        const data = await resp.json();
+
+        const newsDiv = document.getElementById('news');
+        newsDiv.innerHTML = '';
+
+        if (!data.results || data.results.length === 0) {
+          newsDiv.innerHTML = "<p>No agriculture news found.</p>";
+          return;
+        }
+
+        data.results.slice(0,5).forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'news-card';
+
+          if (item.image_url) {
+            const img = document.createElement('img');
+            img.src = item.image_url;
+            card.appendChild(img);
+          }
+
+          const h2 = document.createElement('h2');
+          h2.textContent = item.title;
+          card.appendChild(h2);
+
+          const p = document.createElement('p');
+          p.textContent = item.description || "No description available.";
+          card.appendChild(p);
+
+          const a = document.createElement('a');
+          a.href = item.link;
+          a.textContent = 'Read more';
+          a.className = 'btn';
+          a.target = '_blank';
+          card.appendChild(a);
+
+          newsDiv.appendChild(card);
+        });
+      } catch (e) {
+        console.error('Error fetching news:', e);
+        document.getElementById('news').innerHTML = "<p>⚠️ Failed to load news (CORS issue). Try running on a server.</p>";
+      }
+    }
+
+    fetchAgricultureNews();
+  </script>
+
+</body>
+</html>
