@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>📊 Farm Sustainability Insights</title>
+<link rel="icon" type="image" href="logo1.png" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #f0fdf4, #ffffff);
+  margin: 0;
+  padding: 15px;
+  color: #333;
+  transition: 0.3s;
+}
+body.dark { background: #111827; color: #f3f4f6; }
+
+h1 { text-align: center; color: #166534; margin-bottom: 15px; font-size: 22px; }
+body.dark h1 { color: #22c55e; }
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.buttons button {
+  padding: 8px 15px;
+  margin: 3px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  background: #e5e7eb;
+  transition: 0.3s;
+}
+.buttons button.active { background: #22c55e; color: #fff; }
+.buttons button:hover { background: #d1d5db; }
+
+.summary {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 15px auto;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.summary::-webkit-scrollbar { display: none; }
+.summary .card {
+  min-width: 140px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  font-weight: bold;
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+body.dark .summary .card { background: #1f2937; color: #f3f4f6; }
+
+#dashboard {
+  display: flex;
+  flex-wrap: wrap; /* wrap cards to new lines on smaller screens */
+  gap: 15px;
+  margin-bottom: 15px;
+}
+#dashboard .card {
+  flex: 1 1 300px; /* grow, shrink, min width */
+  min-width: 280px;
+}
+
+.card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+body.dark .card { background: #1f2937; color: #f3f4f6; }
+.card h2 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #065f46;
+}
+body.dark .card h2 { color: #22c55e; }
+
+canvas { 
+  width: 100% !important; 
+  height: auto !important; 
+  max-height: 300px; 
+}
+
+/* Farmer Tip & Progress Card */
+.tips {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #065f46;
+}
+.progress-bar {
+  width: 100%;
+  background: #d1fae5;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 14px;
+  margin-top: 8px;
+}
+.progress-fill {
+  height: 100%;
+  background: #22c55e;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0px !important; }
+
+@media (max-width: 768px) {
+  #dashboard {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+<h1>📊 Farm Sustainability Insights</h1>
+
+<!-- Google Translate -->
+<div id="google_translate_element"></div>
+
+<div class="top-bar">
+  <div class="buttons">
+    <button id="monthlyBtn" class="active">Monthly</button>
+    <button id="yearlyBtn">Yearly</button>
+  </div>
+  <div>
+    <button id="downloadBtn">⬇️ Report</button>
+    <button id="darkModeBtn">🌙 Dark Mode</button>
+  </div>
+</div>
+
+<!-- Summary Cards -->
+<div id="summaryCards" class="summary">
+  <div class="card" id="yieldCard">🌾 Yield 0%</div>
+  <div class="card" id="waterCard">💧 Water 0%</div>
+  <div class="card" id="energyCard">⚡ 0% Renewable</div>
+  <div class="card" id="carbonCard">☀️ Carbon 0%</div>
+</div>
+
+<div id="dashboard">
+  <div class="card">
+    <h2>🌾 Crop Yield Progress</h2>
+    <canvas id="yieldChart"></canvas>
+  </div>
+  <div class="card">
+    <h2>💧 Water Usage Efficiency</h2>
+    <canvas id="waterChart"></canvas>
+  </div>
+  <div class="card">
+    <h2>⚡ Energy Source Mix</h2>
+    <canvas id="energyChart"></canvas>
+  </div>
+  <div class="card">
+    <h2>🌱 Soil Health Index</h2>
+    <canvas id="soilChart"></canvas>
+  </div>
+  <div class="card">
+    <h2>☀️ Carbon Footprint Trend</h2>
+    <canvas id="carbonChart"></canvas>
+  </div>
+
+  <!-- New Feature: Tips & Progress Card -->
+  <div class="card">
+    <h2>💡 Tips & Rewards</h2>
+    <div class="tips" id="tips">
+      Welcome! 🌱 Remember to rotate crops to improve soil health. 💧 Reduce water usage with drip irrigation.
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="rewardProgress"></div>
+    </div>
+    <div style="margin-top:6px; font-size:12px; color:#065f46;">Reward Progress: <span id="progressText">0%</span></div>
+  </div>
+</div>
+
+<script>
+let yieldChart, waterChart, energyChart, soilChart, carbonChart;
+
+const monthlyData = {
+  yield: [40, 55, 65, 80, 95, 110],
+  water: [120, 100, 90, 70, 65, 50],
+  energy: [60, 40],
+  soil: [75, 25],
+  carbon: [120, 110, 100, 95, 90, 85],
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+};
+const yearlyData = {
+  yield: [600, 720, 840, 900, 1050, 1200],
+  water: [1400, 1300, 1250, 1100, 1000, 950],
+  energy: [70, 30],
+  soil: [80, 20],
+  carbon: [700, 680, 650, 600, 580, 550],
+  labels: ["2019", "2020", "2021", "2022", "2023", "2024"]
+};
+
+function updateSummary(data){
+  const yieldChange = (((data.yield[data.yield.length-1]-data.yield[0])/data.yield[0])*100).toFixed(1);
+  const waterChange = (((data.water[0]-data.water[data.water.length-1])/data.water[0])*100).toFixed(1);
+  const renewablePercent = data.energy[0];
+  const carbonChange = (((data.carbon[0]-data.carbon[data.carbon.length-1])/data.carbon[0])*100).toFixed(1);
+
+  const yieldCard = document.getElementById("yieldCard");
+  yieldCard.innerText = `🌾 Yield ${yieldChange>0?'↑':'↓'} ${Math.abs(yieldChange)}%`;
+  yieldCard.style.background = yieldChange>0?'#d1fae5':'#fee2e2';
+  yieldCard.style.color = yieldChange>0?'#065f46':'#b91c1c';
+
+  const waterCard = document.getElementById("waterCard");
+  waterCard.innerText = `💧 Water ${waterChange>0?'↓':'↑'} ${Math.abs(waterChange)}%`;
+  waterCard.style.background = waterChange>0?'#d1fae5':'#fee2e2';
+  waterCard.style.color = waterChange>0?'#065f46':'#b91c1c';
+
+  const energyCard = document.getElementById("energyCard");
+  energyCard.innerText = `⚡ ${renewablePercent}% Renewable`;
+  energyCard.style.background = '#d1fae5';
+  energyCard.style.color = '#065f46';
+
+  const carbonCard = document.getElementById("carbonCard");
+  carbonCard.innerText = `☀️ Carbon ${carbonChange>0?'↓':'↑'} ${Math.abs(carbonChange)}%`;
+  carbonCard.style.background = carbonChange>0?'#d1fae5':'#fee2e2';
+  carbonCard.style.color = carbonChange>0?'#065f46':'#b91c1c';
+}
+
+function createCharts(data){
+  if(yieldChart) yieldChart.destroy();
+  if(waterChart) waterChart.destroy();
+  if(energyChart) energyChart.destroy();
+  if(soilChart) soilChart.destroy();
+  if(carbonChart) carbonChart.destroy();
+
+  yieldChart = new Chart(document.getElementById('yieldChart'), {
+    type:'line',
+    data:{labels:data.labels,datasets:[{label:'Yield (kg)',data:data.yield,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.2)',fill:true,tension:0.4}]},
+    options:{responsive:true, maintainAspectRatio:false}
+  });
+  waterChart = new Chart(document.getElementById('waterChart'), {
+    type:'bar',
+    data:{labels:data.labels,datasets:[{label:'Water Usage (litres)',data:data.water,backgroundColor:'#3b82f6'}]},
+    options:{responsive:true, maintainAspectRatio:false}
+  });
+  energyChart = new Chart(document.getElementById('energyChart'), {
+    type:'pie',
+    data:{labels:["Renewable Energy","Non-Renewable"],datasets:[{data:data.energy,backgroundColor:['#4ade80','#f87171']}]},
+    options:{responsive:true, maintainAspectRatio:false}
+  });
+  soilChart = new Chart(document.getElementById('soilChart'), {
+    type:'doughnut',
+    data:{labels:["Healthy Soil","Degraded Soil"],datasets:[{data:data.soil,backgroundColor:['#10b981','#f59e0b']}]},
+    options:{responsive:true, maintainAspectRatio:false}
+  });
+  carbonChart = new Chart(document.getElementById('carbonChart'), {
+    type:'line',
+    data:{labels:data.labels,datasets:[{label:'Carbon Emissions (kg CO₂)',data:data.carbon,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.2)',fill:true,tension:0.4}]},
+    options:{responsive:true, maintainAspectRatio:false}
+  });
+
+  updateSummary(data);
+}
+
+createCharts(monthlyData);
+
+document.getElementById("monthlyBtn").addEventListener("click",()=>{
+  document.getElementById("monthlyBtn").classList.add("active");
+  document.getElementById("yearlyBtn").classList.remove("active");
+  createCharts(monthlyData);
+});
+document.getElementById("yearlyBtn").addEventListener("click",()=>{
+  document.getElementById("yearlyBtn").classList.add("active");
+  document.getElementById("monthlyBtn").classList.remove("active");
+  createCharts(yearlyData);
+});
+
+document.getElementById("darkModeBtn").addEventListener("click",()=>{
+  document.body.classList.toggle("dark");
+});
+
+document.getElementById("downloadBtn").addEventListener("click",()=>{
+  html2canvas(document.getElementById("dashboard")).then(canvas=>{
+    const imgData = canvas.toDataURL("image/png");
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+    pdf.addImage(imgData,"PNG",10,10,180,100);
+    pdf.save("Farm_Insights_Report.pdf");
+  });
+});
+
+// Simulate reward progress and tips
+let rewardProgress = 0;
+const tipsList = [
+  "🌱 Rotate crops for healthy soil.",
+  "💧 Reduce water with drip irrigation.",
+  "⚡ Use renewable energy for pumps.",
+  "☀️ Maintain compost for carbon reduction.",
+  "🪱 Encourage natural predators for pests."
+];
+setInterval(()=>{
+  // Update reward progress
+  rewardProgress += Math.floor(Math.random()*10);
+  if(rewardProgress>100) rewardProgress=0;
+  document.getElementById("rewardProgress").style.width = rewardProgress + "%";
+  document.getElementById("progressText").innerText = rewardProgress + "%";
+
+  // Update tip dynamically
+  const tip = tipsList[Math.floor(Math.random()*tipsList.length)];
+  document.getElementById("tips").innerText = tip;
+},5000);
+
+// Live update simulation
+setInterval(()=>{
+  monthlyData.yield.push(Math.floor(Math.random()*150));
+  monthlyData.yield.shift();
+  monthlyData.water.push(Math.floor(Math.random()*130));
+  monthlyData.water.shift();
+  monthlyData.carbon.push(Math.floor(Math.random()*130));
+  monthlyData.carbon.shift();
+  monthlyData.labels.push("New");
+  monthlyData.labels.shift();
+
+  yieldChart.data.datasets[0].data = monthlyData.yield;
+  yieldChart.data.labels = monthlyData.labels;
+  yieldChart.update();
+  updateSummary(monthlyData);
+},5000);
+
+// Google Translate
+function googleTranslateElementInit(){
+  new google.translate.TranslateElement({
+    pageLanguage:'en',
+    includedLanguages:'hi,kn,ml,mr,ta,te,bn,gu,pa,or,ur,as,ks,mai,sd',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  },'google_translate_element');
+}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
