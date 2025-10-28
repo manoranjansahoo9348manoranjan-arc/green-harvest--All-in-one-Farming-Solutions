@@ -7,108 +7,277 @@
   <link rel="icon" type="image" href="logo1.png">
 
   <style>
-    body { font-family: Arial, sans-serif; margin:0; background:#f0fff0; color:#333; }
-    header { background: linear-gradient(90deg, #2e7d32, #388e3c); color:white; padding:15px 30px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000; }
-    header img { height:50px; }
-    header h1 { margin-left:15px; flex:1; font-size:1.8rem; }
-    nav ul { list-style:none; display:flex; gap:20px; }
-    nav ul li a { text-decoration:none; color:white; padding:8px 14px; border-radius:5px; transition:0.3s; }
-    nav ul li a:hover { background:#66bb6a; }
-    .menu-toggle { display:none; flex-direction:column; cursor:pointer; }
-    .menu-toggle div { width:25px; height:3px; background:white; margin:4px 0; }
-    @media(max-width:768px){ nav ul { display:none; flex-direction:column; background:#2e7d32; position:absolute; top:70px; right:0; width:200px; padding:15px; border-radius:5px; } nav ul.show { display:flex; } .menu-toggle { display:flex; } }
-    .hero { background:url('https://wallpaperaccess.com/full/137506.jpg') no-repeat center center/cover; height:80vh; display:flex; align-items:center; justify-content:center; text-align:center; color:white; position:relative; }
-    .hero::before { content:""; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.45); }
-    .hero-content { position:relative; z-index:1; }
-    .hero-content h2 { font-size:3rem; margin-bottom:12px; }
-    .hero-content p { font-size:1.2rem; max-width:700px; margin:auto; }
-    .interactive-section { padding:60px 20px; text-align:center; background:#f1fff1; }
-    .interactive-section h2 { font-size:2.5rem; color:#2e7d32; margin-bottom:25px; }
-    .interactive-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:20px; }
-    .interactive-card { background:#e0f2f1; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform 0.3s ease; }
-    .interactive-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.12); }
-    .interactive-card h3 { color:#00796b; margin-bottom:10px; }
-    .interactive-card img { width:100%; border-radius:8px; margin-bottom:10px; }
-    footer { background:#2e7d32; color:white; text-align:center; padding:18px; margin-top:40px; }
-    .multi-images {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-.multi-images img {
-  width: 30%;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.multi-images img:hover {
-  transform: scale(1.05);
-}
+    body { 
+      font-family: Arial, sans-serif; 
+      margin:0; 
+      background:#f0fff0; 
+      color:#333; 
+      padding-bottom:60px; /* space for bottom nav */
+    }
 
-/* Lightbox styles */
-#lightbox {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
-#lightbox img {
-  max-width: 90%;
-  max-height: 80%;
-  border-radius: 10px;
-}
-#lightbox span {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 40px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-}
-.card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.card-link:hover .interactive-card {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
+    /* Header Section */
+    header { 
+      background: linear-gradient(90deg, #2e7d32, #43a047); 
+      color:white; 
+      padding:10px 15px; 
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      position:sticky; 
+      top:0; 
+      z-index:1000; 
+      box-shadow:0 2px 8px rgba(0,0,0,0.2);
+      flex-wrap: nowrap; /* keep one row */
+    }
 
+    header img { 
+      height:55px; 
+      width:auto;
+      border-radius:8px;
+      background:white;
+      padding:3px;
+      box-shadow:0 0 5px rgba(255,255,255,0.6);
+      flex-shrink:0;
+    }
 
+    header h1 { 
+      font-size:1.8rem; 
+      margin:0; 
+      white-space:nowrap;
+      font-weight:bold;
+      text-shadow:1px 1px 3px rgba(0,0,0,0.3);
+      flex-shrink:0;
+    }
+
+    /* Marquee (Center Aligned) */
+    .marquee {
+      flex:1;
+      margin:0 15px;
+      overflow:hidden;
+      white-space:nowrap;
+      text-align:center;
+      min-width:0; /* prevents flex overflow */
+    }
+
+    .marquee p {
+      display:inline-block;
+      animation: scrollText 15s linear infinite;
+      font-size:1rem;
+      color:#fff;
+      text-shadow:1px 1px 2px rgba(0,0,0,0.4);
+    }
+
+    @keyframes scrollText {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    /* Hero Section */
+    .hero { 
+      background:url('https://wallpaperaccess.com/full/137506.jpg') no-repeat center center/cover; 
+      height:80vh; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      text-align:center; 
+      color:white; 
+      position:relative; 
+    }
+
+    .hero::before { 
+      content:""; 
+      position:absolute; 
+      top:0; left:0; right:0; bottom:0; 
+      background:rgba(0,0,0,0.45); 
+    }
+
+    .hero-content { 
+      position:relative; 
+      z-index:1; 
+      padding:20px; 
+    }
+
+    .hero-content h2 { font-size:2.8rem; margin-bottom:10px; }
+    .hero-content p { font-size:1.2rem; }
+
+    /* Interactive Section */
+    .interactive-section { 
+      padding:60px 20px; 
+      text-align:center; 
+      background:#f1fff1; 
+    }
+
+    .interactive-section h2 { 
+      font-size:2.5rem; 
+      color:#2e7d32; 
+      margin-bottom:25px; 
+    }
+
+    /* Interactive Card */
+    .interactive-card { 
+      background:#e0f2f1; 
+      padding:20px; 
+      border-radius:12px; 
+      box-shadow:0 4px 12px rgba(0,0,0,0.08); 
+      transition:transform 0.3s ease; 
+      margin-bottom:25px; 
+    }
+
+    .interactive-card:hover { 
+      transform:translateY(-5px); 
+      box-shadow:0 8px 20px rgba(0,0,0,0.12); 
+    }
+
+    .interactive-card h3 { 
+      color:#00796b; 
+      margin-bottom:10px; 
+    }
+
+    .interactive-card img { 
+      width:100%; 
+      border-radius:8px; 
+      margin-bottom:10px; 
+    }
+
+    .card-link { 
+      text-decoration:none; 
+      color:inherit; 
+      display:block; 
+    }
+
+    .card-link:hover .interactive-card { 
+      transform: translateY(-5px); 
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+    }
+
+    /* Calendar multi-images layout */
+    .multi-images { 
+      display: flex; 
+      gap: 8px; 
+      justify-content: center; 
+      margin-bottom: 10px; 
+      flex-wrap: wrap;
+    }
+
+    .multi-images img { 
+      width: 30%; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      transition: transform 0.2s; 
+    }
+
+    .multi-images img:hover { 
+      transform: scale(1.05); 
+    }
+
+    /* Footer */
+    footer { 
+      background:transparent; 
+      color:black; 
+      text-align:center; 
+      padding:15px; 
+      margin-top:40px; 
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      display:flex;
+      position:fixed;
+      bottom:0;
+      left:0;
+      width:100%;
+      background:#2e7d32;
+      color:white;
+      justify-content:space-around;
+      align-items:center;
+      padding:8px 0;
+      z-index:999;
+      box-shadow:0 -2px 8px rgba(0,0,0,0.2);
+    }
+
+    .bottom-nav a {
+      text-decoration:none;
+      color:white;
+      text-align:center;
+      font-size:0.85rem;
+    }
+
+    .bottom-nav span {
+      display:block;
+      font-size:1.5rem;
+    }
+
+    /* Lightbox styles */
+    #lightbox {
+      display:none;
+      position:fixed;
+      z-index:2000;
+      left:0; top:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.8);
+      justify-content:center;
+      align-items:center;
+    }
+
+    #lightbox img { 
+      max-width:90%; 
+      max-height:80%; 
+      border-radius:10px; 
+    }
+
+    #lightbox span { 
+      position:absolute; 
+      top:20px; 
+      right:30px; 
+      font-size:40px; 
+      font-weight:bold; 
+      color:white; 
+      cursor:pointer; 
+    }
+
+    /* Responsive Fix — KEEP header row same on mobile */
+    @media (max-width:600px) {
+      header {
+        flex-direction: row; /* keep same as desktop */
+        justify-content: space-between;
+      }
+      header img {
+        height:45px;
+      }
+      .marquee p {
+        font-size:0.85rem;
+      }
+      header h1 {
+        font-size:1.3rem;
+      }
+    }
   </style>
 
-  <script type="text/javascript">
-    function toggleMenu() { const nav = document.querySelector('nav ul'); nav.classList.toggle('show'); }
+  <script>
+    function openLightbox(src) {
+      document.getElementById("lightbox").style.display = "flex";
+      document.getElementById("lightbox-img").src = src;
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
   </script>
 </head>
 <body>
+  <!-- Header -->
   <header>
     <img src="baner.png" alt="Logo">
-    <h1>Green Harvest</h1>
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
+    <div class="marquee">
+      <p>🌱 Welcome to Green Harvest — Empowering Farmers for a Sustainable Future 🌾</p>
     </div>
-    <nav>
-      <ul>
-        <li><a href="news.html">Information</a></li>
-        <li><a href="aboutus.html">About</a></li>
-        <li><a href="service.html">Buy🛒</a></li>
-        <li><a href="contactus.html">Contact</a></li>
-      </ul>
-    </nav>
+    <h1>Green Harvest</h1>
   </header>
 
+  <!-- Google Translate -->
   <div id="google_translate_element" style="text-align:center; padding:10px;"></div>
 
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h2>Grow with Nature</h2>
@@ -116,74 +285,84 @@
     </div>
   </section>
 
-  <!-- Interactive Farmer Tools Section -->
+  <!-- Main Section -->
   <section class="interactive-section">
     <h2>Farmer Tools & Resources</h2>
+
+    <!-- Calendar Section -->
     <div class="interactive-card">
-  <div class="multi-images">
-    <img src="https://tse2.mm.bing.net/th/id/OIP.uJwmMYltMtSGysuCKW0ccAAAAA?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Crop Calendar 1" onclick="openLightbox(this.src)">
-    <img src="https://cambodiaagriculture.com/wp-content/uploads/2022/03/Crop-calendar-M5-8_EN-scaled.jpg" alt="Crop Calendar 2" onclick="openLightbox(this.src)">
-    <img src="https://tse1.mm.bing.net/th/id/OIP.KpgEzjO0P6s01nKq4mdsYgAAAA?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Crop Calendar 3" onclick="openLightbox(this.src)">
-  </div>
-  <h3>Crop Calendar</h3>
-  <p>Check seasonal sowing and harvesting dates for your region.</p>
-</div>
-
-      <a href="Market Prices.html" class="card-link">
-  <div class="interactive-card">
-    <img src="https://tci.cornell.edu/wp-content/uploads/2021/08/Fruit_Mandi_by_PradeepGaurs_Shutterstock.jpg" alt="Market Prices">
-    <h3>Market Prices</h3>
-    <p>Get the latest wholesale and retail prices of crops nearby.</p>
-  </div>
-</a>
-
-<a href="wheather.html" class="card-link">
-  <div class="interactive-card">
-    <img src="https://cdn.vectorstock.com/i/500p/04/95/weather-forecast-app-interface-widget-vector-39490495.jpg" alt="Weather Info">
-    <h3>Weather Info</h3>
-    <p>Access real-time weather updates and alerts to plan your farming activities.</p>
-  </div>
-</a>
-
-<a href="service.html" class="card-link">
-  <div class="interactive-card">
-    <img src="https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg" alt="Fertilizer Recommendations">
-    <h3>Fertilizer Recommendations</h3>
-    <p>Guidelines for optimal fertilizer use based on soil type and crop.</p>
-  </div>
-</a>
-
-<a href="service.html" class="card-link">
-  <div class="interactive-card">
-    <img src="https://img.freepik.com/premium-vector/pest-control-disinfestation-sanitary-service_8071-34129.jpg" alt="Pest & Disease Alerts">
-    <h3>Pest & Disease Alerts</h3>
-    <p>Stay informed about regional pest outbreaks and preventive measures.</p>
-  </div>
-</a>
-
-<a href="youtubepage.html" class="card-link">
-  <div class="interactive-card">
-    <img src="https://media.istockphoto.com/id/1353769234/photo/training-and-skill-development-concept-with-icons-of-online-course-conference-seminar-webinar.jpg?s=612x612&w=0&k=20&c=2YJG1My6Lu1T1FnzIPbimRNORcSbSuz6A8zb7HKNpx4=" alt="Training & Tutorials">
-    <h3>Training & Tutorials</h3>
-    <p>Access video guides and tutorials on modern and organic farming methods.</p>
-  </div>
-</a>
-
-<a href="Success Stories.html" class="card-link">
-  <div class="interactive-card">
-    <img src="https://www.sunrisehelps.com/wp-content/uploads/2019/06/success-stories-graphic.png" alt="Success Stories">
-    <h3>Success Stories</h3>
-    <p>Read stories of farmers improving yield using sustainable practices.</p>
-  </div>
-</a>
-
+      <div class="multi-images">
+        <img src="https://tse2.mm.bing.net/th/id/OIP.uJwmMYltMtSGysuCKW0ccAAAAA?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Crop Calendar 1" onclick="openLightbox(this.src)">
+        <img src="https://cambodiaagriculture.com/wp-content/uploads/2022/03/Crop-calendar-M5-8_EN-scaled.jpg" alt="Crop Calendar 2" onclick="openLightbox(this.src)">
+        <img src="https://tse1.mm.bing.net/th/id/OIP.KpgEzjO0P6s01nKq4mdsYgAAAA?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Crop Calendar 3" onclick="openLightbox(this.src)">
+      </div>
+      <h3>Crop Calendar</h3>
+      <p>Check seasonal sowing and harvesting dates for your region.</p>
     </div>
+
+    <a href="Market Prices.html" class="card-link">
+      <div class="interactive-card">
+        <img src="https://tci.cornell.edu/wp-content/uploads/2021/08/Fruit_Mandi_by_PradeepGaurs_Shutterstock.jpg" alt="Market Prices">
+        <h3>Market Prices</h3>
+        <p>Get the latest wholesale and retail crop prices nearby.</p>
+      </div>
+    </a>
+
+    <a href="wheather.html" class="card-link">
+      <div class="interactive-card">
+        <img src="https://cdn.vectorstock.com/i/500p/04/95/weather-forecast-app-interface-widget-vector-39490495.jpg" alt="Weather Info">
+        <h3>Weather Info</h3>
+        <p>Access real-time weather updates and alerts to plan your farming activities.</p>
+      </div>
+    </a>
+
+    <a href="service.html" class="card-link">
+      <div class="interactive-card">
+        <img src="https://eos.com/wp-content/uploads/2023/11/components-of-different-types-of-fertilizers.jpg" alt="Fertilizer Recommendations">
+        <h3>Fertilizer Recommendations</h3>
+        <p>Get best fertilizer use based on soil and crop.</p>
+      </div>
+    </a>
+
+    <a href="service.html" class="card-link">
+      <div class="interactive-card">
+        <img src="https://img.freepik.com/premium-vector/pest-control-disinfestation-sanitary-service_8071-34129.jpg" alt="Pest & Disease Alerts">
+        <h3>Pest & Disease Alerts</h3>
+        <p>Stay informed about regional pest outbreaks.</p>
+      </div>
+    </a>
+
+    <a href="youtubepage.html" class="card-link">
+      <div class="interactive-card">
+        <img src="https://media.istockphoto.com/id/1353769234/photo/training-and-skill-development-concept-with-icons-of-online-course-conference-seminar-webinar.jpg?s=612x612&w=0&k=20&c=2YJG1My6Lu1T1FnzIPbimRNORcSbSuz6A8zb7HKNpx4=" alt="Training & Tutorials">
+        <h3>Training & Tutorials</h3>
+        <p>Watch videos on modern and organic farming.</p>
+      </div>
+    </a>
+
+    <a href="Success Stories.html" class="card-link">
+      <div class="interactive-card">
+        <img src="https://www.sunrisehelps.com/wp-content/uploads/2019/06/success-stories-graphic.png" alt="Success Stories">
+        <h3>Success Stories</h3>
+        <p>Read farmer stories of improved yield and profit.</p>
+      </div>
+    </a>
   </section>
 
   <footer>
     <p>&copy; 2025 Green Harvest. All rights reserved.</p>
   </footer>
 
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="service.html"><span>🛒</span>Buy</a>
+    <a href="news.html"><span>ℹ️</span>Information</a>
+    <a href="wheather.html"><span>☁️</span>Weather</a>
+    <a href="contactus.html"><span>📞</span>Contact</a>
+    <a href="aboutus.html"><span>👩‍🌾</span>About</a>
+  </div>
+
+  <!-- Google Translate -->
   <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
@@ -193,22 +372,12 @@
       }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
   <!-- Lightbox -->
-<div id="lightbox" onclick="closeLightbox()">
-  <span>&times;</span>
-  <img id="lightbox-img" src="" alt="Expanded Image">
-</div>
-
-<script>
-  function openLightbox(src) {
-    document.getElementById("lightbox").style.display = "flex";
-    document.getElementById("lightbox-img").src = src;
-  }
-  function closeLightbox() {
-    document.getElementById("lightbox").style.display = "none";
-  }
-</script>
-
+  <div id="lightbox" onclick="closeLightbox()">
+    <span>&times;</span>
+    <img id="lightbox-img" src="" alt="Expanded Image">
+  </div>
 </body>
 </html>
