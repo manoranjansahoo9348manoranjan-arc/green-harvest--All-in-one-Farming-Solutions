@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sustainable Farming Quiz</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background:#f4faf4; color:#333; }
+    header { background:#2e7d32; color:#fff; padding:1rem; text-align:center; }
+    .section { max-width:900px; margin:2rem auto; padding:1rem; }
+
+    /* Category Cards */
+    .card-container { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1.5rem; }
+    .card {
+      background:#fff; border-radius:12px; padding:1.5rem;
+      box-shadow:0 4px 8px rgba(0,0,0,.1); text-align:center;
+    }
+    .card h3 { margin:0 0 1rem; color:#2e7d32; }
+    .card button {
+      background:#1976d2; color:#fff; border:none; border-radius:8px;
+      padding:0.6rem 1.2rem; cursor:pointer; font-weight:bold;
+    }
+    .card button:hover { opacity:0.9; }
+
+    /* Quiz Box */
+    .quiz-box {
+      background:#fff; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,.1);
+      padding:2rem; margin-top:2rem;
+    }
+    .quiz-box h2 { color:#2e7d32; margin-bottom:1rem; }
+    button {
+      padding:0.6rem 1.2rem; color:#fff; border:none; border-radius:8px; cursor:pointer; margin:0.5rem;
+      min-width:120px; font-weight:bold;
+    }
+    #markBtn { background:#ff9800; }
+    #nextBtn { background:#1976d2; }
+    #submitBtn { background:#4caf50; }
+    #backBtn { background:#6d4c41; } /* Back button brown color */
+    .options label { display:block; margin:0.5rem 0; cursor:pointer; }
+    .result { margin-top:1rem; font-weight:bold; }
+    #timer { font-weight:bold; color:red; margin-bottom:1rem; }
+    .nav-panel { margin-top:1rem; font-size:0.9rem; }
+    .status { margin:0.3rem 0; }
+    #jumpButtons button { min-width:32px; margin:2px; }
+
+    /* Google Translate Custom */
+    #google_translate_element select {
+      background:#fff;
+      border:1px solid #ccc;
+      border-radius:8px;
+      padding:5px 10px;
+      font-size:14px;
+      margin-top:10px;
+    }
+    .goog-logo-link, .goog-te-gadget span {
+      display:none !important; /* Hide Google branding */
+    }
+    footer {  color:rgb(18, 18, 18); text-align:center; padding:8px; margin-top:40px; }
+  </style>
+</head>
+<body>
+  <header style="position:relative; display:flex; align-items:center; justify-content:center;">
+  <!-- Back Arrow -->
+  <button onclick="window.location.href='Sustainable Farming.html'" 
+          style="position:absolute; left:15px; background:none; border:none; font-size:24px; cursor:pointer;">
+    🔙
+  </button>
+
+  <div>
+    <h1>🌱 Sustainable Farming Quiz</h1>
+    <p>Learn farming while playing</p>
+    
+    <!-- Google Translate Dropdown -->
+    <div id="google_translate_element"></div>
+  </div>
+</header>
+
+  <div class="section">
+    <!-- Category Selection -->
+    <div id="categoryBox">
+      <h2>📂 Choose a Quiz Category</h2>
+      <div class="card-container" id="quizCategories"></div>
+    </div>
+
+    <!-- QUIZ FOR FARMER -->
+    <div class="quiz-box" id="quizBox" style="display:none;">
+      <h2 id="quizTitle">🧩 Farmer Quiz</h2>
+      <p id="timer">Time Left: 00:00</p>
+      <div id="questionBox"></div>
+      <div id="optionsBox"></div>
+
+      <div class="button-group">
+        <button id="markBtn" onclick="markForReview()">⭐ Mark for Review</button>
+        <button id="nextBtn" onclick="nextQuestion()">➡️ Next Question</button>
+        <button id="submitBtn" onclick="submitQuiz()">✅ Submit Quiz</button>
+        <button id="backBtn" onclick="goBack()" style="display:none;">🔙 Back to Categories</button>
+      </div>
+
+      <div class="nav-panel">
+        <p class="status">Attempted: <span id="attemptedCount">0</span></p>
+        <p class="status">Marked for Review: <span id="reviewCount">0</span></p>
+        <p class="status">Unattempted: <span id="unattemptedCount">0</span></p>
+      </div>
+
+      <div class="nav-panel" id="jumpPanel">
+        <p>Jump to Question:</p>
+        <div id="jumpButtons"></div>
+      </div>
+
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+  <footer>
+    <p>&copy; 2025 Green Harvest. All rights reserved.</p>
+  </footer>
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,ta,te,kn,ml,pa,bn,gu,mr,or,ur,as,ks,mai,sd',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script>
+    let allQuizzes = [];
+    let quizData = [];
+    let answers = [];
+    let markedReview = [];
+    let currentQ = 0;
+    let timer;
+    let timeLeft = 0;
+
+    // Load categories from storage
+    function loadCategories() {
+      try {
+        allQuizzes = JSON.parse(localStorage.getItem("allQuizzes")) || [];
+        let container = document.getElementById("quizCategories");
+        container.innerHTML = "";
+
+        if (allQuizzes.length === 0) {
+          container.innerHTML = "<p>⚠️ No quizzes found. Please ask admin to add.</p>";
+          return;
+        }
+
+        allQuizzes.forEach((quiz, index) => {
+          let card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <h3>${quiz.title}</h3>
+            <p>⏱️ Time: ${quiz.time} min</p>
+            <button onclick="startQuiz(${index})">Start Quiz</button>
+          `;
+          container.appendChild(card);
+        });
+      } catch (e) {
+        alert("⚠️ No quizzes available. Please go back to Admin page.");
+        window.location.href = "admin.html";
+      }
+    }
+
+    // Start a selected quiz
+    function startQuiz(index) {
+      let selectedQuiz = allQuizzes[index];
+      quizData = selectedQuiz.questions;
+      timeLeft = selectedQuiz.time * 60;
+      answers = new Array(quizData.length).fill(null);
+      markedReview = new Array(quizData.length).fill(false);
+      currentQ = 0;
+
+      document.getElementById("quizTitle").textContent = selectedQuiz.title;
+      document.getElementById("categoryBox").style.display = "none";
+      document.getElementById("quizBox").style.display = "block";
+
+      loadQuestion();
+      startTimer();
+    }
+
+    function startTimer() {
+      updateTimerDisplay();
+      timer = setInterval(() => {
+        timeLeft--;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          submitQuiz();
+        }
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      let min = Math.floor(timeLeft / 60);
+      let sec = timeLeft % 60;
+      document.getElementById("timer").textContent =
+        "Time Left: " + String(min).padStart(2,"0") + ":" + String(sec).padStart(2,"0");
+    }
+
+    function loadQuestion() {
+      let q = quizData[currentQ];
+      document.getElementById("questionBox").innerHTML = `<p><b>Q${currentQ+1}: ${q.question}</b></p>`;
+      document.getElementById("optionsBox").innerHTML = "";
+      q.options.forEach((opt, i) => {
+        let checked = (answers[currentQ] === i) ? "checked" : "";
+        document.getElementById("optionsBox").innerHTML += `
+          <label><input type="radio" name="option" value="${i}" ${checked} onclick="enableNext()"> ${opt}</label>
+        `;
+      });
+      document.getElementById("markBtn").style.display = "inline-block";
+      document.getElementById("nextBtn").style.display = "none";
+      document.getElementById("submitBtn").style.display = (currentQ === quizData.length-1) ? "inline-block" : "none";
+      document.getElementById("backBtn").style.display = "none"; // Hide until submitted
+
+      createJumpButtons();
+    }
+
+    function enableNext() {
+      let selected = document.querySelector('input[name="option"]:checked');
+      if (selected) {
+        answers[currentQ] = parseInt(selected.value);
+        document.getElementById("nextBtn").style.display = (currentQ < quizData.length-1) ? "inline-block" : "none";
+      }
+      updateStatus();
+    }
+
+    function nextQuestion() {
+      if (currentQ < quizData.length-1) {
+        currentQ++;
+        loadQuestion();
+      }
+    }
+
+    function markForReview() {
+      markedReview[currentQ] = true;
+      updateStatus();
+      if (currentQ < quizData.length-1) {
+        currentQ++;
+        loadQuestion();
+      }
+    }
+
+    function updateStatus() {
+      let attempted = answers.filter(a => a !== null).length;
+      let review = markedReview.filter(m => m).length;
+      let unattempted = quizData.length - attempted;
+      document.getElementById("attemptedCount").textContent = attempted;
+      document.getElementById("reviewCount").textContent = review;
+      document.getElementById("unattemptedCount").textContent = unattempted;
+      createJumpButtons();
+    }
+
+    function createJumpButtons() {
+      let container = document.getElementById("jumpButtons");
+      container.innerHTML = "";
+      quizData.forEach((q, i) => {
+        let btn = document.createElement("button");
+        btn.textContent = i + 1;
+        if (markedReview[i]) btn.style.background = "#ff9800"; // marked
+        else if (answers[i] !== null) btn.style.background = "#4caf50"; // answered
+        else btn.style.background = "#f44336"; // unattempted
+        btn.style.color = "#fff";
+        btn.style.margin = "2px";
+        btn.style.fontSize = "0.9rem";
+        btn.onclick = () => jumpToQuestion(i);
+        container.appendChild(btn);
+      });
+    }
+
+    function jumpToQuestion(index) {
+      currentQ = index;
+      loadQuestion();
+      updateStatus();
+    }
+
+    function submitQuiz() {
+      clearInterval(timer);
+      let score = 0;
+      let resultText = "";
+      quizData.forEach((q, i) => {
+        if (answers[i] === q.correct) {
+          score++;
+          resultText += `✅ Q${i+1}: Correct (${q.options[q.correct]})<br>`;
+        } else {
+          resultText += `❌ Q${i+1}: Wrong | Correct: ${q.options[q.correct]}<br>`;
+        }
+      });
+      document.getElementById("result").innerHTML = `
+        <p>Your Score: ${score} / ${quizData.length}</p>
+        <p>${resultText}</p>
+      `;
+
+      // Hide quiz controls
+      document.getElementById("questionBox").style.display="none";
+      document.getElementById("optionsBox").style.display="none";
+      document.getElementById("markBtn").style.display="none";
+      document.getElementById("nextBtn").style.display="none";
+      document.getElementById("submitBtn").style.display="none";
+      document.getElementById("jumpPanel").style.display="none";
+
+      // Show back button
+      document.getElementById("backBtn").style.display = "inline-block";
+    }
+
+    // Back to category list
+    function goBack() {
+      clearInterval(timer);
+      document.getElementById("quizBox").style.display = "none";
+      document.getElementById("categoryBox").style.display = "block";
+
+      // Reset UI for next quiz
+      document.getElementById("questionBox").style.display="block";
+      document.getElementById("optionsBox").style.display="block";
+      document.getElementById("jumpPanel").style.display="block";
+      document.getElementById("result").innerHTML = "";
+    }
+
+    window.onload = loadCategories;
+  </script>
+</body>
+</html>
