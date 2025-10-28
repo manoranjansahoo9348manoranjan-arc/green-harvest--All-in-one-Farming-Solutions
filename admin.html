@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Upload Quiz</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <style>
+    body { font-family: Arial, sans-serif; background:#f4faf4; color:#333; padding:2rem; }
+    h2 { text-align:center; margin-bottom:2rem; }
+    .card-container { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; }
+    .card {
+      background:#fff; padding:1.5rem; border-radius:12px; 
+      box-shadow:0 4px 8px rgba(0,0,0,0.1); position:relative;
+    }
+    .card h3 { margin-top:0; color:#2e7d32; }
+    .delete-btn {
+      position:absolute; top:10px; right:10px;
+       color:#fff; border:none;
+       cursor:pointer;
+      font-weight:bold;
+    }
+    .delete-btn:hover { background:#e60000; }
+    textarea { width:100%; height:150px; margin-top:0.5rem; }
+    input[type="number"], input[type="text"] { width:100%; padding:0.5rem; margin-top:0.5rem; }
+    button {
+      margin-top:1rem; padding:0.6rem 1.2rem; background:#2e7d32; color:#fff;
+      border:none; border-radius:8px; cursor:pointer; font-weight:bold;
+    }
+    button:hover { opacity:0.9; }
+    footer {  color:rgb(15, 15, 15); text-align:center; padding:18px; margin-top:40px; }
+  </style>
+</head>
+<body>
+  <h2>👩‍💻 Admin Panel - Add Quizzes by Category</h2>
+  <div class="card-container" id="cardContainer">
+   <!-- Paddy Card -->
+<div class="card">
+  <button class="delete-btn" onclick="deleteCard(this)">❌</button>
+  <h3>🌾 Paddy</h3>
+  <label>Quiz Title:</label>
+  <input type="text" id="paddyTitle" value="Paddy Quiz">
+  
+  <label>Time (minutes):</label>
+  <input type="number" id="paddyTime" value="15">
+  
+  <label>Questions (JSON format):</label>
+  <textarea id="paddyQuestions" rows="40">[
+  { "question": "What is the best season to grow paddy?", "options": ["Winter", "Rainy", "Summer", "Spring"], "correct": 1 },
+  { "question": "Which type of soil is most suitable for paddy cultivation?", "options": ["Sandy Soil", "Clayey Soil", "Loamy Soil", "Rocky Soil"], "correct": 1 },
+  { "question": "Which irrigation method is commonly used in paddy fields?", "options": ["Drip Irrigation", "Flood Irrigation", "Sprinkler Irrigation", "Canal Irrigation"], "correct": 1 },
+  { "question": "Which nutrient is most essential for healthy paddy growth?", "options": ["Nitrogen", "Iron", "Potassium", "Zinc"], "correct": 0 },
+  { "question": "Which harvesting tool is traditionally used for paddy?", "options": ["Sickle", "Tractor", "Spade", "Hoe"], "correct": 0 },
+  { "question": "Which state is the largest producer of paddy in India?", "options": ["Punjab", "West Bengal", "Tamil Nadu", "Bihar"], "correct": 1 },
+  { "question": "What is the ideal temperature range for paddy cultivation?", "options": ["20-30°C", "10-15°C", "5-10°C", "30-40°C"], "correct": 0 },
+  { "question": "Which method is widely used for paddy sowing?", "options": ["Broadcasting", "Transplanting", "Line Sowing", "Zero Till"], "correct": 1 },
+  { "question": "Paddy is a type of?", "options": ["Cereal Crop", "Pulse Crop", "Fruit Crop", "Vegetable Crop"], "correct": 0 },
+  { "question": "What is the water requirement for paddy cultivation?", "options": ["High", "Low", "Medium", "Very Low"], "correct": 0 },
+  { "question": "Which modern machine is used for paddy harvesting?", "options": ["Combine Harvester", "Plough", "Seeder", "Threshing Machine"], "correct": 0 },
+  { "question": "Which element deficiency causes yellowing of paddy leaves?", "options": ["Nitrogen", "Phosphorus", "Potassium", "Magnesium"], "correct": 0 },
+  { "question": "Paddy belongs to which plant family?", "options": ["Poaceae", "Fabaceae", "Solanaceae", "Cucurbitaceae"], "correct": 0 },
+  { "question": "Which fungus causes blast disease in paddy?", "options": ["Magnaporthe oryzae", "Puccinia", "Aspergillus", "Rhizoctonia"], "correct": 0 },
+  { "question": "What is the average duration of paddy crop (short variety)?", "options": ["90-120 days", "180-200 days", "30-60 days", "250-300 days"], "correct": 0 },
+  { "question": "Which practice helps in weed control in paddy fields?", "options": ["Puddling", "Drip Irrigation", "Mulching", "Pruning"], "correct": 0 },
+  { "question": "Which vitamin is mainly found in rice?", "options": ["Vitamin B1 (Thiamine)", "Vitamin C", "Vitamin D", "Vitamin A"], "correct": 0 },
+  { "question": "What is the by-product obtained from paddy milling?", "options": ["Rice Bran", "Wheat Bran", "Sugarcane Bagasse", "Corn Husk"], "correct": 0 },
+  { "question": "Which method improves paddy yield?", "options": ["System of Rice Intensification (SRI)", "Mono Cropping", "Shifting Cultivation", "Mixed Cropping"], "correct": 0 },
+  { "question": "Paddy is mainly grown in which type of climate?", "options": ["Tropical and Subtropical", "Arctic", "Desert", "Temperate"], "correct": 0 }
+]</textarea>
+</div>
+
+    <!-- Onion Card -->
+<div class="card">
+  <button class="delete-btn" onclick="deleteCard(this)">❌</button>
+  <h3>🧅 Onion</h3>
+  <label>Quiz Title:</label>
+  <input type="text" id="onionTitle" value="Onion Quiz">
+  
+  <label>Time (minutes):</label>
+  <input type="number" id="onionTime" value="8">
+  
+  <label>Questions (JSON format):</label>
+  <textarea id="onionQuestions" rows="30">[
+  { "question": "Which soil is best for onions?", "options": ["Clay soil", "Sandy loam", "Rocky soil", "Saline soil"], "correct": 1 },
+  { "question": "What is the ideal temperature for onion growth?", "options": ["10-15°C", "20-25°C", "30-35°C", "5-10°C"], "correct": 1 },
+  { "question": "Which nutrient is most important for bulb development in onions?", "options": ["Phosphorus", "Nitrogen", "Potassium", "Zinc"], "correct": 2 },
+  { "question": "What is the average duration of onion crop?", "options": ["50-70 days", "100-150 days", "200-250 days", "300 days"], "correct": 1 },
+  { "question": "Which irrigation method is most suitable for onions?", "options": ["Drip irrigation", "Flood irrigation", "Sprinkler irrigation", "Rainfed"], "correct": 0 },
+  { "question": "Which state is the largest producer of onions in India?", "options": ["Maharashtra", "Punjab", "Karnataka", "Bihar"], "correct": 0 },
+  { "question": "Which fungal disease affects onion leaves?", "options": ["Purple blotch", "Rust", "Wilt", "Powdery mildew"], "correct": 0 },
+  { "question": "What is the optimum spacing for onion planting?", "options": ["10x10 cm", "15x10 cm", "20x20 cm", "5x5 cm"], "correct": 1 },
+  { "question": "Onion belongs to which family?", "options": ["Solanaceae", "Amaryllidaceae", "Fabaceae", "Poaceae"], "correct": 1 },
+  { "question": "Which vitamin is rich in onions?", "options": ["Vitamin A", "Vitamin B6", "Vitamin C", "Vitamin D"], "correct": 2 },
+  { "question": "Which method is common for onion propagation?", "options": ["Seeds", "Bulbs", "Cuttings", "Tissue culture"], "correct": 1 },
+  { "question": "Which pest commonly damages onion bulbs?", "options": ["Onion thrips", "Stem borer", "Fruit fly", "Termites"], "correct": 0 },
+  { "question": "What is the maturity indicator for onion harvest?", "options": ["Leaves turning yellow and falling", "Flowers bloom", "Roots dry", "Stem becomes thick"], "correct": 0 },
+  { "question": "Which practice improves onion storage life?", "options": ["Curing after harvest", "Immediate packing", "Washing with water", "Cold irrigation"], "correct": 0 },
+  { "question": "Which compound in onion causes tears while cutting?", "options": ["Sulfur compounds", "Glucose", "Cellulose", "Carotene"], "correct": 0 }
+]</textarea>
+</div>
+
+    <!-- Water Card -->
+    <div class="card">
+      <button class="delete-btn" onclick="deleteCard(this)">❌</button>
+      <h3>💧 Water</h3>
+      <label>Quiz Title:</label>
+      <input type="text" id="waterTitle" value="Water Conservation Quiz">
+      <label>Time (minutes):</label>
+      <input type="number" id="waterTime" value="3">
+      <label>Questions (JSON format):</label>
+      <textarea id="waterQuestions">[
+  { "question": "Which method saves more water?", "options": ["Flood irrigation", "Drip irrigation"], "correct": 1 }
+]</textarea>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <button onclick="addNewCard()">➕ Add New Quiz</button>
+    <button onclick="saveQuizzes()">💾 Save All Quizzes</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Green Harvest. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function addNewCard() {
+      const container = document.getElementById("cardContainer");
+      const cardCount = container.querySelectorAll(".card").length + 1;
+
+      const newCard = document.createElement("div");
+      newCard.className = "card";
+      newCard.innerHTML = `
+        <button class="delete-btn" onclick="deleteCard(this)">❌</button>
+        <h3>🆕 New Quiz ${cardCount}</h3>
+        <label>Quiz Title:</label>
+        <input type="text" class="quizTitle" value="New Quiz ${cardCount}">
+        <label>Time (minutes):</label>
+        <input type="number" class="quizTime" value="5">
+        <label>Questions (JSON format):</label>
+        <textarea class="quizQuestions" rows="10">[
+  { "question": "Sample Question?", "options": ["A","B","C","D"], "correct": 0 }
+]</textarea>
+      `;
+      container.appendChild(newCard);
+    }
+
+    function deleteCard(button) {
+      const card = button.closest(".card");
+      card.remove();
+    }
+
+    function saveQuizzes() {
+      try {
+        let quizzes = [];
+
+        // Collect fixed quizzes
+        if (document.getElementById("paddyTitle")) {
+          quizzes.push({
+            title: document.getElementById("paddyTitle").value,
+            time: parseInt(document.getElementById("paddyTime").value),
+            questions: JSON.parse(document.getElementById("paddyQuestions").value)
+          });
+        }
+        if (document.getElementById("onionTitle")) {
+          quizzes.push({
+            title: document.getElementById("onionTitle").value,
+            time: parseInt(document.getElementById("onionTime").value),
+            questions: JSON.parse(document.getElementById("onionQuestions").value)
+          });
+        }
+        if (document.getElementById("waterTitle")) {
+          quizzes.push({
+            title: document.getElementById("waterTitle").value,
+            time: parseInt(document.getElementById("waterTime").value),
+            questions: JSON.parse(document.getElementById("waterQuestions").value)
+          });
+        }
+
+        // Collect dynamically added quizzes
+        document.querySelectorAll(".card").forEach(card => {
+          const titleInput = card.querySelector(".quizTitle");
+          const timeInput = card.querySelector(".quizTime");
+          const questionsInput = card.querySelector(".quizQuestions");
+
+          if (titleInput && timeInput && questionsInput) {
+            quizzes.push({
+              title: titleInput.value,
+              time: parseInt(timeInput.value),
+              questions: JSON.parse(questionsInput.value)
+            });
+          }
+        });
+
+        // Save to localStorage
+        localStorage.setItem("allQuizzes", JSON.stringify(quizzes));
+        alert("✅ All quizzes saved successfully!");
+        window.location.href = "quiz.html";
+      } catch (e) {
+        alert("❌ Error in saving quizzes. Check JSON format.");
+      }
+    }
+  </script>
+</body>
+</html>
