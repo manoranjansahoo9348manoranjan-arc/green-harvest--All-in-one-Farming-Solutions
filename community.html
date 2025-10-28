@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🤝 Green Harvest Community</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4faf4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #2e7d32;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    .translate-box {
+      margin: 10px auto;
+      text-align: center;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem;
+    }
+    .share-box {
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    .share-box input, 
+    .share-box textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 1rem;
+    }
+    .share-box textarea {
+      height: 80px;
+      resize: none;
+    }
+    .share-box button {
+      background: #2e7d32;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .share-box button:hover {
+      background: #256628;
+    }
+    .post {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .post h3 {
+      margin: 0 0 5px;
+      font-size: 1.1rem;
+      color: #2e7d32;
+    }
+    .post p {
+      margin: 0.5rem 0;
+    }
+    .post small {
+      color: gray;
+      font-size: 0.85rem;
+    }
+    .actions {
+      margin-top: 10px;
+    }
+    .actions button {
+      margin-right: 10px;
+      border: none;
+      background: #e8f5e9;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .actions button:hover {
+      background: #c8e6c9;
+    }
+    .comments {
+      margin-top: 10px;
+      padding-left: 15px;
+      border-left: 2px solid #ddd;
+      font-size: 0.9rem;
+    }
+    .comments p {
+      margin: 5px 0;
+    }
+    footer {
+      background: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    /* Hide "Powered by Google" */
+    .goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame {
+      display: none !important;
+    }
+    .goog-te-gadget {
+      font-size: 0 !important;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🤝 Green Harvest Community</h1>
+    <p>Share tips, learn from peers, and grow together in a community of green farmers.</p>
+  </header>
+
+  <!-- Google Translate box -->
+  <div class="translate-box">
+    <div id="google_translate_element"></div>
+  </div>
+
+  <div class="container">
+    <!-- Share box -->
+    <div class="share-box">
+      <h2>🌱 Share your thoughts</h2>
+      <input type="text" id="username" placeholder="Your Name" />
+      <textarea id="userpost" placeholder="Write your tip, question, or experience..."></textarea>
+      <button onclick="addPost()">Post</button>
+    </div>
+
+    <!-- Posts container -->
+    <div id="posts"></div>
+  </div>
+
+  <footer>
+    <p>🌱 Green Harvest Community | Growing Together</p>
+  </footer>
+
+  <script>
+    let posts = JSON.parse(localStorage.getItem("communityPosts")) || [];
+
+    function savePosts() {
+      localStorage.setItem("communityPosts", JSON.stringify(posts));
+    }
+
+    function renderPosts() {
+      const postContainer = document.getElementById("posts");
+      postContainer.innerHTML = "";
+
+      posts.forEach((post, index) => {
+        const postDiv = document.createElement("div");
+        postDiv.classList.add("post");
+
+        const timePassed = Date.now() - post.timestamp;
+        const canDelete = timePassed < 2 * 60 * 1000; // 2 minutes
+        const timeLabel = post.timeLabel || "Just now";
+
+        postDiv.innerHTML = `
+          <h3>${post.name}</h3>
+          <p>${post.text}</p>
+          <small>Posted ${timeLabel}</small>
+          <div class="actions">
+            <button onclick="likePost(${index}, this)">👍 Like (<span>${post.likes}</span>)</button>
+            <button onclick="toggleCommentBox(this, ${index})">💬 Comment</button>
+            ${canDelete ? `<button class="delete-btn" onclick="deletePost(${index})">🗑 Delete</button>` : ""}
+          </div>
+          <div class="comments">
+            ${post.comments.map(c => `<p>💬 ${c}</p>`).join("")}
+          </div>
+        `;
+
+        postContainer.prepend(postDiv);
+      });
+    }
+
+    function addPost() {
+      const name = document.getElementById("username").value.trim();
+      const text = document.getElementById("userpost").value.trim();
+      if (!name || !text) {
+        alert("Please enter your name and a post before submitting!");
+        return;
+      }
+
+      const newPost = {
+        name,
+        text,
+        likes: 0,
+        comments: [],
+        timestamp: Date.now(),
+        timeLabel: "Just now"
+      };
+
+      posts.push(newPost);
+      savePosts();
+      renderPosts();
+
+      document.getElementById("username").value = "";
+      document.getElementById("userpost").value = "";
+    }
+
+    function likePost(index, btn) {
+      posts[index].likes++;
+      savePosts();
+      btn.querySelector("span").innerText = posts[index].likes;
+    }
+
+    function toggleCommentBox(btn, index) {
+      const post = btn.closest(".post");
+      let commentBox = post.querySelector(".comment-box");
+
+      if (!commentBox) {
+        commentBox = document.createElement("div");
+        commentBox.classList.add("comment-box");
+        commentBox.innerHTML = `
+          <input type="text" placeholder="Write a comment..." style="width:80%; padding:5px; border-radius:5px; border:1px solid #ccc;">
+          <button onclick="addComment(this, ${index})">Post</button>
+        `;
+        post.appendChild(commentBox);
+      } else {
+        commentBox.remove();
+      }
+    }
+
+    function addComment(btn, index) {
+      const post = btn.closest(".post");
+      const input = post.querySelector(".comment-box input");
+      const commentText = input.value.trim();
+      if (!commentText) return;
+
+      posts[index].comments.push(commentText);
+      savePosts();
+      renderPosts();
+    }
+
+    function deletePost(index) {
+      posts.splice(index, 1);
+      savePosts();
+      renderPosts();
+    }
+
+    // Load posts on startup
+    renderPosts();
+
+    // Google Translate setup
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,kn,ml,mr,ta,te,bn,gu,pa,or,ur,sd,as,ks,sa',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+
+      // Restore last selected language
+      const savedLang = localStorage.getItem("selectedLang");
+      if (savedLang) {
+        setTimeout(() => {
+          const select = document.querySelector(".goog-te-combo");
+          if (select) {
+            select.value = savedLang;
+            select.dispatchEvent(new Event("change"));
+          }
+        }, 1000);
+      }
+    }
+
+    document.addEventListener("change", function(e) {
+      if (e.target.classList.contains("goog-te-combo")) {
+        localStorage.setItem("selectedLang", e.target.value);
+      }
+    });
+  </script>
+
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
