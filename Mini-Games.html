@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧩 Mini-Games for Farmers</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background:#f4faf4; color:#333; text-align:center; }
+    header { background:#2e7d32; color:#fff; padding:1rem; }
+    h1 { margin:0; }
+    .game-container { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin:1rem; }
+    .card {
+      background:#fff; border-radius:12px; padding:1rem;
+      box-shadow:0 4px 8px rgba(0,0,0,.1); cursor:pointer;
+      transition:transform 0.2s;
+    }
+    .card:hover { transform:scale(1.05); }
+
+    canvas { background:#c8e6c9; border-radius:12px; display:none; margin:auto; width:95%; max-width:450px; }
+
+    /* Memory Board */
+    #memoryBoard { 
+      display:none; 
+      margin:1rem auto; 
+      max-width:400px; 
+      display:grid; 
+      grid-template-columns:repeat(4, 1fr); 
+      gap:10px; 
+    }
+    .memory-card {
+      width:80px; 
+      height:80px; 
+      background:#81c784; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center;
+      font-size:32px; 
+      cursor:pointer; 
+      border-radius:8px;
+      transition: transform 0.3s;
+      user-select: none;
+    }
+    .memory-card.flipped {
+      background:#fff;
+      transform: rotateY(180deg);
+    }
+
+    #backBtn { margin:1rem; background:#6d4c41; color:#fff; padding:0.6rem 1.2rem; border:none; border-radius:8px; cursor:pointer; display:none; }
+
+    /* Overlay Messages */
+    .overlay {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.7); display:none; justify-content:center; align-items:center; z-index:1000;
+    }
+    .overlay div {
+      background:#fff; padding:2rem; border-radius:12px; text-align:center;
+    }
+    .overlay button {
+      margin-top:1rem; padding:0.5rem 1rem; border:none; border-radius:8px; background:#2e7d32; color:#fff; cursor:pointer;
+    }
+
+    /* Instruction Modal */
+    #instructionBox {
+      display:none; background:#fff; max-width:500px; margin:2rem auto;
+      padding:1.5rem; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,.2);
+    }
+    #instructionBox h2 { margin-top:0; color:#2e7d32; }
+    #instructionBox button {
+      margin-top:1rem; padding:0.6rem 1.2rem; border:none; border-radius:8px; background:#1976d2; color:#fff; cursor:pointer;
+    }
+
+    /* Hide Google branding */
+    .goog-logo-link, .goog-te-gadget span { display:none !important; }
+    .goog-te-gadget { font-size:0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🧩 Mini-Games for Farmers</h1>
+    <p>Play and Learn Farming Concepts</p>
+    <div id="google_translate_element"></div>
+  </header>
+
+  <!-- Instruction Box -->
+  <div id="instructionBox">
+    <h2 id="gameTitle">Game Instructions</h2>
+    <p id="gameInstructions"></p>
+    <button id="startGameBtn">▶️ Start Game</button>
+  </div>
+
+  <!-- MENU -->
+  <div class="game-container" id="menu">
+    <div class="card" onclick="showInstructions('cropCatcher')">🌾 Crop Catcher</div>
+    <div class="card" onclick="showInstructions('memory')">🧅 Farm Memory Match</div>
+    <div class="card" onclick="showInstructions('waterSaver')">💧 Water Saver</div>
+    <div class="card" onclick="showInstructions('weedRemover')">🌱 Weed Remover</div>
+    <div class="card" onclick="showInstructions('feeder')">🐄 Animal Feeder</div>
+    <div class="card" onclick="showInstructions('pestCatcher')">🐛 Pest Catcher</div>
+    <div class="card" onclick="showInstructions('harvestCollector')">🥕 Harvest Collector</div>
+  </div>
+
+  <button id="backBtn" onclick="goBack()">🔙 Back to Games Menu</button>
+
+  <!-- Game Canvases -->
+  <canvas id="cropCatcher" width="400" height="400"></canvas>
+  <canvas id="waterSaver" width="400" height="400"></canvas>
+  <canvas id="weedRemover" width="400" height="400"></canvas>
+  <canvas id="feeder" width="400" height="400"></canvas>
+  <canvas id="pestCatcher" width="400" height="400"></canvas>
+  <canvas id="harvestCollector" width="400" height="400"></canvas>
+
+  <!-- Memory Match -->
+  <div id="memoryBoard"></div>
+
+  <!-- Overlay for messages -->
+  <div class="overlay" id="overlay">
+    <div>
+      <h2 id="overlayMsg">Game Over!</h2>
+      <button onclick="closeOverlay()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    const overlay=document.getElementById("overlay");
+    const overlayMsg=document.getElementById("overlayMsg");
+    const instructionBox=document.getElementById("instructionBox");
+    const gameTitle=document.getElementById("gameTitle");
+    const gameInstructions=document.getElementById("gameInstructions");
+    const startGameBtn=document.getElementById("startGameBtn");
+    let selectedGame="";
+
+    const instructions={
+      cropCatcher:"Move the basket left or right to catch falling crops. Use arrow keys or tap on mobile.",
+      memory:"Match the farm icons. Tap two cards to flip them. Match all pairs to win.",
+      waterSaver:"Tap on plants to water them before they dry out. Keep them alive to score.",
+      weedRemover:"Tap on weeds quickly before they spread. Don’t let weeds take over!",
+      feeder:"Drag the food ball and drop it on the animal to feed it.",
+      pestCatcher:"Click on pests before they reach the crops. Score points for each pest eliminated.",
+      harvestCollector:"Drag the vegetables into baskets to collect them before they fall."
+    };
+
+    function showInstructions(game){
+      selectedGame=game;
+      gameTitle.innerText="How to Play - "+document.querySelector(`.card[onclick*='${game}']`).innerText;
+      gameInstructions.innerText=instructions[game];
+      document.getElementById("menu").style.display="none";
+      instructionBox.style.display="block";
+    }
+
+    startGameBtn.onclick=function(){
+      instructionBox.style.display="none";
+      if(selectedGame==="cropCatcher") startCropCatcher();
+      if(selectedGame==="memory") startMemory();
+      if(selectedGame==="waterSaver") startWaterSaver();
+      if(selectedGame==="weedRemover") startWeedRemover();
+      if(selectedGame==="feeder") startFeeder();
+      if(selectedGame==="pestCatcher") startPestCatcher();
+      if(selectedGame==="harvestCollector") startHarvestCollector();
+    };
+
+    function showOverlay(msg){
+      overlayMsg.innerText=msg;
+      overlay.style.display="flex";
+    }
+    function closeOverlay(){
+      overlay.style.display="none";
+      goBack();
+    }
+
+    function goBack() {
+      document.getElementById("menu").style.display="grid";
+      document.getElementById("backBtn").style.display="none";
+      instructionBox.style.display="none";
+      ["cropCatcher","waterSaver","weedRemover","feeder","memoryBoard","pestCatcher","harvestCollector"].forEach(id=>{
+        document.getElementById(id).style.display="none";
+      });
+    }
+
+    function setupGame(id){
+      document.getElementById("menu").style.display="none";
+      document.getElementById("backBtn").style.display="inline-block";
+      const el = document.getElementById(id);
+      el.style.display = (id==="memoryBoard")?"grid":"block";
+    }
+    // 1. Crop Catcher
+    function startCropCatcher(){
+      setupGame("cropCatcher");
+      let canvas=document.getElementById("cropCatcher");
+      let ctx=canvas.getContext("2d");
+      let basket={x:160,y:360,w:80,h:20};
+      let crop={x:Math.random()*380,y:0,dy:2};
+      let score=0;
+      function draw(){
+        ctx.clearRect(0,0,400,400);
+        ctx.fillStyle="brown";
+        ctx.fillRect(basket.x,basket.y,basket.w,basket.h);
+        ctx.fillStyle="green";
+        ctx.beginPath(); ctx.arc(crop.x,crop.y,10,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle="black"; ctx.fillText("Score: "+score,10,20);
+        crop.y+=crop.dy;
+        if(crop.y>400){ showOverlay("🌾 Game Over! Score: "+score); clearInterval(loop); }
+        if(crop.y>basket.y && crop.x>basket.x && crop.x<basket.x+basket.w){ score++; crop.x=Math.random()*380; crop.y=0; }
+      }
+      let loop=setInterval(draw,20);
+      canvas.addEventListener("touchstart",e=>{ let touchX=e.touches[0].clientX-canvas.getBoundingClientRect().left; basket.x=touchX-basket.w/2; });
+      document.addEventListener("keydown",e=>{ if(e.key==="ArrowLeft"&&basket.x>0)basket.x-=20; if(e.key==="ArrowRight"&&basket.x<320)basket.x+=20; });
+    }
+
+    // 2. Memory Match
+    function startMemory(){
+      setupGame("memoryBoard");
+      let board=document.getElementById("memoryBoard");
+      board.innerHTML="";
+      let items=["🌾","🧅","🌻","🥔","🍅","🥭","🍆","🌽"];
+      let cards=[...items,...items].sort(()=>0.5-Math.random());
+      let first=null, lock=false, matched=0;
+      cards.forEach(c=>{
+        let div=document.createElement("div");
+        div.className="memory-card";
+        div.dataset.value=c;
+        div.onclick=function(){
+          if(lock || div.classList.contains("flipped")) return;
+          div.classList.add("flipped");
+          div.innerText=c;
+          if(!first){
+            first=div;
+          } else {
+            if(first.dataset.value===c){
+              matched+=2;
+              first=null;
+              if(matched===cards.length) showOverlay("🎉 You won the Memory Game!");
+            } else {
+              lock=true;
+              setTimeout(()=>{
+                first.classList.remove("flipped");
+                div.classList.remove("flipped");
+                first.innerText="";
+                div.innerText="";
+                first=null;
+                lock=false;
+              },800);
+            }
+          }
+        };
+        board.appendChild(div);
+      });
+    }
+
+    // 3. Water Saver
+    function startWaterSaver(){
+      setupGame("waterSaver");
+      let canvas=document.getElementById("waterSaver");
+      let ctx=canvas.getContext("2d");
+      let plants=[{x:50,y:300,t:5},{x:150,y:300,t:5},{x:250,y:300,t:5},{x:350,y:300,t:5}];
+      let score=0;
+      canvas.addEventListener("click",e=>{
+        let rect=canvas.getBoundingClientRect();
+        let x=e.clientX-rect.left, y=e.clientY-rect.top;
+        plants.forEach(p=>{ if(Math.abs(x-p.x)<30 && Math.abs(y-p.y)<50){ p.t=5; score++; } });
+      });
+      function draw(){
+        ctx.clearRect(0,0,400,400);
+        plants.forEach(p=>{ p.t-=0.02; ctx.fillStyle=p.t>2?"green":(p.t>0?"yellow":"red"); ctx.fillRect(p.x-15,p.y-50,30,50); });
+        ctx.fillStyle="black"; ctx.fillText("Score: "+score,10,20);
+        if(plants.some(p=>p.t<=0)){ showOverlay("💧 Game Over! Score: "+score); clearInterval(loop); }
+      }
+      let loop=setInterval(draw,50);
+    }
+
+    // 4. Weed Remover
+    function startWeedRemover(){
+  setupGame("weedRemover");
+  const canvas = document.getElementById("weedRemover");
+  const ctx = canvas.getContext("2d");
+  const weedImg = new Image();
+  weedImg.src = "https://cdn-icons-png.flaticon.com/512/616/616408.png"; // example weed icon
+  let weeds = [];
+  let score = 0;
+
+  // Create new weeds every 1 second
+  const weedInterval = setInterval(() => {
+    weeds.push({ x: Math.random() * 360, y: Math.random() * 360 });
+  }, 1000);
+
+  // Click to remove weed
+  canvas.addEventListener("click", e => {
+    const rect = canvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
+    weeds = weeds.filter(w => {
+      // check if click is inside weed
+      if(clickX > w.x && clickX < w.x + 40 && clickY > w.y && clickY < w.y + 40){
+        score++;
+        return false; // remove weed
+      }
+      return true;
+    });
+  });
+
+  // Draw loop
+  function draw(){
+    ctx.clearRect(0,0,400,400);
+    ctx.fillStyle = "black";
+    ctx.font = "16px Arial";
+    ctx.fillText("Score: " + score, 10, 20);
+
+    weeds.forEach(w => {
+      ctx.drawImage(weedImg, w.x, w.y, 40, 40);
+    });
+
+    if(weeds.length > 10){
+      clearInterval(loop);
+      clearInterval(weedInterval);
+      showOverlay("🌱 Too many weeds! Score: " + score);
+    }
+  }
+
+  const loop = setInterval(draw, 50);
+}
+
+    // 5. Animal Feeder
+    function startFeeder(){
+      setupGame("feeder");
+      let canvas=document.getElementById("feeder");
+      let ctx=canvas.getContext("2d");
+      let food={x:200,y:350}; let dragging=false;
+      let animal={x:180,y:50,w:60,h:60};
+      canvas.addEventListener("mousedown",()=>dragging=true);
+      canvas.addEventListener("mouseup",()=>dragging=false);
+      canvas.addEventListener("mousemove",e=>{ if(dragging){ let rect=canvas.getBoundingClientRect(); food.x=e.clientX-rect.left; food.y=e.clientY-rect.top; } });
+      function draw(){ ctx.clearRect(0,0,400,400); ctx.fillStyle="brown"; ctx.fillRect(animal.x,animal.y,animal.w,animal.h); ctx.fillStyle="orange"; ctx.beginPath(); ctx.arc(food.x,food.y,15,0,Math.PI*2); ctx.fill(); if(food.x>animal.x && food.x<animal.x+animal.w && food.y>animal.y && food.y<animal.y+animal.h){ showOverlay("🐄 You fed the animal! 🎉"); clearInterval(loop); } }
+      let loop=setInterval(draw,30);
+    }
+
+
+    
+
+    // 6. Pest Catcher
+    function startPestCatcher(){
+  setupGame("pestCatcher");
+  const canvas=document.getElementById("pestCatcher");
+  const ctx=canvas.getContext("2d");
+  let pests=[];
+  let score=0;
+  let gameStarted=false;
+
+  // Show instructions on canvas
+  ctx.clearRect(0,0,400,400);
+  ctx.fillStyle="#fff";
+  ctx.fillRect(0,0,400,400);
+  ctx.fillStyle="black";
+  ctx.font="18px Arial";
+  ctx.textAlign="center";
+  ctx.fillText("🐛 Pest Catcher",200,150);
+  ctx.font="16px Arial";
+  ctx.fillText("Click on pests before they reach your crops!",200,180);
+  ctx.fillText("Click anywhere to start",200,210);
+
+  // Start game on first click
+  canvas.onclick = () => {
+    if(!gameStarted){
+      gameStarted = true;
+      canvas.onclick = pestClickHandler; // assign normal click handler
+      startGameLoop();
+    }
+  };
+
+  // Click handler for removing pests
+  function pestClickHandler(e){
+    const rect=canvas.getBoundingClientRect();
+    const clickX=e.clientX-rect.left;
+    const clickY=e.clientY-rect.top;
+    pests = pests.filter(p=>{
+      if(clickX>p.x && clickX<p.x+20 && clickY>p.y && clickY<p.y+20){
+        score++;
+        return false;
+      }
+      return true;
+    });
+  }
+
+  // Game loop
+  let pestInterval, loop;
+  function startGameLoop(){
+    // Spawn pests every 1.5 sec
+    pestInterval = setInterval(()=>{
+      pests.push({x:Math.random()*380, y:0, dy:1+Math.random()*2});
+    },1500);
+
+    loop = setInterval(()=>{
+      ctx.clearRect(0,0,400,400);
+      ctx.fillStyle="black";
+      ctx.font="16px Arial";
+      ctx.textAlign="left";
+      ctx.fillText("Score: "+score,10,20);
+
+      ctx.fillStyle="red";
+      pests.forEach(p=>{
+        ctx.fillRect(p.x,p.y,20,20);
+        p.y+=p.dy;
+      });
+
+      if(pests.some(p=>p.y>380)){
+        clearInterval(loop);
+        clearInterval(pestInterval);
+        showOverlay("🐛 Pests reached crops! Score: "+score);
+      }
+    },30);
+  }
+}
+
+    // 7. Harvest Collector
+    function startHarvestCollector(){
+      setupGame("harvestCollector");
+      const canvas=document.getElementById("harvestCollector");
+      const ctx=canvas.getContext("2d");
+      let veggies = [];
+      let basket={x:170,y:350,w:60,h:30};
+      let score=0;
+      let dragging=null;
+
+      canvas.addEventListener("mousedown", e=>{
+        const rect=canvas.getBoundingClientRect();
+        const x=e.clientX-rect.left;
+        const y=e.clientY-rect.top;
+        veggies.forEach(v=>{
+          if(x>v.x && x<v.x+30 && y>v.y && y<v.y+30){
+            dragging=v;
+          }
+        });
+      });
+      canvas.addEventListener("mouseup", ()=>dragging=null);
+      canvas.addEventListener("mousemove", e=>{
+        if(dragging){
+          const rect=canvas.getBoundingClientRect();
+          dragging.x=e.clientX-rect.left-15;
+          dragging.y=e.clientY-rect.top-15;
+        }
+      });
+
+      const veggieInterval=setInterval(()=>{ veggies.push({x:Math.random()*370,y:0}); },1500);
+
+      function draw(){
+        ctx.clearRect(0,0,400,400);
+        ctx.fillStyle="brown"; ctx.fillRect(basket.x,basket.y,basket.w,basket.h);
+        ctx.fillStyle="green";
+        veggies.forEach((v,i)=>{
+          ctx.fillRect(v.x,v.y,30,30);
+          v.y+=1.5;
+          // Check if in basket
+          if(v.x+15>basket.x && v.x+15<basket.x+basket.w && v.y+15>basket.y && v.y+15<basket.y+basket.h){
+            score++; veggies.splice(i,1);
+          }
+          if(v.y>400){ veggies.splice(i,1); }
+        });
+        ctx.fillStyle="black";
+        ctx.font="16px Arial";
+        ctx.fillText("Score: "+score,10,20);
+      }
+      const loop=setInterval(draw,30);
+    }
+
+    // Google Translate
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,kn,ta,te,ml,bn,gu,mr,pa,or,as,ur,sd,ks,ne',
+        layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
