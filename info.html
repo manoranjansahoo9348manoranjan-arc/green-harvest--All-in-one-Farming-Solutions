@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Green Harvest - Information</title>
+  <link rel="icon" type="image" href="logo1.png" />
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages:
+            "hi,bn,ta,te,ml,kn,mr,gu,pa,ur,or,as,sa,sd,ks,ne,si,bo,doi",
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        },
+        "google_translate_element"
+      );
+    }
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Roboto", sans-serif;
+      background: url("https://wallpaperbat.com/img/319677-agriculture-desktop-wallpaper.jpg")
+        no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    header {
+      background-color: rgba(0, 100, 0, 0.8);
+      padding: 20px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    nav {
+      background: rgba(34, 139, 34, 0.9);
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .nav-left {
+      margin-left: auto;
+      padding-left: 10px;
+      order: 3;
+    }
+
+    .nav-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    nav a {
+      color: #fff;
+      font-size: 18px;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background: #2ecc71;
+    }
+
+    #google_translate_element {
+      transform: scale(1.1);
+      transform-origin: right center;
+      z-index: 9999;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .nav-center {
+        position: relative;
+        left: 0;
+        transform: none;
+        margin-bottom: 8px;
+      }
+      .nav-left {
+        order: 2;
+        margin-left: 0;
+      }
+      #google_translate_element {
+        transform: scale(0.9);
+        margin-top: 5px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #google_translate_element {
+        transform: scale(0.8);
+      }
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      color: #333;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #006400;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #2f4f4f;
+      font-size: 16px;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      background: linear-gradient(135deg, #ffffff, #f0fff0);
+      padding: 20px 20px 20px 70px;
+      margin: 20px 0;
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      animation: fadeSlideUp 0.6s ease forwards;
+      cursor: pointer;
+      opacity: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #2ecc71, #27ae60);
+    }
+    .card-icon {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+    .card h2 {
+      color: #006400;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .card p {
+      color: #2f4f4f;
+      font-size: 15px;
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    .card:hover::before {
+      background: linear-gradient(90deg, #00ff7f, #228b22);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 14px;
+    }
+
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background-color: #228b22;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    #backToTop:hover {
+      background-color: #2ecc71;
+      transform: scale(1.1);
+    }
+
+    #chatButton {
+      position: fixed;
+      bottom: 90px;
+      right: 30px;
+      background: #ff9800;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      text-decoration: none;
+      z-index: 9999;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    #chatButton:hover {
+      transform: scale(1.1);
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Chatbot Iframe Style */
+    #chatIframeContainer {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 370px;
+      height: 450px;
+      display: none;
+      z-index: 99999;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+    #chatIframeContainer iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      flex-grow: 1;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    /* Close button inside chat */
+    #chatCloseBtn {
+      background: #2e7d32;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      padding: 5px 12px;
+      font-size: 18px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      text-align: right;
+      user-select: none;
+      line-height: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    #chatCloseBtn:hover {
+      background: #1b4d1b;
+    }
+  </style>
+</head>
+<body>
+  <header>🌾🌱 Welcome to Green Harvest 🌱🌾</header>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-center">
+        <a href="news.html">Home</a>
+      </div>
+      <div class="nav-left" id="google_translate_element"></div>
+    </div>
+  </nav>
+
+  <div style="text-align:center; margin-top:20px;">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="🔍 Search articles..."
+      style="padding: 10px; width: 60%; border-radius: 8px; border: 1px solid #ccc; font-size: 16px"
+    />
+  </div>
+
+  <div class="container">
+    <div
+      id="dailyTip"
+      style="
+        background: #f0fff0;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 16px;
+        border-left: 5px solid green;
+      "
+    ></div>
+
+    <!-- Cards -->
+    <a href="most_profitable_farming.html">
+    <div class="card" style="--i:0">
+    <img src="https://tse3.mm.bing.net/th/id/OIP.M57mdERMS9HPvhwRhjnm6QHaEK?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Profit Icon" class="card-icon">
+    <h2>Most Profitable Farming in This Year</h2>
+    <p>Explore the most profitable farming opportunities for this year.</p>
+    </div></a>
+
+    <a href="Top 10 Agriculture Business Ideas for more profits.html"><div class="card" style="--i:1">
+      <img src="https://assets.tractorjunction.com/tractor-junction/blog/2020/11/Top-10-Agriculture-Business-Ideas-in-India-compressed.jpg" alt="Profit Icon" class="card-icon">
+      <h2>Top 10 Agriculture Business Ideas for more profits</h2>
+      <p>Discover innovative and profitable agriculture business ideas.</p>
+    </div></a>
+    <a href="Dairy Farming Business Idea.html"><div class="card" style="--i:2">
+      <img src="https://tse2.mm.bing.net/th/id/OIP.jJ10idC7cs1wZ0Y6VVSSNAHaEK?r=0&cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Profit Icon" class="card-icon">
+      <h2>Dairy Farming Business Idea</h2>
+      <p>Learn how to start a successful dairy farming business.</p>
+    </div></a>
+    <a href="Top 10 Modern Agriculture Tools.html"><div class="card" style="--i:3">
+       <img src="https://www.tractorjunction.com/blog/wp-content/uploads/2022/09/Top-10-agriculture-equipment-list-in-India.jpg" alt="Profit Icon" class="card-icon">
+      <h2>Top 10 Modern Agriculture Tools</h2>
+      <p>A list of the latest modern agriculture tools used in farming.</p>
+    </div></a>
+    <a href="How Does Vertical Farming Work.html"><div class="card" style="--i:4">
+       <img src="https://tse1.mm.bing.net/th/id/OIP.u2Xvca4RwOLpeXmWPz6zBgHaF0?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Profit Icon" class="card-icon">
+      <h2>How Does Vertical Farming Work?</h2>
+      <p>Understand the concept of vertical farming and its benefits.</p>
+    </div></a>
+    <a href="what is iot in agriculture.html"><div class="card" style="--i:5">
+       <img src="https://timesofagriculture.in/wp-content/uploads/2023/02/Presentation1_1.webp" alt="Profit Icon" class="card-icon">
+      <h2>What is IoT in Agriculture?</h2>
+      <p>Discover how IoT is revolutionizing agriculture practices.</p>
+    </div></a>
+    <a href="What is Hydroponic Tomato Farming.html"><div class="card" style="--i:6">
+       <img src="https://i.pinimg.com/originals/38/9e/2f/389e2fab7240cc48a21a06dfe6fbdc14.jpg" alt="Profit Icon" class="card-icon">
+      <h2>What is Hydroponic Tomato Farming?</h2>
+      <p>Learn about hydroponic tomato farming techniques.</p>
+    </div></a>
+    <a href="Tools to Protect Crops from Damage.html"><div class="card" style="--i:7">
+       <img src="https://timesofagriculture.in/wp-content/uploads/2023/10/Modern-Tools-Used-in-Agriculture-768x432.jpg" alt="Profit Icon" class="card-icon">
+      <h2>Tools to Protect Crops from Damage</h2>
+      <p>Explore essential tools used to protect crops from pests and damage.</p>
+    </div></a>
+    <a href="Drip Irrigation System in Rice.html"><div class="card" style="--i:8">
+       <img src="https://www.krishisewa.com/images/articles/2020/drip_6.jpg" alt="Profit Icon" class="card-icon">
+      <h2>Drip Irrigation System in Rice</h2>
+      <p>Understand how drip irrigation helps in rice farming.</p>
+    </div></a>
+    <a href="Top 10 Most Profitable vegetable Crops in India.html"><div class="card" style="--i:9">
+       <img src="https://i.ytimg.com/vi/Oolb1CS4FkM/maxresdefault.jpg" alt="Profit Icon" class="card-icon">
+      <h2>Top 10 Most Profitable vegetable Crops in India</h2>
+      <p>A list of the most profitable vegetable crops grown in India.</p>
+    </div></a>
+    <a href="organic vs conventional.html"><div class="card" style="--i:10">
+       <img src="https://cdn.educba.com/academy/wp-content/uploads/2024/07/Organic-Farming-vs-Conventional-Farming.jpg" alt="Profit Icon" class="card-icon">
+      <h2>🌿 Organic vs. Conventional Farming</h2>
+      <p>Explore the benefits of organic farming, including better soil health, premium pricing, and eco-friendliness, compared to traditional methods.</p>
+    </div></a>
+  </div>
+
+  <button id="backToTop" onclick="scrollToTop()">⬆️ Back to Top</button>
+
+  <!-- Chat with Us Button -->
+  <a href="#" id="chatButton">💬Ai assistant</a>
+
+  <!-- Chatbot Iframe Container -->
+  <div id="chatIframeContainer">
+    <button id="chatCloseBtn" title="Close Chat">×</button>
+    <iframe src="chatbot.html"></iframe>
+  </div>
+
+  <footer>© 2025 Green Harvest. All rights reserved.</footer>
+
+  <script>
+    const backToTopButton = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      backToTopButton.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+
+    document
+      .getElementById("searchInput")
+      .addEventListener("keyup", function () {
+        let filter = this.value.toLowerCase();
+        document.querySelectorAll(".card").forEach((card) => {
+          let text = card.innerText.toLowerCase();
+          card.style.display = text.includes(filter) ? "" : "none";
+        });
+      });
+
+    const tips = [
+      "💡 Rotate crops yearly to improve soil health.",
+      "🌱 Drip irrigation saves up to 70% water.",
+      "🐝 Encourage pollinators for better crop yield.",
+      "🌿 Use compost to enrich soil naturally.",
+    ];
+    document.getElementById("dailyTip").innerText =
+      tips[Math.floor(Math.random() * tips.length)];
+
+    document.querySelectorAll(".card").forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.2}s`;
+      card.style.opacity = "1";
+    });
+
+    // Chatbot Toggle
+    const chatButton = document.getElementById("chatButton");
+    const chatContainer = document.getElementById("chatIframeContainer");
+    const chatCloseBtn = document.getElementById("chatCloseBtn");
+
+    // Ensure chat is hidden initially on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      chatContainer.style.display = 'none';
+    });
+
+    chatButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      chatContainer.style.display =
+        chatContainer.style.display === "none" || chatContainer.style.display === ""
+          ? "flex"
+          : "none";
+    });
+
+    chatCloseBtn.addEventListener("click", () => {
+      chatContainer.style.display = "none";
+    });
+  </script>
+</body>
+</html>
