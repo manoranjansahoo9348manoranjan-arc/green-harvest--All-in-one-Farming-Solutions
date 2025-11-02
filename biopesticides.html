@@ -2,29 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Biopesticide- Green Harvest</title>
-    <link rel="icon" type="image" href="logo1.png">
+    <title>Biopesticide - Green Harvest</title>
+    <link rel="icon" type="image" href="logo1.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     <!-- Google Translate Script -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement(
-        {
-          pageLanguage: "en",
-          includedLanguages:
-            "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-        },
-        "google_translate_element"
-      );
-    }
-  </script>
-  <script
-    type="text/javascript"
-    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-  ></script>
 
-    <!-- Tailwind CSS and Font Awesome -->
+    <!-- Google Translate -->
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            includedLanguages:
+              "en,hi,ta,te,kn,ml,mr,gu,bn,pa,ur,as,or,sd,ks,ne,si",
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          },
+          "google_translate_element"
+        );
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+
+    <!-- Tailwind CSS + Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -38,6 +39,23 @@
         object-fit: contain;
         object-position: center;
       }
+
+      .icon-btn {
+        background: #f9f9f9;
+        border-radius: 50%;
+        padding: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+      }
+      .icon-btn:hover {
+        background: #e5ffe5;
+        transform: scale(1.1);
+      }
+
+      .active-heart {
+        color: red;
+      }
+
       .goog-te-banner-frame.skiptranslate,
       .goog-logo-link,
       .goog-te-gadget span {
@@ -58,56 +76,60 @@
 
   <body class="bg-white">
     <!-- Header -->
-    
-  <header class="p-4 shadow-md flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
-    <div class="flex items-center space-x-4">
-      <div id="google_translate_element"></div>
-      <a href="pesticides.html" class="text-sm text-blue-600 hover:underline">Go to pesticides</a>
-      <div class="relative">
-        <a href="cart.html" class="relative flex items-center gap-2 text-green-800 hover:text-green-600">
-        <i class="fas fa-shopping-cart text-xl"></i>
-       
-        
-        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
-        </a>
+    <header class="p-4 shadow-md flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-green-700">🌱 Green Harvest</h1>
+      <div class="flex items-center space-x-4">
+        <div id="google_translate_element"></div>
+        <a
+          href="pesticides.html"
+          class="text-sm text-blue-600 hover:underline"
+          >Go to pesticides</a
+        >
+        <div class="relative">
+          <a
+            href="cart.html"
+            class="relative flex items-center gap-2 text-green-800 hover:text-green-600"
+          >
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span
+              id="cartCount"
+              class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+              >0</span
+            >
+          </a>
+        </div>
       </div>
-      
-    </div>
-  </header>
-  <!-- Filters -->
-<div class="p-4 flex flex-wrap justify-center gap-4">
-  <select id="typeFilter" class="border p-2 rounded">
-    <option value="">All Types</option>
-    <option value="Botanical">Botanical</option>
-    <option value="Fungal">Fungal</option>
-    <option value="Bacterial">Bacterial</option>
-    <option value="Viral">Viral</option>
-    <option value="Biochemical">Biochemical</option>
-  </select>
-    <input id="searchInput" type="text" placeholder="Search Biopesticide..." class="border p-2 rounded w-64" />
-    <select id="sortPrice" class="border p-2 rounded">
-      <option value="">Sort by Price</option>
-      <option value="asc">Price: Low to High</option>
-      <option value="desc">Price: High to Low</option>
-    </select>
-  </div>
-  
+    </header>
 
-    <!-- Fungicide Product List -->
+    <!-- Filters -->
+    <div class="p-4 flex flex-wrap justify-center gap-4">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="🔍Search Biopesticide..."
+        class="border p-2 rounded w-64"
+      />
+      <select id="sortPrice" class="border p-2 rounded">
+        <option value="">Sort by Price</option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <!-- Product List -->
     <main class="p-6">
-      <h2 class="text-2xl font-semibold text-center text-green-800 mb-6">Top Biopesticide Products</h2>
+      <h2
+        class="text-2xl font-semibold text-center text-green-800 mb-6"
+      >
+        Top Biopesticide Products
+      </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
     </main>
-    <!-- <section class="p-6 bg-gray-100 mt-8 rounded-lg max-w-3xl mx-auto">
-      <h3 class="text-xl font-bold text-green-800 mb-4">🛒 Cart Items</h3>
-      <div id="cartItems" class="space-y-2"></div>
-    </section> -->
-    
-    
+
     <script>
+      // ---------- DATA ----------
       const growthPromoters = [
-      { name: "Neemazal-T/s", desc: "1lt", price: 1700, brand: "Parry's Bio", type:"Botanical", img: "https://agriplexindia.com/cdn/shop/products/Neemazal_1.png?v=1678710176" },
+        { name: "Neemazal-T/s", desc: "1lt", price: 1700, brand: "Parry's Bio", type:"Botanical", img: "https://agriplexindia.com/cdn/shop/products/Neemazal_1.png?v=1678710176" },
         { name: "TrichoRich ", desc: "100 g", price: 180, brand: "baraka crop science", type: "Fungal", img: "https://5.imimg.com/data5/SELLER/Default/2023/10/354784036/FR/EB/JA/194899466/trichorich-bio-fungicide-1000x1000.png" },
         { name: "Beauveria bassiana", desc: "100 g", price: 220, brand: "Katyayani Organics ", type: "Fungal", img: "https://www.katyayaniorganics.com/wp-content/uploads/2022/06/Bauveria-bassiana-1_resize-946x1024.png" },
         { name: "VertiGuard ", desc: "100 g", price: 200, brand: "Wellcrop Biotech.", type: "Fungal", img: "https://5.imimg.com/data5/SELLER/Default/2023/7/327844820/GV/RF/NE/6735208/vertiguard-500x500.jpg" },
@@ -125,110 +147,285 @@
         { name: "BioTricho", desc: "200 g", price: 15159.18, brand: "Biomip", type: "Fungal", img: "https://http2.mlstatic.com/D_NQ_NP_959132-MLB75920553997_042024-O.webp" },
         { name: "Neem Guard", desc: "1lt", price: 1400, brand: "Dev Amrut", type: "Botanical", img: "https://cpimg.tistatic.com/08361094/b/4/Devamrut-Neem-Guard-10000.jpg" },
         { name: "FungiKill 250EW", desc: "250ml", price: 360, brand: "Crop Business", type: "Fungal", img: "https://cropbusiness.com/wp-content/uploads/2020/08/90-crop-business-600x902.jpg" },
+      
       ];
-    
-      function renderProducts(products) {
-  const container = document.querySelector(".grid");
-  container.innerHTML = "";
 
-  products.forEach((product, index) => {
-    const card = document.createElement("div");
-    card.className =
-      "flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
-    card.innerHTML = `
-      <img src="${product.img}" alt="${product.name}" class="product-img rounded-lg shadow-md">
-      <h3 class="mt-4 text-lg font-medium">${product.name}</h3>
-      <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
-      <p class="text-xs text-gray-500 mt-1 italic">Brand: ${product.brand}</p>
-      <label class="mt-2 text-sm">Qty (max 20)</label>
-      <input id="qty-${index}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center">
-      <p class="mt-2">Price: ₹<span class="unit-price">${product.price}</span> × Qty = ₹<span class="total-price">${product.price}</span></p>
-      <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-index="${index}">Add to Cart</button>
-    `;
-    container.appendChild(card);
-  });
+      // ---------- STATE ----------
+      let compareList = [];
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
-  // ✅ Add click handlers after buttons are rendered
-  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
-    button.addEventListener("click", event => {
-      const index = event.target.getAttribute("data-index");
-      const qty = parseInt(document.getElementById(`qty-${index}`).value);
-      const product = { ...growthPromoters[index], quantity: qty };
-      addToCart(product);
-      const card = event.target.closest("div");
-  card.classList.add("bg-green-100", "ring", "ring-green-500");
-
-  // 🔁 Remove highlight after 800ms
-  setTimeout(() => {
-    card.classList.remove("bg-green-100", "ring", "ring-green-500");
-  }, 800);
-    });
-  });
-}
-
-    
-      function updatePrice(input) {
-        const card = input.closest("div");
-        const unitPrice = parseFloat(card.querySelector(".unit-price").textContent);
-        const quantity = parseInt(input.value);
-        const total = unitPrice * quantity;
-        card.querySelector(".total-price").textContent = total;
+      // ---------- HELPERS ----------
+      function safeId(name) {
+        // create a simple safe id from product name
+        return "id_" + name.replace(/[^a-z0-9]/gi, "_");
       }
-    
-      // function applyFilters() {
-      //   const typeFilter = document.getElementById("typeFilter").value.toLowerCase();
-      //   const search = document.getElementById("searchInput").value.toLowerCase();
-      //   const sortOption = document.getElementById("sortPrice").value;
-    
-      //   let filtered = growthPromoters.filter(p =>
-      //     p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search)
-      //   );
-    
-      //   if (sortOption === "asc") {
-      //     filtered.sort((a, b) => a.price - b.price);
-      //   } else if (sortOption === "desc") {
-      //     filtered.sort((a, b) => b.price - a.price);
-      //   }
-    
-      //   renderProducts(filtered);
-      // }
-      function applyFilters() {
-  const typeFilter = document.getElementById("typeFilter").value.toLowerCase();
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  const sortOption = document.getElementById("sortPrice").value;
 
-  let filtered = growthPromoters.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search);
-    const matchesType = !typeFilter || (p.type && p.type.toLowerCase() === typeFilter);
-    return matchesSearch && matchesType;
-  });
+      function findProductByName(name) {
+        return growthPromoters.find((p) => p.name === name);
+      }
 
-  if (sortOption === "asc") {
-    filtered.sort((a, b) => a.price - b.price);
-  } else if (sortOption === "desc") {
-    filtered.sort((a, b) => b.price - a.price);
-  }
+      // Compute filtered + sorted products based on UI controls
+      function getFilteredSortedProducts() {
+        const q = document.getElementById("searchInput").value.trim().toLowerCase();
+        const sort = document.getElementById("sortPrice").value;
 
-  renderProducts(filtered);
-} 
+        let filtered = growthPromoters.filter((p) => {
+          if (!q) return true;
+          return (
+            p.name.toLowerCase().includes(q) ||
+            p.desc.toLowerCase().includes(q) ||
+            p.brand.toLowerCase().includes(q)
+          );
+        });
 
+        if (sort === "asc") {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sort === "desc") {
+          filtered.sort((a, b) => b.price - a.price);
+        }
 
-  document.addEventListener("DOMContentLoaded", () => {
-  renderProducts(growthPromoters);
-  document.getElementById("searchInput").addEventListener("input", applyFilters);
-  document.getElementById("sortPrice").addEventListener("change", applyFilters);
-  document.getElementById("typeFilter").addEventListener("change", applyFilters); // 📍 Added this line
-  initPage(growthPromoters);
-});
+        return filtered;
+      }
 
+      // ---------- RENDER ----------
+      function renderProducts(products) {
+        const container = document.querySelector(".grid");
+        container.innerHTML = "";
+
+        products.forEach((p) => {
+          const isWish = wishlist.some((w) => w.name === p.name);
+          const idSafe = safeId(p.name);
+
+          const card = document.createElement("div");
+          card.className =
+            "relative flex flex-col items-center border rounded-lg p-4 shadow-sm hover:shadow-lg transition";
+
+          card.innerHTML = `
+            <div class="absolute top-3 right-3 flex flex-col gap-2">
+              <button class="icon-btn wishlist-btn ${isWish ? "active-heart" : ""}" data-name="${escapeHtmlAttr(p.name)}">
+                <i class="fas fa-heart"></i>
+              </button>
+              <button class="icon-btn share-btn" data-name="${escapeHtmlAttr(p.name)}">
+                <i class="fas fa-share-alt"></i>
+              </button>
+              <button class="icon-btn compare-btn" data-name="${escapeHtmlAttr(p.name)}">
+                <i class="fas fa-balance-scale"></i>
+              </button>
+            </div>
+            <img src="${escapeHtmlAttr(p.img)}" alt="${escapeHtmlAttr(p.name)}" class="product-img rounded-lg shadow-md">
+            <h3 class="mt-4 text-lg font-medium">${escapeHtml(p.name)}</h3>
+            <p class="text-sm text-gray-600 mt-1">${escapeHtml(p.desc)}</p>
+            <p class="text-xs text-gray-500 italic mt-1">Brand: ${escapeHtml(p.brand)}</p>
+            <label class="mt-3 text-sm">Qty (max 20)</label>
+            <input id="${idSafe}" type="number" min="1" max="20" value="1" class="mt-1 border rounded w-16 text-center qty-input" data-name="${escapeHtmlAttr(p.name)}">
+            <p class="mt-2">Price: ₹${p.price} × Qty = ₹<span class="total-price" data-name="${escapeHtmlAttr(p.name)}">${p.price}</span></p>
+            <button class="add-to-cart-btn mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" data-name="${escapeHtmlAttr(p.name)}">Add to Cart</button>
+          `;
+          container.appendChild(card);
+        });
+
+        attachEventHandlers();
+      }
+
+      // Escape functions to reduce injection issues when inserting strings into HTML
+      function escapeHtml(unsafe) {
+        return String(unsafe)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+      function escapeHtmlAttr(unsafe) {
+        return String(unsafe)
+          .replaceAll("&", "&amp;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      // ---------- EVENT HANDLERS ----------
+      function attachEventHandlers() {
+        // Wishlist buttons
+        document.querySelectorAll(".wishlist-btn").forEach((btn) => {
+          btn.addEventListener("click", () => toggleWishlist(btn));
+        });
+
+        // Share buttons
+        document.querySelectorAll(".share-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const name = btn.dataset.name;
+            const p = findProductByName(name);
+            if (!p) return;
+            if (navigator.share) {
+              try {
+                await navigator.share({
+                  title: p.name,
+                  text: p.desc,
+                  url: location.href,
+                });
+              } catch (err) {
+                // user cancelled share
+              }
+            } else {
+              alert("Share not supported on this device.");
+            }
+          });
+        });
+
+        // Compare buttons (single click to toggle, dblclick to open)
+        document.querySelectorAll(".compare-btn").forEach((btn) => {
+          btn.addEventListener("click", () => toggleCompare(btn));
+          btn.addEventListener("dblclick", () => openComparePage());
+        });
+
+        // Add to cart
+        document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const name = e.currentTarget.dataset.name;
+            const qtyInput = document.querySelector(`.qty-input[data-name="${cssEscapeAttr(name)}"]`);
+            const qty = qtyInput ? parseInt(qtyInput.value || "1") : 1;
+            const product = findProductByName(name);
+            if (!product) return;
+            const productCopy = { ...product, quantity: qty };
+            addToCart(productCopy);
+
+            const card = e.target.closest("div");
+            if (card) {
+              card.classList.add("bg-green-100", "ring", "ring-green-500");
+              setTimeout(
+                () =>
+                  card.classList.remove(
+                    "bg-green-100",
+                    "ring",
+                    "ring-green-500"
+                  ),
+                800
+              );
+            }
+          });
+        });
+
+        // Qty change -> update total price for that product
+        document.querySelectorAll(".qty-input").forEach((input) => {
+          input.addEventListener("input", (e) => {
+            const name = input.dataset.name;
+            const p = findProductByName(name);
+            if (!p) return;
+            let val = parseInt(input.value, 10);
+            if (isNaN(val) || val < 1) val = 1;
+            if (val > 20) val = 20;
+            input.value = val;
+            const span = document.querySelector(`.total-price[data-name="${cssEscapeAttr(name)}"]`);
+            if (span) span.textContent = p.price * val;
+          });
+        });
+      }
+
+      function toggleWishlist(btn) {
+        const name = btn.dataset.name;
+        const p = findProductByName(name);
+        if (!p) return;
+        const exists = wishlist.some((w) => w.name === p.name);
+        if (exists) {
+          wishlist = wishlist.filter((w) => w.name !== p.name);
+          btn.classList.remove("active-heart");
+        } else {
+          wishlist.push(p);
+          btn.classList.add("active-heart");
+        }
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      }
+
+      function toggleCompare(btn) {
+        const name = btn.dataset.name;
+        const p = findProductByName(name);
+        if (!p) return;
+        const exists = compareList.find((c) => c.name === p.name);
+        if (exists) {
+          compareList = compareList.filter((c) => c.name !== p.name);
+          btn.classList.remove("bg-green-200");
+        } else if (compareList.length < 4) {
+          compareList.push(p);
+          btn.classList.add("bg-green-200");
+        } else {
+          alert("You can compare up to 4 items only.");
+        }
+      }
+
+      function openComparePage() {
+        if (compareList.length < 2) {
+          alert("Select at least 2 items to compare!");
+          return;
+        }
+        localStorage.setItem("compareList", JSON.stringify(compareList));
+        window.location.href = "compare.html";
+      }
+
+      // ---------- CART ----------
+      function addToCart(product) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const existing = cart.find((item) => item.name === product.name);
+        if (existing) {
+          existing.quantity += product.quantity;
+        } else {
+          cart.push(product);
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+      }
+
+      function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+        document.getElementById("cartCount").textContent = count;
+      }
+
+      // ---------- UTIL: escape for CSS attribute selector ----------
+      // For attribute selectors we must escape quotes and backslashes; simpler: wrap value in double quotes and use CSS escaping
+      function cssEscapeAttr(str) {
+        // minimal escape for double quotes and backslash to use in attribute selector
+        return str.replaceAll("\\", "\\\\").replaceAll('"', '\\"');
+      }
+
+      // Used when writing data-name into attribute search (so selectors work correctly)
+      function escapeHtmlAttrForSelector(str) {
+        return str.replaceAll('"', "&quot;");
+      }
+
+      // Helper for dataset usage in attribute selectors (we used a simple escape above)
+      function cssEscapeSelectorValue(val) {
+        return val.replace(/(["\\])/g, "\\$1");
+      }
+
+      // For building attribute selector queries we will provide a safe escaped value:
+      function attrSelectorByName(name) {
+        return `[data-name="${cssEscapeAttr(name)}"]`;
+      }
+
+      // ---------- SEARCH & SORT UI HOOKS ----------
+      document.getElementById("searchInput").addEventListener("input", () => {
+        const products = getFilteredSortedProducts();
+        renderProducts(products);
+      });
+
+      document.getElementById("sortPrice").addEventListener("change", () => {
+        const products = getFilteredSortedProducts();
+        renderProducts(products);
+      });
+
+      // ---------- INITIALIZE ----------
+      document.addEventListener("DOMContentLoaded", () => {
+        // initial render (no filters)
+        renderProducts(getFilteredSortedProducts());
+        updateCartCount();
+      });
     </script>
+
     <script src="cart.js"></script>
-    
-      
-      
+
     <!-- Footer -->
-  <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
-    &copy; 2025 Green Harvest. All rights reserved.
-  </footer>
+    <footer class="text-center text-sm text-gray-500 mt-12 p-4 border-t">
+      &copy; 2025 Green Harvest. All rights reserved.
+    </footer>
   </body>
 </html>
