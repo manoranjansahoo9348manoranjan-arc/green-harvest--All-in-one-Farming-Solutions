@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>greenharvest-Chatbot</title>
+<link rel="icon" type="image" href="logo1.png">
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #e8f5e9; display: flex; flex-direction: column; height: 100vh; }
+  header { background: #2e7d32; color: white; padding: 1rem; text-align: center; font-size: 1.2rem; }
+  #google_translate_element { text-align: center; background: #c8e6c9; padding: 0.5rem; }
+  #chat { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .msg { max-width: 80%; padding: 0.8rem; border-radius: 1rem; font-size: 1rem; line-height: 1.4; word-wrap: break-word; }
+  .bot { background: #ffffff; align-self: flex-start; border: 1px solid #c8e6c9; }
+  .user { background: #a5d6a7; align-self: flex-end; }
+  #inputArea { display: flex; gap: 0.5rem; padding: 0.5rem; background: white; border-top: 1px solid #ccc; position: sticky; bottom: 0; align-items: center; }
+  #prompt { flex: 1; padding: 0.8rem; font-size: 1rem; border-radius: 1.5rem; border: 1px solid #ccc; }
+  .hidden-tools { display: none; gap: 0.5rem; }
+  .toggle-btn, .tool-btn, #sendBtn { background: #2e7d32; color: white; border: none; padding: 0.8rem; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
+  .toggle-btn:hover, .tool-btn:hover, #sendBtn:hover { background: #256428; }
+  input[type="file"] { display: none; }
+</style>
+</head>
+<body>
+<header>👩‍🌾 Farmer Assistant</header>
+<div id="google_translate_element"></div>
+<div id="chat"></div>
+<div id="inputArea">
+  <button class="toggle-btn" id="toggleTools">＋</button>
+  <div class="hidden-tools" id="toolBox">
+    <button class="tool-btn" id="voiceBtn">🎤</button>
+    <label for="fileInput" class="tool-btn">📁</label>
+    <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx">
+  </div>
+  <input type="text" id="prompt" placeholder="Type your question...">
+  <button id="sendBtn">➤</button>
+</div>
+
+<script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,hi,bn,pa,gu,mr,ta,te,kn,ml,ur,or,as,ne,sd',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+
+const chat = document.getElementById('chat');
+const promptInput = document.getElementById('prompt');
+const sendBtn = document.getElementById('sendBtn');
+const voiceBtn = document.getElementById('voiceBtn');
+const fileInput = document.getElementById('fileInput');
+const toggleBtn = document.getElementById('toggleTools');
+const toolBox = document.getElementById('toolBox');
+
+const cache = {}; // cache repeated questions
+
+toggleBtn.addEventListener('click', () => {
+  toolBox.style.display = toolBox.style.display === 'flex' ? 'none' : 'flex';
+});
+
+function addMessage(text, sender) {
+  const msg = document.createElement('div');
+  msg.className = `msg ${sender}`;
+  msg.textContent = text;
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+  return msg;
+}
+
+// --- Gemini API ---
+async function askGemini(question) {
+  const apiKey = "AIzaSyCbJVQ308XrBf_4-IPehRTyxRkXJ6qxiUU"; // Replace with your actual key
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const body = { contents: [{ parts: [{ text: question }], role: "user" }] };
+
+  try {
+    const res = await fetch(url, { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(body) });
+    const data = await res.json();
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!answer) throw new Error(data.error?.message || "No answer from model");
+    return answer;
+  } catch(err) {
+    return "⚠️ " + err.message;
+  }
+}
+
+async function handleSend() {
+  const question = promptInput.value.trim();
+  if (!question) return;
+  addMessage(question, 'user');
+  promptInput.value = '';
+
+  if (cache[question]) {
+    addMessage(cache[question], 'bot');
+    return;
+  }
+
+  const loadingMsg = addMessage('💬 Typing...', 'bot');
+  const answer = await askGemini(question);
+  loadingMsg.textContent = answer;
+  cache[question] = answer;
+}
+
+// --- Voice Recognition ---
+function getSelectedLanguage() {
+  try {
+    const frame = document.querySelector('.goog-te-menu-frame');
+    if (!frame) return 'en-IN';
+    const selected = frame.contentDocument.querySelector('.goog-te-menu2-item-selected span.text');
+    const langName = selected ? selected.textContent : 'English';
+    const langMap = { 'English':'en-IN','Hindi':'hi-IN','Bengali':'bn-IN','Punjabi':'pa-IN','Gujarati':'gu-IN','Marathi':'mr-IN','Tamil':'ta-IN','Telugu':'te-IN','Kannada':'kn-IN','Malayalam':'ml-IN','Urdu':'ur-IN','Odia':'or-IN','Assamese':'as-IN','Nepali':'ne-IN','Sindhi':'sd-IN' };
+    return langMap[langName] || 'en-IN';
+  } catch(e) { return 'en-IN'; }
+}
+
+voiceBtn.addEventListener('click', () => {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = getSelectedLanguage();
+  recognition.start();
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    promptInput.value = transcript;
+    handleSend();
+  };
+  recognition.onerror = () => alert("🎙️ Voice input not supported or denied.");
+});
+
+// --- File upload ---
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  addMessage(`📎 Uploaded: ${file.name}`, 'user');
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.maxWidth = '200px';
+      img.style.borderRadius = '10px';
+      chat.appendChild(img);
+      chat.scrollTop = chat.scrollHeight;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+sendBtn.addEventListener('click', handleSend);
+promptInput.addEventListener('keypress', e => { if(e.key==='Enter') handleSend(); });
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
